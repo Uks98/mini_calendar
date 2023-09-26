@@ -5,11 +5,10 @@ import 'transparent_scaffold.dart';
 class BottomDialogScaffold extends StatelessWidget {
   final Widget body;
   const BottomDialogScaffold({required this.body, super.key});
-
   @override
   Widget build(BuildContext context) {
     return TransparentScaffold(
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.black,
       body: Align(
         alignment: Alignment.bottomCenter,
         child: Container(
