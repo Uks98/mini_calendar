@@ -12,14 +12,15 @@ class CalendarMonthPage extends StatefulWidget {
 }
 
 class _CalendarMonthPageState extends State<CalendarMonthPage> {
-  WriteTodoDialog calendarBottomSheet = WriteTodoDialog();
+ // WriteTodoDialog calendarBottomSheet = WriteTodoDialog();
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
         body: SfCalendar(
           headerHeight: 80,
-          onTap: (date){
-            WriteTodoDialog().show();
+          onTap: (dateTime){
+            WriteTodoDialog(calendarDateTime: dateTime.date!,).show();
+
           },
           headerDateFormat: "M",
           view: CalendarView.month,

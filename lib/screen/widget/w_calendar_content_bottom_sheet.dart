@@ -1,24 +1,22 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:nav/dialog/dialog.dart';
 import 'package:after_layout/after_layout.dart';
 import 'package:today_my_calendar/common/common.dart';
 import 'package:today_my_calendar/common/constant/constant_widget.dart';
-import 'package:today_my_calendar/common/dart/extension/datetime_extension.dart';
 import 'package:today_my_calendar/screen/calendar/calendar_data/d_schedule_data.dart';
+import 'package:today_my_calendar/screen/widget/w_custom_datePicker.dart';
 import 'package:today_my_calendar/screen/widget/w_rounded_container.dart';
-import 'package:today_my_calendar/screen/widget/w_show_time_on_datepicker.dart';
-
-import '../../common/util/app_keyboard_util.dart';
 import '../../common/widget/scaffold/bottom_dialog_scaffold.dart';
-import '../../common/widget/w_round_button.dart';
+import '../../controller/date_picker_controller.dart';
 
 //최종적으로 넘겨주고 싶은 타입 제네릭으로 표시
 class WriteTodoDialog extends DialogWidget<Schedule> {
+  final DateTime calendarDateTime;
   final Schedule? scheduleForEdit;
 
-  WriteTodoDialog({super.key, this.scheduleForEdit});
+  WriteTodoDialog({super.key, this.scheduleForEdit,required this.calendarDateTime});
 
   @override
   DialogState<WriteTodoDialog> createState() => _WriteTodoDialogState();
@@ -28,15 +26,20 @@ class _WriteTodoDialogState extends DialogState<WriteTodoDialog>
     with AfterLayoutMixin {
   final double _textFieldWidth = 350;
   final double _textFieldHeight = 350;
-  DateTime _selectedTime = DateTime.now();
+
   DateTime _seletedDate = DateTime.now();
   final _titleController = TextEditingController();
   final node = FocusNode();
   bool _isShowDatePicker = false;
+  //controller
+  DatePickerStateController datePickerStateController = Get.put(DatePickerStateController());
+  RxBool get isShowStartPicker => datePickerStateController.isShowStartDatePicker;
+  RxBool get isShowLastPicker => datePickerStateController.isShowLastDatePicker;
 
   @override
   void initState() {
     super.initState();
+    datePickerStateController = Get.put(DatePickerStateController());
     if (widget.scheduleForEdit != null) {
       //_seletedDate = widget.scheduleForEdit!.dueDate;
       // textController.text = widget.scheduleForEdit!.title;
@@ -64,15 +67,9 @@ class _WriteTodoDialogState extends DialogState<WriteTodoDialog>
               spacer,
             ],
           ),
-          Row(
-            children: [
-              ShowTimeOnDatePicker.onDatePicker(_selectedTime.hour, _selectedTime.minute, _isShowDatePicker, () {
-                setState(() {
-                  _selectedTime
-                });
-              }, () { })
-            ],
-          ),
+          ShowDatePicker(dateTime : widget.calendarDateTime, startText: "시작",datePickerStateController: datePickerStateController,),
+          ShowDatePicker(dateTime : widget.calendarDateTime,startText: "종료",datePickerStateController: datePickerStateController,),
+
         ],
       ),
     ));
@@ -104,3 +101,5 @@ class _WriteTodoDialogState extends DialogState<WriteTodoDialog>
     throw UnimplementedError();
   }
 }
+
+
