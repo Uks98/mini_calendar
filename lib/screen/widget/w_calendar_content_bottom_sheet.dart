@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:nav/dialog/dialog.dart';
 import 'package:after_layout/after_layout.dart';
@@ -8,6 +9,7 @@ import 'package:today_my_calendar/common/constant/constant_widget.dart';
 import 'package:today_my_calendar/screen/calendar/calendar_data/d_schedule_data.dart';
 import 'package:today_my_calendar/screen/widget/w_custom_datePicker.dart';
 import 'package:today_my_calendar/screen/widget/w_rounded_container.dart';
+import '../../common/widget/mixin/init_screen_size_utill.dart';
 import '../../common/widget/scaffold/bottom_dialog_scaffold.dart';
 import '../../controller/date_picker_controller.dart';
 
@@ -23,7 +25,7 @@ class WriteTodoDialog extends DialogWidget<Schedule> {
 }
 
 class _WriteTodoDialogState extends DialogState<WriteTodoDialog>
-    with AfterLayoutMixin {
+    with AfterLayoutMixin,ScreenInit {
   final double _textFieldWidth = 350;
   final double _textFieldHeight = 350;
 
@@ -48,6 +50,7 @@ class _WriteTodoDialogState extends DialogState<WriteTodoDialog>
 
   @override
   Widget build(BuildContext context) {
+    screenInit(context);
     return BottomDialogScaffold(
         body: RoundedContainer(
       color: context.backgroundColor,
@@ -71,7 +74,7 @@ class _WriteTodoDialogState extends DialogState<WriteTodoDialog>
           ShowDatePicker(dateTime : widget.calendarDateTime,startText: "종료",datePickerStateController: datePickerStateController,),
 
         ],
-      ),
+      ).pOnly(left: 10.w),
     ));
   }
 

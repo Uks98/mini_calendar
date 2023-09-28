@@ -1,4 +1,7 @@
 
+
+
+
 import 'package:get/get.dart';
 
 class DatePickerStateController extends GetxController{
@@ -16,5 +19,11 @@ class DatePickerStateController extends GetxController{
   ///데이트 픽커 변경 시 텍스트가 변경되는 함수 마지막시간
   void lastTimeChanged(DateTime date){
     lastSelectedTime.value = date;
+  }
+
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
   }
 }

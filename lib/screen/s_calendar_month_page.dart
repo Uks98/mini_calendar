@@ -1,27 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:today_my_calendar/common/widget/mixin/init_screen_size_utill.dart';
 import 'package:today_my_calendar/screen/widget/w_calendar_content_bottom_sheet.dart';
 
 import 'calendar/calendar_data/d_schedule_data.dart';
 
-class CalendarMonthPage extends StatefulWidget {
+class CalendarMonthPage extends StatefulWidget with ScreenInit{
   const CalendarMonthPage({super.key});
 
   @override
   State<CalendarMonthPage> createState() => _CalendarMonthPageState();
 }
-
-class _CalendarMonthPageState extends State<CalendarMonthPage> {
+class _CalendarMonthPageState extends State<CalendarMonthPage> with ScreenInit{
+  @override
+  void initState() {
+    super.initState();
+  }
  // WriteTodoDialog calendarBottomSheet = WriteTodoDialog();
   @override
   Widget build(BuildContext context) {
+    screenInit(context);
     return  Scaffold(
         body: SfCalendar(
-          headerHeight: 80,
-          onTap: (dateTime){
-            WriteTodoDialog(calendarDateTime: dateTime.date!,).show();
-
-          },
+          headerHeight: 80.h,
+          onTap: (dateTime)=> WriteTodoDialog(calendarDateTime: dateTime.date!,).show(),
           headerDateFormat: "M",
           view: CalendarView.month,
           dataSource: MeetingDataSource(_getDataSource()),

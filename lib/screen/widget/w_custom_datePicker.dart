@@ -1,11 +1,15 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:today_my_calendar/Color/widget_Color.dart';
 import 'package:today_my_calendar/common/common.dart';
+import 'package:today_my_calendar/common/widget/mixin/init_screen_size_utill.dart';
 import '../../common/constant/constant_widget.dart';
 import '../../controller/date_picker_controller.dart';
+import 'package:get/get.dart';
 
-class ShowDatePicker extends StatelessWidget {
+class ShowDatePicker extends StatelessWidget with ScreenInit{
   String startText;
   DateTime dateTime;
 
@@ -21,28 +25,29 @@ class ShowDatePicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int timeTextLeftPaddingSize = 130;
+    screenInit(context);
     return Row(
       children: [
         Tap(
           onTap: ()=> datePickerStateController.showStartPicker(),
           child:Obx(()=>Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               SizedBox(
                 child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     "${startText}".text.size(bigFontSize).make(),
-                    Obx(()=>"${dateTime.month}월 ${dateTime.day}일  ${_selectedDate.hour} : ${_selectedDate.minute}"
+                    ///패딩 값 수정
+                    Obx(()=>"${dateTime.month}월 ${dateTime.day}일  ${_selectedDate.hour} : ${_selectedDate.minute}분"
                         .text
-                        .size(bigFontSize)
-                        .make())
+                        .size(bigFontSize).color(ColorBox.pickerText)
+                        .make()).pOnly(left:timeTextLeftPaddingSize.w )
                   ],
                 ),
-              ).w(380),
+              ).w(360),
               if (datePickerStateController.isShowStartDatePicker.value)
                 SizedBox(
-                  width: 350,
-                  height: 100,
                   child: Center(
                     child: CupertinoDatePicker(
                       dateOrder: DatePickerDateOrder.ymd,
