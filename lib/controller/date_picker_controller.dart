@@ -7,10 +7,16 @@ import 'package:get/get.dart';
 class DatePickerStateController extends GetxController{
   RxBool isShowStartDatePicker = false.obs;
   RxBool isShowLastDatePicker = false.obs;
+  RxString changeTimeText = "0분".obs;
+
+  RxInt addTime = 0.obs;
   var startSelectedTime = DateTime.now().obs;
   var lastSelectedTime = DateTime.now().obs;
   void showStartPicker(){
     isShowStartDatePicker.value = !isShowStartDatePicker.value;
+  }
+  void showLastPicker(){
+    isShowLastDatePicker.value = !isShowLastDatePicker.value;
   }
   ///데이트 픽커 변경 시 텍스트가 변경되는 함수
   void startTimeChanged(DateTime date){

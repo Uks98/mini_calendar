@@ -8,6 +8,7 @@ import 'package:today_my_calendar/common/common.dart';
 import 'package:today_my_calendar/common/constant/constant_widget.dart';
 import 'package:today_my_calendar/screen/calendar/calendar_data/d_schedule_data.dart';
 import 'package:today_my_calendar/screen/widget/w_custom_datePicker.dart';
+import 'package:today_my_calendar/screen/widget/w_quick_fix_picker_time.dart';
 import 'package:today_my_calendar/screen/widget/w_rounded_container.dart';
 import '../../common/widget/mixin/init_screen_size_utill.dart';
 import '../../common/widget/scaffold/bottom_dialog_scaffold.dart';
@@ -70,9 +71,11 @@ class _WriteTodoDialogState extends DialogState<WriteTodoDialog>
               spacer,
             ],
           ),
-          ShowDatePicker(dateTime : widget.calendarDateTime, startText: "시작",datePickerStateController: datePickerStateController,),
-          ShowDatePicker(dateTime : widget.calendarDateTime,startText: "종료",datePickerStateController: datePickerStateController,),
-
+          ///시작 시간
+          ShowDateStartPicker(dateTime : widget.calendarDateTime, startText: "시작",datePickerStateController: datePickerStateController,),
+          ///종료 시간
+          ShowDateLastPicker(dateTime : widget.calendarDateTime,startText: "종료",datePickerStateController: datePickerStateController,),
+          QuickFixerDateWidget(),
         ],
       ).pOnly(left: 10.w),
     ));
