@@ -26,7 +26,7 @@ class ShowDateStartPicker extends StatelessWidget with ScreenInit {
 
   @override
   Widget build(BuildContext context) {
-    int timeTextLeftPaddingSize = 130;
+    int timeTextLeftPaddingSize = 120;
     screenInit(context);
     return Row(
       children: [
@@ -41,7 +41,7 @@ class ShowDateStartPicker extends StatelessWidget with ScreenInit {
                     children: [
                       "${startText}".text.size(bigFontSize).make(),
                       Obx(() =>
-                          "${dateTime.month}월 ${dateTime.day}일  ${_selectedDate.hour} : ${_selectedDate.minute}분"
+                          formatTime(_selectedDate)
                               .text
                               .size(bigFontSize)
                               .color(ColorBox.pickerText)
@@ -70,6 +70,11 @@ class ShowDateStartPicker extends StatelessWidget with ScreenInit {
       ],
     );
   }
+  String formatTime(DateTime dateTime) {
+    final DateFormat formatter = DateFormat('MMM dd일 HH시 mm분');
+    final String formatted = formatter.format(dateTime);
+    return formatted;
+  }
 }
 
 class ShowDateLastPicker extends StatelessWidget with ScreenInit {
@@ -89,7 +94,7 @@ class ShowDateLastPicker extends StatelessWidget with ScreenInit {
 
   @override
   Widget build(BuildContext context) {
-    int timeTextLeftPaddingSize = 130;
+    int timeTextLeftPaddingSize = 120;
     screenInit(context);
     return Row(
       children: [
@@ -104,7 +109,8 @@ class ShowDateLastPicker extends StatelessWidget with ScreenInit {
                     children: [
                       "${startText}".text.size(bigFontSize).make(),
                       Obx(() =>
-                          "${_selectedDate.month}월 ${_selectedDate.day}일  ${_selectedDate.hour} : ${_selectedDate.minute + datePickerStateController.addTime.value}분"
+                          // "${_selectedDate.month}월 ${_selectedDate.day}일  ${_selectedDate.hour} : ${datePickerStateController.lastSelectedTime.value.minute % 60}분"
+                              formatTime(_selectedDate)
                               .text
                               .size(bigFontSize)
                               .color(ColorBox.pickerText)
@@ -117,6 +123,7 @@ class ShowDateLastPicker extends StatelessWidget with ScreenInit {
                       child: Center(
                     child: Obx(
                       () => CupertinoDatePicker(
+                        use24hFormat: true,
                         dateOrder: DatePickerDateOrder.ymd,
                         minimumYear: 2010,
                         maximumYear: DateTime.now().year,
@@ -124,9 +131,6 @@ class ShowDateLastPicker extends StatelessWidget with ScreenInit {
                             minutes: datePickerStateController.addTime.value)),
                         onDateTimeChanged: (date) {
                           datePickerStateController.lastTimeChanged(date);
-                          if(datePickerStateController.lastSelectedTime.value.minute > 59){
-                            //datePickerStateController.lastSelectedTime.value.minute = datePickerStateController.lastSelectedTime.value.minute % 60;
-                          }
                         },
                         mode: CupertinoDatePickerMode.dateAndTime,
                       ),
@@ -138,5 +142,11 @@ class ShowDateLastPicker extends StatelessWidget with ScreenInit {
         ),
       ],
     );
+  }
+
+  String formatTime(DateTime dateTime) {
+    final DateFormat formatter = DateFormat('MMM dd일 HH시 mm분');
+    final String formatted = formatter.format(dateTime);
+    return formatted;
   }
 }

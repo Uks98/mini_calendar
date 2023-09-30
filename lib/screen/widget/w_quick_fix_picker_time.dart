@@ -14,30 +14,58 @@ class QuickFixerDateWidget extends StatelessWidget with ScreenInit{
   QuickFixerDateWidget({super.key});
   @override
   Widget build(BuildContext context) {
+    final dtController = Get.put(DatePickerStateController());
     final dateChangeController = Get.put(DatePickerStateController());
+    void addMinutes(int minutes) {
+      dtController.lastSelectedTime.value = dtController.lastSelectedTime.value.add(Duration(minutes: minutes));
+    }
+    void resetDateTime(){
+      dtController.lastSelectedTime.value = DateTime.now();
+    }
     return ContextMenuArea(
         width: 200.w,
       builder: (context) => [
         ListTile(
           title: "0분".text.make(),
           onTap: () {
-            dateChangeController.addTime.value = 0;
+            dateChangeController.changeTimeText.value = "0분";
+            resetDateTime();
             Navigator.of(context).pop();
           },
         ),
         ListTile(
           title: "5분".text.make(),
           onTap: () {
-            dateChangeController.addTime.value = 5;
             dateChangeController.changeTimeText.value = "5분";
+            addMinutes(5);
+            dtController.isShowLastDatePicker.value = false;
             Navigator.of(context).pop();
           },
         ),
         ListTile(
           title: "30분".text.make(),
           onTap: () {
-            dateChangeController.addTime.value = 30;
             dateChangeController.changeTimeText.value = "30분";
+            addMinutes(30);
+            dtController.isShowLastDatePicker.value = false;
+            Navigator.of(context).pop();
+          },
+        ),
+        ListTile(
+          title: "60분".text.make(),
+          onTap: () {
+            dateChangeController.changeTimeText.value = "60분";
+            addMinutes(60);
+            dtController.isShowLastDatePicker.value = false;
+            Navigator.of(context).pop();
+          },
+        ),
+        ListTile(
+          title: "1일".text.make(),
+          onTap: () {
+            dateChangeController.changeTimeText.value = "1일";
+            addMinutes(1440);
+            dtController.isShowLastDatePicker.value = false;
             Navigator.of(context).pop();
           },
         ),

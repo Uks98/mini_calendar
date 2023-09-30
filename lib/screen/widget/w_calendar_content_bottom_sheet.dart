@@ -29,11 +29,11 @@ class _WriteTodoDialogState extends DialogState<WriteTodoDialog>
     with AfterLayoutMixin,ScreenInit {
   final double _textFieldWidth = 350;
   final double _textFieldHeight = 350;
+  final double _quickWidgetLeftPadding = 270;
 
   DateTime _seletedDate = DateTime.now();
   final _titleController = TextEditingController();
   final node = FocusNode();
-  bool _isShowDatePicker = false;
   //controller
   DatePickerStateController datePickerStateController = Get.put(DatePickerStateController());
   RxBool get isShowStartPicker => datePickerStateController.isShowStartDatePicker;
@@ -75,7 +75,8 @@ class _WriteTodoDialogState extends DialogState<WriteTodoDialog>
           ShowDateStartPicker(dateTime : widget.calendarDateTime, startText: "시작",datePickerStateController: datePickerStateController,),
           ///종료 시간
           ShowDateLastPicker(dateTime : widget.calendarDateTime,startText: "종료",datePickerStateController: datePickerStateController,),
-          QuickFixerDateWidget(),
+          ///시간 분 단위로 올리기
+          QuickFixerDateWidget().pOnly(top: middleHeight.h,left: _quickWidgetLeftPadding.w),
         ],
       ).pOnly(left: 10.w),
     ));
