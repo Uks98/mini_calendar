@@ -12,7 +12,9 @@ import 'package:today_my_calendar/screen/widget/w_quick_fix_picker_time.dart';
 import 'package:today_my_calendar/screen/widget/w_rounded_container.dart';
 import '../../common/widget/mixin/init_screen_size_utill.dart';
 import '../../common/widget/scaffold/bottom_dialog_scaffold.dart';
+import '../../controller/alarm_setting_controller.dart';
 import '../../controller/date_picker_controller.dart';
+import 'alarm_setting_Tile.dart';
 
 //최종적으로 넘겨주고 싶은 타입 제네릭으로 표시
 class WriteTodoDialog extends DialogWidget<Schedule> {
@@ -31,14 +33,13 @@ class _WriteTodoDialogState extends DialogState<WriteTodoDialog>
   final double _textFieldHeight = 350;
   final double _quickWidgetLeftPadding = 270;
 
-  DateTime _seletedDate = DateTime.now();
   final _titleController = TextEditingController();
   final node = FocusNode();
   //controller
   DatePickerStateController datePickerStateController = Get.put(DatePickerStateController());
   RxBool get isShowStartPicker => datePickerStateController.isShowStartDatePicker;
   RxBool get isShowLastPicker => datePickerStateController.isShowLastDatePicker;
-
+  final alarmSet = Get.put(AlarmSettingController());
   @override
   void initState() {
     super.initState();
@@ -47,6 +48,7 @@ class _WriteTodoDialogState extends DialogState<WriteTodoDialog>
       //_seletedDate = widget.scheduleForEdit!.dueDate;
       // textController.text = widget.scheduleForEdit!.title;
     }
+
   }
 
   @override
@@ -77,9 +79,19 @@ class _WriteTodoDialogState extends DialogState<WriteTodoDialog>
           ShowDateLastPicker(dateTime : widget.calendarDateTime,startText: "종료",datePickerStateController: datePickerStateController,),
           ///시간 분 단위로 올리기
           QuickFixerDateWidget().pOnly(top: middleHeight.h,left: _quickWidgetLeftPadding.w),
+          ///알람 설정
+           AlarmSettingTile(),
+          IconButton(onPressed: (){
+            final startTime = datePickerStateController.startSelectedTime.value;
+            final lastTime = datePickerStateController.lastSelectedTime.value;
+          alarmSet.getAlarmTime(time: lastTime, setTextTime: "1분", context: context);
+          widget.hide(Schedule(from: datePickerStateController.startSelectedTime.value, to: datePickerStateController.lastSelectedTime.value));
+          }, icon: Icon(Icons.check))
         ],
       ).pOnly(left: 10.w),
-    ));
+
+    )
+    );
   }
 
   bool get isEditMode => widget.scheduleForEdit != null;
@@ -89,19 +101,6 @@ class _WriteTodoDialogState extends DialogState<WriteTodoDialog>
   //   AppKeyboardUtil.show(context, node);
   //   throw UnimplementedError();
   // }
-  void _selectDate() async {
-    final date = await showDatePicker(
-        context: context,
-        initialDate: _seletedDate,
-        firstDate: DateTime.now().subtract(Duration(days: 365)),
-        lastDate: DateTime.now().add(Duration(days: 365 * 10)));
-    if (date != null) {
-      setState(() {
-        _seletedDate = date;
-      });
-    }
-  }
-
   @override
   FutureOr<void> afterFirstLayout(BuildContext context) {
     // TODO: implement afterFirstLayout

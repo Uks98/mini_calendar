@@ -25,54 +25,46 @@ class QuickFixerDateWidget extends StatelessWidget with ScreenInit{
     return ContextMenuArea(
         width: 200.w,
       builder: (context) => [
-        ListTile(
-          title: "0분".text.make(),
-          onTap: () {
-            dateChangeController.changeTimeText.value = "0분";
-            resetDateTime();
-            Navigator.of(context).pop();
-          },
-        ),
-        ListTile(
-          title: "5분".text.make(),
-          onTap: () {
-            dateChangeController.changeTimeText.value = "5분";
-            addMinutes(5);
-            dtController.isShowLastDatePicker.value = false;
-            Navigator.of(context).pop();
-          },
-        ),
-        ListTile(
-          title: "30분".text.make(),
-          onTap: () {
-            dateChangeController.changeTimeText.value = "30분";
-            addMinutes(30);
-            dtController.isShowLastDatePicker.value = false;
-            Navigator.of(context).pop();
-          },
-        ),
-        ListTile(
-          title: "60분".text.make(),
-          onTap: () {
-            dateChangeController.changeTimeText.value = "60분";
-            addMinutes(60);
-            dtController.isShowLastDatePicker.value = false;
-            Navigator.of(context).pop();
-          },
-        ),
-        ListTile(
-          title: "1일".text.make(),
-          onTap: () {
-            dateChangeController.changeTimeText.value = "1일";
-            addMinutes(1440);
-            dtController.isShowLastDatePicker.value = false;
-            Navigator.of(context).pop();
-          },
-        ),
+        TimeTileWidget(dateChangeController: dateChangeController,resetTime: resetDateTime, time: '0분',),
+        TimeTileWidget(dateChangeController: dateChangeController,addMinute: () => addMinutes(5), time: '5분',),
+        TimeTileWidget(dateChangeController: dateChangeController,addMinute: () => addMinutes(30), time: '30분',),
+        TimeTileWidget(dateChangeController: dateChangeController,addMinute: () => addMinutes(60), time: '60분',),
+        TimeTileWidget(dateChangeController: dateChangeController,addMinute: () => addMinutes(1440), time: '1일',),
       ],
       child: Obx(()=>SizedBox(
         child: dateChangeController.changeTimeText.value.text.color(ColorBox.pickerText).align(TextAlign.right).size(normalFontSize.sp).make(),
       ),),
+    );
+  }
+}
+
+class TimeTileWidget extends StatelessWidget {
+  TimeTileWidget({
+    super.key,
+    required this.dateChangeController,
+    required this.time,
+    this.addMinute,
+    this.resetTime
+  });
+
+  final DatePickerStateController dateChangeController;
+  VoidCallback? resetTime;
+  VoidCallback? addMinute;
+  String time;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: time.text.make(),
+      onTap: () {
+        dateChangeController.changeTimeText.value = time;
+        if(time == "0분"){
+        resetTime!();
+        }else{
+          addMinute!();
+        }
+        Navigator.of(context).pop();
+      },
     );
   }
 }

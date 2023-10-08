@@ -46,6 +46,7 @@ ThemeData lightTheme = ThemeData(
 const darkColorSeed = Color(0xbcd5ff7e);
 ThemeData darkTheme = ThemeData(
     useMaterial3: true,
+    fontFamily: "dream",
     visualDensity: VisualDensity.adaptivePlatformDensity,
     brightness: Brightness.dark,
     scaffoldBackgroundColor: AppColors.veryDarkGrey,

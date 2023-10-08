@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:today_my_calendar/screen/widget/w_menu_drawer.dart';
 
 import '../../common/common.dart';
-import '../tab/tab_item.dart';
-import '../tab/tab_navigator.dart';
+import 'tab_item.dart';
+import 'tab_navigator.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});

@@ -26,7 +26,6 @@ class ShowDateStartPicker extends StatelessWidget with ScreenInit {
 
   @override
   Widget build(BuildContext context) {
-    int timeTextLeftPaddingSize = 120;
     screenInit(context);
     return Row(
       children: [
@@ -45,7 +44,7 @@ class ShowDateStartPicker extends StatelessWidget with ScreenInit {
                               .text
                               .size(bigFontSize)
                               .color(ColorBox.pickerText)
-                              .make()).pOnly(left: timeTextLeftPaddingSize.w)
+                              .make()).pOnly(left: timeTextRightPaddingSize.w)
                     ],
                   ),
                 ).w(360),
@@ -94,7 +93,6 @@ class ShowDateLastPicker extends StatelessWidget with ScreenInit {
 
   @override
   Widget build(BuildContext context) {
-    int timeTextLeftPaddingSize = 120;
     screenInit(context);
     return Row(
       children: [
@@ -109,12 +107,11 @@ class ShowDateLastPicker extends StatelessWidget with ScreenInit {
                     children: [
                       "${startText}".text.size(bigFontSize).make(),
                       Obx(() =>
-                          // "${_selectedDate.month}월 ${_selectedDate.day}일  ${_selectedDate.hour} : ${datePickerStateController.lastSelectedTime.value.minute % 60}분"
                               formatTime(_selectedDate)
                               .text
                               .size(bigFontSize)
                               .color(ColorBox.pickerText)
-                              .make()).pOnly(left: timeTextLeftPaddingSize.w)
+                              .make()).pOnly(left: timeTextRightPaddingSize.w)
                     ],
                   ),
                 ).w(360),
@@ -135,7 +132,7 @@ class ShowDateLastPicker extends StatelessWidget with ScreenInit {
                         mode: CupertinoDatePickerMode.dateAndTime,
                       ),
                     ),
-                  ).w(340).h(100).pOnly(top: smallHeight)),
+                  ).w(360).h(100).pOnly(top: smallHeight)),
               ],
             ),
           ),

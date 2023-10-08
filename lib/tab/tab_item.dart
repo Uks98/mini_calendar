@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:today_my_calendar/common/common.dart';
-import 'package:today_my_calendar/screen/s_calendar_day_page.dart';
+import 'package:today_my_calendar/tab/s_calendar_day_page.dart';
+import 'package:today_my_calendar/tab/s_calendar_month_page.dart';
+import 'package:today_my_calendar/tab/s_setting_page.dart';
 
-import '../screen/s_calendar_month_page.dart';
-import '../screen/s_setting_page.dart';
 
 
 enum TabItem {

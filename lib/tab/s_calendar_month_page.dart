@@ -4,7 +4,7 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:today_my_calendar/common/widget/mixin/init_screen_size_utill.dart';
 import 'package:today_my_calendar/screen/widget/w_calendar_content_bottom_sheet.dart';
 
-import 'calendar/calendar_data/d_schedule_data.dart';
+import '../screen/calendar/calendar_data/d_schedule_data.dart';
 
 class CalendarMonthPage extends StatefulWidget with ScreenInit{
   const CalendarMonthPage({super.key});
@@ -24,7 +24,13 @@ class _CalendarMonthPageState extends State<CalendarMonthPage> with ScreenInit{
     return  Scaffold(
         body: SfCalendar(
           headerHeight: 80.h,
-          onTap: (dateTime)=> WriteTodoDialog(calendarDateTime: dateTime.date!,).show(),
+          onTap: (dateTime) async{
+            final result = await WriteTodoDialog(calendarDateTime: dateTime.date!,).show();
+            if(result != null){
+              print(result.from);
+              print(result.to);
+            }
+            },
           headerDateFormat: "M",
           view: CalendarView.month,
           dataSource: MeetingDataSource(_getDataSource()),
