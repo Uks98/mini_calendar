@@ -11,6 +11,8 @@ import '../common/constant/constant_widget.dart';
 import '../main.dart';
 
 class AlarmSettingController extends GetxController{
+  RxString alarmTime = "지정 시간".obs;
+
   void getAlarmTime({required DateTime time, required String setTextTime,required BuildContext context,})async{
     final now = tz.TZDateTime.now(tz.local);
     final dateNow = DateTime.parse(now.toString());
@@ -37,34 +39,34 @@ class AlarmSettingController extends GetxController{
       notiDay = notiDay + 1;
     }
     switch(setTextTime){
-      case "지정 시간": await notification.zonedSchedule(
-        1,
-        "alarmTitle",
-        "alarmDescription",
-        tz.TZDateTime(tz.local, time.year, time.month, notiDay,
-            time.hour, time.minute),
-        detail,
-        androidAllowWhileIdle: false,//주기적으로 표시
-        uiLocalNotificationDateInterpretation:
-        UILocalNotificationDateInterpretation.absoluteTime,
-        matchDateTimeComponents: DateTimeComponents.time,
-        // payload: DateFormat('HH:mm').format(alarmTime),
-      );
+      case "없음": null;
       break;
-      case "1분" : await notification.zonedSchedule(
-        2,
-        "alarmTitle",
-        "alarmDescription",
-        tz.TZDateTime(tz.local, time.year, time.month, notiDay,
-            time.hour, time.minute + 1),
-        detail,
-        androidAllowWhileIdle: false,//주기적으로 표시
-        uiLocalNotificationDateInterpretation:
-        UILocalNotificationDateInterpretation.absoluteTime,
-        matchDateTimeComponents: DateTimeComponents.time,
-        // payload: DateFormat('HH:mm').format(alarmTime),
-      );
+      case "지정 시간": await zonedSchedule(notification, time, notiDay, detail,0);
+      break;
+      case "1분 전": await zonedSchedule(notification, time, notiDay, detail,1);
+      break;
+      case "5분 전": await zonedSchedule(notification, time, notiDay, detail,5);
+      break;
+      case "30분 전": await zonedSchedule(notification, time, notiDay, detail,30);
+      break;
+      case "1시간 전": await zonedSchedule(notification, time, notiDay, detail,60);
       break;
     }
     }
+
+  Future<void> zonedSchedule(FlutterLocalNotificationsPlugin notification, DateTime time, int notiDay, NotificationDetails detail,int delTime) {
+    return notification.zonedSchedule(
+      2,
+      "alarmTitle",
+      "alarmDescription",
+      tz.TZDateTime(tz.local, time.year, time.month, notiDay,
+          time.hour, time.minute - delTime),
+      detail,
+      androidAllowWhileIdle: false,//주기적으로 표시
+      uiLocalNotificationDateInterpretation:
+      UILocalNotificationDateInterpretation.absoluteTime,
+      matchDateTimeComponents: DateTimeComponents.time,
+      // payload: DateFormat('HH:mm').format(alarmTime),
+    );
+  }
   }

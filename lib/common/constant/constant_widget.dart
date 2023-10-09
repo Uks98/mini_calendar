@@ -17,3 +17,5 @@ const spacer = Spacer();
 
  ///타이머 시간 오른쪽 여백
 int timeTextRightPaddingSize = 110;
+///알람시간 오른쪽 여백
+int alarmTextRightPaddingSize = 10;

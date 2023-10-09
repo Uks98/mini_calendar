@@ -1,15 +1,15 @@
 class Schedule {
   Schedule(
-      {//required this.title,
-        //required this.memo,
+      {required this.title,
+        required this.memo,
         required this.from,
         required this.to,
        // required this.eventColor,
         });
 
- // String title;
+ String title;
   ///간단한 메모
-  //String memo;
+  String memo;
   ///시작시간
   DateTime from;
   ///끝나는 시간
