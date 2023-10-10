@@ -45,6 +45,7 @@ class _LocationSearchWidgetState extends State<LocationSearchWidget> {
               child: ListView.separated(itemBuilder: (context,index){
             final mapData = mapDataController.mapList[index];
             return Card(
+              elevation: 1,
               color: AppColors.darkGrey,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -53,8 +54,8 @@ class _LocationSearchWidgetState extends State<LocationSearchWidget> {
                   mapData.placeName.text.size(normalFontSize).make(),
                   mapData.address.text.size(smallFontSize).color(AppColors.brightGrey).make()
                 ],
-              ),
-            ).paddingAll(3);
+              ).paddingAll(smallHeight + 2.h),
+            );
           }, separatorBuilder: (BuildContext context, int index) {
             return Height(smallHeight);
           }, itemCount: mapDataController.mapList.length,))
