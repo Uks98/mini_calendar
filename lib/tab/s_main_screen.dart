@@ -111,8 +111,7 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
         context,
         isActivated: _currentIndex == index,
       ),
-    )
-        .toList();
+    ).toList();
   }
 
   void _changeTab(int index) {

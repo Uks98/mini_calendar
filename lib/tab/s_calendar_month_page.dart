@@ -4,7 +4,9 @@ import 'package:get/instance_manager.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:today_my_calendar/common/widget/mixin/init_screen_size_utill.dart';
 import 'package:today_my_calendar/screen/widget/w_calendar_content_bottom_sheet.dart';
+import 'package:today_my_calendar/service/convert_locatoon_json_datal_ist.dart';
 
+import '../controller/map_data_controller.dart';
 import '../controller/month_data_controller.dart';
 import '../screen/calendar/calendar_data/schecule_data_source.dart';
 
@@ -16,9 +18,18 @@ class CalendarMonthPage extends StatefulWidget with ScreenInit {
 }
 
 class _CalendarMonthPageState extends State<CalendarMonthPage> with ScreenInit,MonthControllerMix {
+  MapDataController mapDataController = Get.put(MapDataController());
+  MapApi mapApi = MapApi();
+  void getMapData() async {
+    mapDataController.mapList.value = (await mapApi.getMapList(context: context))!;
+    setState(() {});
+  }
+
+
   @override
   void initState() {
     super.initState();
+    getMapData();
   }
 
   // WriteTodoDialog calendarBottomSheet = WriteTodoDialog();

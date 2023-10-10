@@ -82,6 +82,8 @@ dependencies:
   contextmenu: ^3.0.0
   #notification
   flutter_local_notifications: ^15.1.1
+  #geolocator
+  geolocator:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

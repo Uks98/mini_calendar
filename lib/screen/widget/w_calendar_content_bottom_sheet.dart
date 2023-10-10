@@ -14,6 +14,7 @@ import '../../common/widget/mixin/init_screen_size_utill.dart';
 import '../../common/widget/scaffold/bottom_dialog_scaffold.dart';
 import '../../controller/alarm_setting_controller.dart';
 import '../../controller/date_picker_controller.dart';
+import 'w_location_search_widget.dart';
 import 'alarm_setting_tile.dart';
 
 //최종적으로 넘겨주고 싶은 타입 제네릭으로 표시
@@ -81,28 +82,29 @@ class _WriteTodoDialogState extends DialogState<WriteTodoDialog>
           ///시간 분 단위로 올리기
           QuickFixerDateWidget().pOnly(top: middleHeight.h,left: _quickWidgetLeftPadding.w),
           ///알람 설정
-          Height(smallHeight),
+          Height(middleHeight),
           const AlarmSettingTile(),
-          Center(
-            child: Container(
-              width: 300,
-              height: 200,
-              decoration: BoxDecoration(
-                color: Colors.grey[300],
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: TextField(
-                decoration: InputDecoration(
-                  hintText: 'Enter text',
-                  border: InputBorder.none,
-                  contentPadding:
-                  EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                ),
-              ),
-            ),
-          ),
+          Height(middleHeight),
+          LocationSearchWidget(),
+          // Center(
+          //   child: Container(
+          //     width: 300,
+          //     height: 200,
+          //     decoration: BoxDecoration(
+          //       color: Colors.grey[300],
+          //       borderRadius: BorderRadius.circular(10),
+          //     ),
+          //     child: TextField(
+          //       decoration: InputDecoration(
+          //         hintText: 'Enter text',
+          //         border: InputBorder.none,
+          //         contentPadding:
+          //         EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          //       ),
+          //     ),
+          //   ),
+          // ),
           IconButton(onPressed: (){
-            final startTime = datePickerStateController.startSelectedTime.value;
             final lastTime = datePickerStateController.lastSelectedTime.value;
           alarmSet.getAlarmTime(time: lastTime, setTextTime: alarmSettingController.alarmTime.value, context: context);
           print(alarmSettingController.alarmTime.value);
