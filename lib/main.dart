@@ -16,7 +16,7 @@ void main() async {
   await EasyLocalization.ensureInitialized();
   await AppPreferences.init();
   _initNotiSetting();
-  runApp(const App());
+  runApp(App());
 }
 final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 void _initNotiSetting() async {

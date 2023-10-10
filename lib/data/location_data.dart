@@ -23,4 +23,9 @@ class LocationData{
       gpsY: json["y"],
     );
   }
+  @override
+  String toString() {
+    // TODO: implement toString
+    return this.placeName;
+  }
 }

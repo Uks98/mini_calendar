@@ -14,6 +14,7 @@ import '../../common/widget/mixin/init_screen_size_utill.dart';
 import '../../common/widget/scaffold/bottom_dialog_scaffold.dart';
 import '../../controller/alarm_setting_controller.dart';
 import '../../controller/date_picker_controller.dart';
+import '../../controller/map_data_controller.dart';
 import 'w_location_search_widget.dart';
 import 'alarm_setting_tile.dart';
 
@@ -39,6 +40,7 @@ class _WriteTodoDialogState extends DialogState<WriteTodoDialog>
   //controller
   DatePickerStateController datePickerStateController = Get.put(DatePickerStateController());
   AlarmSettingController alarmSettingController = Get.put(AlarmSettingController());
+  MapDataController mapDataController = Get.put(MapDataController());
   RxBool get isShowStartPicker => datePickerStateController.isShowStartDatePicker;
   RxBool get isShowLastPicker => datePickerStateController.isShowLastDatePicker;
   final alarmSet = Get.put(AlarmSettingController());
@@ -85,7 +87,9 @@ class _WriteTodoDialogState extends DialogState<WriteTodoDialog>
           Height(middleHeight),
           const AlarmSettingTile(),
           Height(middleHeight),
-          LocationSearchWidget(),
+          ElevatedButton(onPressed: (){
+             _showBottomSheet(context);
+          }, child: "qx".text.make()),
           // Center(
           //   child: Container(
           //     width: 300,
@@ -107,8 +111,10 @@ class _WriteTodoDialogState extends DialogState<WriteTodoDialog>
           IconButton(onPressed: (){
             final lastTime = datePickerStateController.lastSelectedTime.value;
           alarmSet.getAlarmTime(time: lastTime, setTextTime: alarmSettingController.alarmTime.value, context: context);
-          print(alarmSettingController.alarmTime.value);
-          widget.hide(Schedule(title: "aaa",memo : "abc",from: datePickerStateController.startSelectedTime.value, to: datePickerStateController.lastSelectedTime.value));
+          Navigator.of(context).pop(Schedule(title: "aaa",memo : "abc",from: datePickerStateController.startSelectedTime.value, to: datePickerStateController.lastSelectedTime.value,
+              myPlace: mapDataController.myPlace.value,gpsX: 1.2,gpsY: 1.2,
+          ));
+          print(mapDataController.myPlace.value);
           }, icon: Icon(Icons.check))
         ],
       ).pOnly(left: 10.w),
@@ -128,6 +134,24 @@ class _WriteTodoDialogState extends DialogState<WriteTodoDialog>
   FutureOr<void> afterFirstLayout(BuildContext context) {
     // TODO: implement afterFirstLayout
     throw UnimplementedError();
+  }
+  void _showBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          height: 900,
+          child: Column(
+            children: [
+              const LocationSearchWidget(),
+              ElevatedButton(onPressed: (){
+
+              }, child: "ok".text.make())
+            ],
+          ),
+        );
+      },
+    );
   }
 }
 

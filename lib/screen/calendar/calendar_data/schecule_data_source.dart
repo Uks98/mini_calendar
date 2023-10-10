@@ -24,10 +24,6 @@ class ScheduleDataSource extends CalendarDataSource {
   String getSubject(int index) {
     return _getMeetingData(index).title;
   }
-  @override
-  Color getColors(int index) {
-    return Colors.amber;
-  }
 
   Schedule _getMeetingData(int index) {
     final dynamic schedule = appointments![index];

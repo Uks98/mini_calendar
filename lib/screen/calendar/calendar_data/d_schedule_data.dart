@@ -4,6 +4,9 @@ class Schedule {
         required this.memo,
         required this.from,
         required this.to,
+        required this.myPlace,
+        required this.gpsX,
+        required this.gpsY,
        // required this.eventColor,
         });
 
@@ -14,6 +17,9 @@ class Schedule {
   DateTime from;
   ///끝나는 시간
   DateTime to;
-  ///이벤트 지정시 색상
- // int eventColor;
+  ///위치 선택시 내 위치
+ String myPlace;
+ ///gps x
+ double? gpsX;
+ double? gpsY;
 }

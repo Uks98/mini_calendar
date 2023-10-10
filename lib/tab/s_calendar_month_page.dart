@@ -19,17 +19,10 @@ class CalendarMonthPage extends StatefulWidget with ScreenInit {
 
 class _CalendarMonthPageState extends State<CalendarMonthPage> with ScreenInit,MonthControllerMix {
   MapDataController mapDataController = Get.put(MapDataController());
-  MapApi mapApi = MapApi();
-  void getMapData() async {
-    mapDataController.mapList.value = (await mapApi.getMapList(context: context))!;
-    setState(() {});
-  }
-
 
   @override
   void initState() {
     super.initState();
-    getMapData();
   }
 
   // WriteTodoDialog calendarBottomSheet = WriteTodoDialog();
@@ -53,7 +46,7 @@ class _CalendarMonthPageState extends State<CalendarMonthPage> with ScreenInit,M
         view: CalendarView.month,
         dataSource: ScheduleDataSource(monthControl.monthDataList),
         monthViewSettings: const MonthViewSettings(
-        appointmentDisplayCount: 3,
+        appointmentDisplayCount: 4,
             showAgenda: true,
             appointmentDisplayMode: MonthAppointmentDisplayMode.appointment),
       ),

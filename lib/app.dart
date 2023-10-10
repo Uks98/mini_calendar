@@ -9,20 +9,21 @@ import 'common/theme/custom_theme.dart';
 import 'common/theme/custom_theme_app.dart';
 
 class App extends StatefulWidget {
-  static final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
   ///light, dark 테마가 준비되었고, 시스템 테마를 따라가게 하려면 해당 필드를 제거 하시면 됩니다.
   static const defaultTheme = CustomTheme.light;
   static bool isForeground = true;
 
-  const App({super.key});
+  App({super.key});
 
   @override
   State<App> createState() => AppState();
 }
 
 class AppState extends State<App> with Nav, WidgetsBindingObserver {
+  App app = App();
   @override
-  GlobalKey<NavigatorState> get navigatorKey => App.navigatorKey;
+  GlobalKey<NavigatorState> get navigatorKey => app.navigatorKey;
 
   @override
   void initState() {
@@ -46,7 +47,7 @@ class AppState extends State<App> with Nav, WidgetsBindingObserver {
             data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
             child: child!,
           ),
-          navigatorKey: App.navigatorKey,
+          navigatorKey: app.navigatorKey,
           title: 'TodayCalendar',
           theme: context.themeType.themeData,
           home: const MainScreen(),
@@ -68,7 +69,7 @@ class AppState extends State<App> with Nav, WidgetsBindingObserver {
         break;
       case AppLifecycleState.detached:
         break;
-      case AppLifecycleState.hidden:
+      //case AppLifecycleState.hidden:
         // TODO: Handle this case.
     }
     super.didChangeAppLifecycleState(state);
