@@ -9,7 +9,7 @@ class MapDataController extends GetxController{
   RxList<LocationData> autoCompleteList = <LocationData>[].obs;
   RxString myPlace = "".obs;
   MapApi mapApi = MapApi();
-  void searchLocation({String keyword = "무실동"}){
+  void searchLocation({required String keyword}){
     if(keyword.isEmpty){
       autoCompleteList.clear();
       return;
@@ -20,6 +20,6 @@ class MapDataController extends GetxController{
 
 
   void getMapData(BuildContext context,String search) async {
-      mapList.value = (await mapApi.getMapList(context: context,search:"무실동"))!;
+      mapList.value = (await mapApi.getMapList(context: context,search:search))!;
   }
 }

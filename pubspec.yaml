@@ -77,7 +77,7 @@ dependencies:
   #screen size
   flutter_screenutil: ^5.9.0
   #calendar
-  syncfusion_flutter_calendar: ^23.1.36
+  syncfusion_flutter_calendar: ^23.1.40
   #context menu button
   contextmenu: ^3.0.0
   #notification
