@@ -22,8 +22,9 @@ import 'alarm_setting_tile.dart';
 
 class CalendarAddPage extends StatefulWidget {
   final Schedule? scheduleForEdit;
-
-  const CalendarAddPage({super.key, this.scheduleForEdit});
+  Schedule schedule;
+  bool isShowMap;
+  CalendarAddPage({super.key, this.scheduleForEdit,required this.schedule,required this.isShowMap});
 
   @override
   State<CalendarAddPage> createState() => _CalendarAddPageState();
@@ -51,6 +52,19 @@ class _CalendarAddPageState extends State<CalendarAddPage>
   final alarmSet = Get.put(AlarmSettingController());
   TextEditingController searchController = TextEditingController();
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _titleController.text = widget.schedule.title.toString();
+    datePickerStateController.startSelectedTime.value = widget.schedule.from;
+    datePickerStateController.lastSelectedTime.value = widget.schedule.to;
+    mapDataController.gpsX.value = widget.schedule.gpsY!;
+    mapDataController.gpsY.value = widget.schedule.gpsX!;
+    print("gpsy${mapDataController.gpsX.value}");
+    print("gpsx${mapDataController.gpsY.value}");
+    _updateCameraPosition();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -100,28 +114,26 @@ class _CalendarAddPageState extends State<CalendarAddPage>
             Height(middleHeight),
             LocationSearchWidget(controller: searchController,),
             ///네이버 맵
-            if(mapDataController.isShowMap.value == true)
+            if(mapDataController.isShowMap.value == true && widget.isShowMap == true)
               Obx(() =>SizedBox(
               height: 200.h,
               width: MediaQuery.of(context).size.width - 60,
               child:NaverMap(
                   options: NaverMapViewOptions(
-                    initialCameraPosition: NCameraPosition(
-                      target: NLatLng(mapDataController.gpsY.value,
-                          mapDataController.gpsX.value),
-                      zoom: 17,
-                    ),
+                    initialCameraPosition: _updateCameraPosition()
                   ),
                   onMapReady: (controller) {
+                      setState(() {});
                       final marker = NMarker(
-                          id: "1",
+                          id: mapDataController.myPlace.value,
                           position: NLatLng(mapDataController.gpsY.value, mapDataController.gpsX.value));
                       final onMarkerInfoWindow =
-                      NInfoWindow.onMarker(id: "1", text: mapDataController.myPlace.value);
+                      NInfoWindow.onMarker(id: "1", text: widget.schedule.myPlace);
                       controller.addOverlay(marker);
                       marker.openInfoWindow(onMarkerInfoWindow);
                       print(mapDataController.isShowMap.value);
                      // mapDataController.stopLoading();
+                      _updateCameraPosition();
                   },
                 ),
               ),
@@ -163,7 +175,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                       gpsX: mapDataController.gpsY.value,
                       gpsY: mapDataController.gpsX.value,
                     ));
-                    print(mapDataController.myPlace.value);
+
                   } catch (E) {
                     print(E);
                   }
@@ -180,4 +192,10 @@ class _CalendarAddPageState extends State<CalendarAddPage>
     // TODO: implement afterFirstLayout
     throw UnimplementedError();
   }
+  NCameraPosition _updateCameraPosition() {
+      return NCameraPosition(
+        target: NLatLng(mapDataController.gpsY.value, mapDataController.gpsX.value),
+        zoom: 17,
+      );
+    }
 }

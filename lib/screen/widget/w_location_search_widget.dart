@@ -25,10 +25,6 @@ class _LocationSearchWidgetState extends State<LocationSearchWidget> {
   void initState() {
       mapDataController.searchLocation(keyword:_locationController.text);
     mapDataController.getMapData(context, _locationController.text);
-      if(_locationController.text.isEmpty){
-        mapDataController.isShowMap.value = false;
-      }
-
     super.initState();
   }
   @override
@@ -83,6 +79,7 @@ class _LocationSearchWidgetState extends State<LocationSearchWidget> {
                         ///x y 좌표 적용
                         mapDataController.gpsX.value = double.parse(mapData.gpsX);
                         mapDataController.gpsY.value = double.parse(mapData.gpsY);
+                        mapDataController.autoCompleteList.clear();
                         setState(() {
                           mapDataController.isShowMap.value = true;
                           //mapDataController.startLoading();
