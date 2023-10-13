@@ -11,7 +11,8 @@ import 'package:today_my_calendar/common/constant/constant_widget.dart';
 import '../../controller/map_data_controller.dart';
 
 class LocationSearchWidget extends StatefulWidget {
-  const LocationSearchWidget({super.key});
+  TextEditingController controller;
+  LocationSearchWidget({super.key,required this.controller});
 
   @override
   State<LocationSearchWidget> createState() => _LocationSearchWidgetState();
@@ -19,23 +20,25 @@ class LocationSearchWidget extends StatefulWidget {
 
 class _LocationSearchWidgetState extends State<LocationSearchWidget> {
   MapDataController mapDataController = Get.put(MapDataController());
-  TextEditingController searchController = TextEditingController();
-
+  TextEditingController get _locationController => widget.controller;
   @override
   void initState() {
-      mapDataController.searchLocation(keyword:searchController.text);
-    mapDataController.getMapData(context, searchController.text);
+      mapDataController.searchLocation(keyword:_locationController.text);
+    mapDataController.getMapData(context, _locationController.text);
+      if(_locationController.text.isEmpty){
+        mapDataController.isShowMap.value = false;
+      }
+
     super.initState();
   }
   @override
   void dispose() {
     super.dispose();
   }
-
   Widget build(BuildContext context) {
+    final containerHeight = mapDataController.autoCompleteList.isEmpty ? 100.h : 300.h;
     return Container(
-      key: GlobalKey(),
-      height: 300.h,
+       height: containerHeight,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -45,6 +48,11 @@ class _LocationSearchWidgetState extends State<LocationSearchWidget> {
               Container(
                 width: 200.w,
                 child: TextField(
+                  onTap: (){
+                    _locationController.clear();
+                    mapDataController.autoCompleteList.clear();
+                    mapDataController.isShowMap.value = false;
+                  },
                   onChanged: (value){
                        mapDataController.searchLocation(keyword: value);
                      mapDataController.getMapData(context, value);
@@ -57,21 +65,36 @@ class _LocationSearchWidgetState extends State<LocationSearchWidget> {
                     border: InputBorder.none, // 하단 밑줄 없애기
                     hintText: '위치',
                   ),
-                  controller: searchController,
+                  controller: _locationController,
                 ).w(200),
               ),
+
             ],
           ),
-          Obx(() =>Container(
-            width: 200.w,
-            height: 200.h,
-            child: mapDataController.autoCompleteList.isNotEmpty ? ListView.separated(
+          Obx(() => mapDataController.autoCompleteList.isNotEmpty ? Expanded(
+            child: ListView.separated(
                 itemBuilder: (context, index) {
                   final mapData = mapDataController.autoCompleteList[index];
                   return GestureDetector(
                     onTap: (){
-                      mapDataController.myPlace.value = mapData.placeName;
-                      searchController.text = mapDataController.myPlace.value;
+                      if(_locationController.text.isNotEmpty){
+                        mapDataController.myPlace.value = mapData.placeName;
+                        _locationController.text = mapDataController.myPlace.value;
+                        ///x y 좌표 적용
+                        mapDataController.gpsX.value = double.parse(mapData.gpsX);
+                        mapDataController.gpsY.value = double.parse(mapData.gpsY);
+                        setState(() {
+                          mapDataController.isShowMap.value = true;
+                          //mapDataController.startLoading();
+                        });
+                      }
+
+                      if(_locationController.text.isEmpty){
+                        setState(() {
+                        mapDataController.isShowMap.value = false;
+                        });
+                      }
+                      print(mapDataController.isShowMap.value);
                     },
                     child: Card(
                       elevation: 1,
@@ -94,8 +117,8 @@ class _LocationSearchWidgetState extends State<LocationSearchWidget> {
                   return Height(smallHeight);
                 },
                 itemCount: mapDataController.autoCompleteList.length,
-              ).pOnly(left:smallWidth) : Container(),
-            ),
+              ).pOnly(left:smallWidth),
+          ) : Container()
           ),
         ],
       ),

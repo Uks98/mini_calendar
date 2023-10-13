@@ -12,7 +12,7 @@ import 'common/data/preference/app_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  //await NaverMapSdk.instance.initialize(clientId: "9sm04db48b");
+  await NaverMapSdk.instance.initialize(clientId: "o8936mrkdm");
   await EasyLocalization.ensureInitialized();
   await AppPreferences.init();
   _initNotiSetting();
@@ -24,7 +24,6 @@ void _initNotiSetting() async {
   AndroidInitializationSettings('@mipmap/ic_launcher');
   tz.initializeTimeZones();
   tz.setLocalLocation(tz.getLocation("Asia/Seoul")); //아시아 서울 시간대로
-
   // const initializationSettingsIOS = IOSInitializationSettings(
   //   requestAlertPermission: false,
   //   requestBadgePermission: false,

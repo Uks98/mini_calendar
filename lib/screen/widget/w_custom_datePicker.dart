@@ -58,7 +58,7 @@ class ShowDateStartPicker extends StatelessWidget with ScreenInit {
                         initialDateTime: DateTime.now(),
                         onDateTimeChanged: (date) =>
                             datePickerStateController.startTimeChanged(date),
-                        mode: CupertinoDatePickerMode.time,
+                        mode: CupertinoDatePickerMode.dateAndTime,
                       ),
                     ),
                   ).w(350).h(100).pOnly(top: smallHeight),

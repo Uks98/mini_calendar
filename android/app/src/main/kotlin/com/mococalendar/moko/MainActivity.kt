@@ -1,4 +1,4 @@
-package com.example.today_my_calendar
+package com.mocoCalendar.moko
 
 import io.flutter.embedding.android.FlutterActivity
 
