@@ -38,6 +38,9 @@ class _CalendarAddPageState extends State<CalendarAddPage>
   final _titleController = TextEditingController();
   final node = FocusNode();
 
+  double gpsX = 0.0;
+  double gpsY = 0.0;
+
   //controller
   DatePickerStateController datePickerStateController =
       Get.put(DatePickerStateController());
@@ -45,13 +48,12 @@ class _CalendarAddPageState extends State<CalendarAddPage>
       Get.put(AlarmSettingController());
   MapDataController mapDataController = Get.put(MapDataController());
 
-  RxBool get isShowStartPicker =>
-      datePickerStateController.isShowStartDatePicker;
+  RxBool get isShowStartPicker => datePickerStateController.isShowStartDatePicker;
 
   RxBool get isShowLastPicker => datePickerStateController.isShowLastDatePicker;
   final alarmSet = Get.put(AlarmSettingController());
   TextEditingController searchController = TextEditingController();
-
+  late NaverMapController naverMapController;
   @override
   void initState() {
     // TODO: implement initState
@@ -61,9 +63,16 @@ class _CalendarAddPageState extends State<CalendarAddPage>
     datePickerStateController.lastSelectedTime.value = widget.schedule.to;
     mapDataController.gpsX.value = widget.schedule.gpsY!;
     mapDataController.gpsY.value = widget.schedule.gpsX!;
-    print("gpsy${mapDataController.gpsX.value}");
-    print("gpsx${mapDataController.gpsY.value}");
+
+    print("gpsy${widget.schedule.gpsY}");
+    print("gpsx${widget.schedule.gpsX}");
     _updateCameraPosition();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
   }
   @override
   Widget build(BuildContext context) {
@@ -114,30 +123,10 @@ class _CalendarAddPageState extends State<CalendarAddPage>
             Height(middleHeight),
             LocationSearchWidget(controller: searchController,),
             ///네이버 맵
-            if(mapDataController.isShowMap.value == true && widget.isShowMap == true)
-              Obx(() =>SizedBox(
-              height: 200.h,
-              width: MediaQuery.of(context).size.width - 60,
-              child:NaverMap(
-                  options: NaverMapViewOptions(
-                    initialCameraPosition: _updateCameraPosition()
-                  ),
-                  onMapReady: (controller) {
-                      setState(() {});
-                      final marker = NMarker(
-                          id: mapDataController.myPlace.value,
-                          position: NLatLng(mapDataController.gpsY.value, mapDataController.gpsX.value));
-                      final onMarkerInfoWindow =
-                      NInfoWindow.onMarker(id: "1", text: widget.schedule.myPlace);
-                      controller.addOverlay(marker);
-                      marker.openInfoWindow(onMarkerInfoWindow);
-                      print(mapDataController.isShowMap.value);
-                     // mapDataController.stopLoading();
-                      _updateCameraPosition();
-                  },
-                ),
-              ),
-            ),
+
+              //mapDataController.isShowMap.value == true && widget.isShowMap == true
+            if(widget.schedule.gpsY != 0.0 || widget.schedule.gpsX != 0.0)
+            showUserMap(),
             // Center(
             //   child: Container(
             //     width: 300,
@@ -160,12 +149,8 @@ class _CalendarAddPageState extends State<CalendarAddPage>
             IconButton(
                 onPressed: () {
                   try {
-                    final lastTime =
-                        datePickerStateController.lastSelectedTime.value;
-                    alarmSet.getAlarmTime(
-                        time: lastTime,
-                        setTextTime: alarmSettingController.alarmTime.value,
-                        context: context);
+                    final lastTime =datePickerStateController.lastSelectedTime.value;
+                    alarmSet.getAlarmTime(id :_titleController.text,time: lastTime, setTextTime: alarmSettingController.alarmTime.value, context: context);
                     Navigator.of(context).pop(Schedule(
                       title: _titleController.text,
                       memo: "abc",
@@ -175,7 +160,8 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                       gpsX: mapDataController.gpsY.value,
                       gpsY: mapDataController.gpsX.value,
                     ));
-
+                    datePickerStateController.isShowStartDatePicker.value = false;
+                    datePickerStateController.isShowLastDatePicker.value = false;
                   } catch (E) {
                     print(E);
                   }
@@ -198,4 +184,39 @@ class _CalendarAddPageState extends State<CalendarAddPage>
         zoom: 17,
       );
     }
+    @override
+  void setState(VoidCallback fn) {
+    // TODO: implement setState
+    super.setState(fn);
+  }
+  Widget showUserMap(){
+    if(widget.isShowMap == true && mapDataController.isShowMap.value == true){
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(middleWidth),
+        child: Container(
+          height: 200.h,
+          width: MediaQuery.of(context).size.width - 80,
+          child:Obx(() =>NaverMap(
+            options: NaverMapViewOptions(
+                initialCameraPosition: _updateCameraPosition()
+            ),
+            onMapReady: (controller) {
+              naverMapController = controller;
+              final marker = NMarker(
+                  id: mapDataController.myPlace.value,
+                  position: NLatLng(mapDataController.gpsY.value, mapDataController.gpsX.value));
+              final onMarkerInfoWindow =
+              NInfoWindow.onMarker(id: "1", text: widget.schedule.myPlace);
+              controller.addOverlay(marker);
+              marker.openInfoWindow(onMarkerInfoWindow);
+              print(mapDataController.isShowMap.value);
+              _updateCameraPosition();
+            },
+          ),
+          ),
+        ),
+      );
+    }
+    return Container();
+  }
 }

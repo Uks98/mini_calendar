@@ -48,6 +48,7 @@ class _LocationSearchWidgetState extends State<LocationSearchWidget> {
                     _locationController.clear();
                     mapDataController.autoCompleteList.clear();
                     mapDataController.isShowMap.value = false;
+                    print(mapDataController.isShowMap.value);
                   },
                   onChanged: (value){
                        mapDataController.searchLocation(keyword: value);
@@ -80,12 +81,10 @@ class _LocationSearchWidgetState extends State<LocationSearchWidget> {
                         mapDataController.gpsX.value = double.parse(mapData.gpsX);
                         mapDataController.gpsY.value = double.parse(mapData.gpsY);
                         mapDataController.autoCompleteList.clear();
-                        setState(() {
                           mapDataController.isShowMap.value = true;
-                          //mapDataController.startLoading();
-                        });
-                      }
+                         print(mapDataController.isShowMap.value);
 
+                      }
                       if(_locationController.text.isEmpty){
                         setState(() {
                         mapDataController.isShowMap.value = false;

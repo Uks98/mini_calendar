@@ -42,52 +42,38 @@ class _CalendarMonthPageState extends State<CalendarMonthPage> with ScreenInit,M
           });
         }
       ),
-      body: Obx(()=>SfCalendar(
-        onTap: (cp) {
-          calendarTapped(context,cp);
-          setState(() {});
-        },
-        controller: _calendarController,
-        headerHeight: 50.h,
-        headerDateFormat: "M",
-        view: CalendarView.month,
-        dataSource: ScheduleDataSource(monthControla.monthDataList.value),
-        monthViewSettings: const MonthViewSettings(
-        appointmentDisplayCount: 4,
-            showAgenda: true,
-            appointmentDisplayMode: MonthAppointmentDisplayMode.appointment),
-      ),)
+      body:Column(
+        children: [
+          Expanded(
+            child: Obx(()=>SfCalendar(
+              key: GlobalKey<_CalendarMonthPageState>(),
+              onTap: (cp) {
+                calendarTapped(context,cp);
+                setState(() {});
+              },
+              controller: _calendarController,
+              headerHeight: 50.h,
+              headerDateFormat: "M",
+              view: CalendarView.month,
+              dataSource: ScheduleDataSource(monthControla.monthDataList.value),
+              monthViewSettings: const MonthViewSettings(
+              appointmentDisplayCount: 4,
+                  showAgenda: true,
+                  appointmentDisplayMode: MonthAppointmentDisplayMode.appointment),
+            ),
+          ),),
+        ],
+      ),
     );
   }
   void calendarTapped(
       BuildContext context, CalendarTapDetails calendarTapDetails) {
     if (calendarTapDetails.targetElement == CalendarElement.appointment) {
       Schedule event = calendarTapDetails.appointments![0];
-      print("y = ${event.gpsY}");
-      print("y = ${event.gpsX}");
       monthControl.editSchedule(event, context);
     }
 
   }
 }
 
-class EventView extends StatelessWidget {
-  Schedule event;
-
-  EventView({super.key, required this.event});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          child: Text(event.from.toString()),
-        ),
-        Container(
-          child: Text(event.to.toString()),
-        ),
-      ],
-    );
-  }
-}
 

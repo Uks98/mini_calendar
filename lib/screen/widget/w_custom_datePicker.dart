@@ -42,12 +42,12 @@ class ShowDateStartPicker extends StatelessWidget with ScreenInit {
                       Obx(() =>
                           formatTime(_selectedDate)
                               .text
-                              .size(bigFontSize)
+                              .size(normalFontSize)
                               .color(ColorBox.pickerText)
                               .make()).pOnly(left: timeTextRightPaddingSize.w)
                     ],
                   ),
-                ).w(360),
+                ).w(390),
                 if (datePickerStateController.isShowStartDatePicker.value)
                   SizedBox(
                     child: Center(
@@ -109,12 +109,12 @@ class ShowDateLastPicker extends StatelessWidget with ScreenInit {
                       Obx(() =>
                               formatTime(_selectedDate)
                               .text
-                              .size(bigFontSize)
+                              .size(normalFontSize)
                               .color(ColorBox.pickerText)
                               .make()).pOnly(left: timeTextRightPaddingSize.w)
                     ],
                   ),
-                ).w(360),
+                ).w(390),
                 if (datePickerStateController.isShowLastDatePicker.value)
                   SizedBox(
                       child: Center(
@@ -132,7 +132,7 @@ class ShowDateLastPicker extends StatelessWidget with ScreenInit {
                         mode: CupertinoDatePickerMode.dateAndTime,
                       ),
                     ),
-                  ).w(360).h(100).pOnly(top: smallHeight)),
+                  ).w(390).h(100).pOnly(top: smallHeight)),
               ],
             ),
           ),

@@ -52,8 +52,9 @@ class MonthControl extends GetxController {
       schedule.title = result.title;
       schedule.to = result.to;
       schedule.from = result.from;
-      schedule.gpsX = result.gpsY;
-      schedule.gpsY = result.gpsX;
+      schedule.myPlace = result.myPlace;
+      schedule.gpsX = result.gpsX;
+      schedule.gpsY = result.gpsY;
 
       ///리스트 추가 및 갱신 함수
     }
