@@ -120,15 +120,15 @@ class ShowDateLastPicker extends StatelessWidget with ScreenInit {
                       child: Center(
                     child: Obx(
                       () => CupertinoDatePicker(
-                        use24hFormat: true,
+                        use24hFormat: false,
                         dateOrder: DatePickerDateOrder.ymd,
                         minimumYear: 2010,
-                        maximumYear: DateTime.now().year,
+                        maximumYear: 2099,
                         initialDateTime: _selectedDate.add(Duration(
                             minutes: datePickerStateController.addTime.value)),
                         onDateTimeChanged: (date) {
                           datePickerStateController.lastTimeChanged(date);
-                        },
+                          },
                         mode: CupertinoDatePickerMode.dateAndTime,
                       ),
                     ),

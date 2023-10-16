@@ -44,6 +44,7 @@ class _LocationSearchWidgetState extends State<LocationSearchWidget> {
   Widget build(BuildContext context) {
     final containerHeight = mapDataController.autoCompleteList.isEmpty ? 100.h : 300.h;
     return Scaffold(
+      appBar: AppBar(title: "위치".text.size(bigFontSize).make(),),
       body: Container(
          height: containerHeight,
         child: Column(

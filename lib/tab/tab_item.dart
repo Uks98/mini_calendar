@@ -7,8 +7,8 @@ import 'package:today_my_calendar/tab/s_setting_page.dart';
 
 
 enum TabItem {
-  calendarMonth(Icons.home, '내 주변', CalendarMonthPage()),
-  calendarDay(Icons.view_day, '유가 동향',CalendarDayPage()),
+  calendarMonth(Icons.home, '캘린더', CalendarMonthPage()),
+  calendarDay(Icons.view_day, '일정',CalendarDayPage()),
   settingPage(Icons.star, '설정', SettingPage()
   );
 

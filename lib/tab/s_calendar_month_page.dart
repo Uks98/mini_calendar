@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/instance_manager.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:today_my_calendar/common/common.dart';
 import 'package:today_my_calendar/common/widget/mixin/init_screen_size_utill.dart';
 import 'package:today_my_calendar/screen/calendar/calendar_data/d_schedule_data.dart';
 import 'package:today_my_calendar/screen/widget/w_calendar_add_page.dart';
@@ -36,12 +37,13 @@ class _CalendarMonthPageState extends State<CalendarMonthPage> with ScreenInit,M
     screenInit(context);
     return Scaffold(
       floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
         onPressed: (){
           setState(() {
           monthControl.addSchedule(context);
           });
         }
-      ),
+      ).pOnly(bottom: 20),
       body:Column(
         children: [
           Expanded(

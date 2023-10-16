@@ -47,9 +47,10 @@ class _CalendarAddPageState extends State<CalendarAddPage>
   MapDataController mapDataController = Get.put(MapDataController());
   double? outPageGpsX = 0.0;
   double? outPageGpsY = 0.0;
-  String? outPagePlace = "abv";
-  RxBool get isShowStartPicker =>
-      datePickerStateController.isShowStartDatePicker;
+  String? outPagePlace = "";
+  bool get isOnMap=> outPageGpsX != 0.0 ? true : false;
+
+  RxBool get isShowStartPicker => datePickerStateController.isShowStartDatePicker;
 
   RxBool get isShowLastPicker => datePickerStateController.isShowLastDatePicker;
   final alarmSet = Get.put(AlarmSettingController());
@@ -64,6 +65,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
     datePickerStateController.lastSelectedTime.value = widget.schedule.to;
     outPageGpsX = widget.schedule.gpsY!;
     outPageGpsY = widget.schedule.gpsX!;
+    outPagePlace = widget.schedule.myPlace;
     _updateCameraPosition();
   }
 
@@ -141,10 +143,13 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                 GestureDetector(
                     onTap: ()async{
                       final gps =  await Get.to<Schedule>(LocationSearchWidget());
-                      outPageGpsX = gps?.gpsX;
-                      outPageGpsY = gps?.gpsY;
+                      if(gps != null){
+                        outPageGpsX = gps.gpsX ?? 0.0;
+                        outPageGpsY = gps.gpsY ?? 0.0;
+                      }
                       outPagePlace = gps?.myPlace;
-                      print(outPagePlace);
+                      print("is on map${isOnMap}");
+                      setState(() {});
                     } ,
                     child: Row(
                       children: [
@@ -153,12 +158,11 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                       ],
                     )),
 
-                //LocationSearchWidget(controller: searchController,),
 
                 ///네이버 맵
 
                 //mapDataController.isShowMap.value == true && widget.isShowMap == true
-                if((widget.schedule.gpsY != 0.0 || widget.schedule.gpsX != 0.0))
+                if((widget.schedule.gpsY != 0.0 || widget.schedule.gpsX != 0.0) || isOnMap == true)
                   showUserMap(),
                 // Center(
                 //   child: Container(
@@ -234,7 +238,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                   id: mapDataController.myPlace.value,
                   position: NLatLng(outPageGpsY!,outPageGpsX!));
               final onMarkerInfoWindow =
-              NInfoWindow.onMarker(id: "", text: widget.schedule.myPlace);
+              NInfoWindow.onMarker(id: "", text: outPagePlace.toString());
               controller.addOverlay(marker);
               marker.openInfoWindow(onMarkerInfoWindow);
             // print(mapDataController.isShowMap.value);
