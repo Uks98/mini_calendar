@@ -46,8 +46,10 @@ class MonthControl extends GetxController {
           builder: (BuildContext context) => CalendarAddPage(
                 schedule: schedule,
             isShowMap: true,
-              ),),
+          ),
+      ),
     );
+    print("edit place${schedule.myPlace}");
     if (result != null) {
       schedule.title = result.title;
       schedule.to = result.to;

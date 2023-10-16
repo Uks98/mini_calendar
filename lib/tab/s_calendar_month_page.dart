@@ -14,7 +14,7 @@ import '../controller/month_data_controller.dart';
 import '../screen/calendar/calendar_data/schecule_data_source.dart';
 
 class CalendarMonthPage extends StatefulWidget with ScreenInit {
-  const CalendarMonthPage({super.key});
+  const CalendarMonthPage( {super.key,});
 
   @override
   State<CalendarMonthPage> createState() => _CalendarMonthPageState();
@@ -45,21 +45,23 @@ class _CalendarMonthPageState extends State<CalendarMonthPage> with ScreenInit,M
       body:Column(
         children: [
           Expanded(
-            child: Obx(()=>SfCalendar(
+            child: Obx(()=>Scaffold(
               key: GlobalKey<_CalendarMonthPageState>(),
-              onTap: (cp) {
-                calendarTapped(context,cp);
-                setState(() {});
-              },
-              controller: _calendarController,
-              headerHeight: 50.h,
-              headerDateFormat: "M",
-              view: CalendarView.month,
-              dataSource: ScheduleDataSource(monthControla.monthDataList.value),
-              monthViewSettings: const MonthViewSettings(
-              appointmentDisplayCount: 4,
-                  showAgenda: true,
-                  appointmentDisplayMode: MonthAppointmentDisplayMode.appointment),
+              body: SfCalendar(
+                onTap: (cp) {
+                  calendarTapped(context,cp);
+                  setState(() {});
+                },
+                controller: _calendarController,
+                headerHeight: 50.h,
+                headerDateFormat: "M",
+                view: CalendarView.month,
+                dataSource: ScheduleDataSource(monthControla.monthDataList.value),
+                monthViewSettings: const MonthViewSettings(
+                appointmentDisplayCount: 4,
+                    showAgenda: true,
+                    appointmentDisplayMode: MonthAppointmentDisplayMode.indicator),
+              ),
             ),
           ),),
         ],
@@ -70,9 +72,9 @@ class _CalendarMonthPageState extends State<CalendarMonthPage> with ScreenInit,M
       BuildContext context, CalendarTapDetails calendarTapDetails) {
     if (calendarTapDetails.targetElement == CalendarElement.appointment) {
       Schedule event = calendarTapDetails.appointments![0];
-      monthControl.editSchedule(event, context);
+      print("abcs${event.myPlace}");
+     monthControl.editSchedule(event, context);
     }
-
   }
 }
 
