@@ -27,6 +27,8 @@ class _LocationSearchWidgetState extends State<LocationSearchWidget> {
   Schedule? schedule;
   final TextEditingController _locationController = TextEditingController();
 
+  String searchPlace = "";
+
   @override
   void initState() {
       mapDataController.searchLocation(context: context,keyword:_locationController.text);
@@ -85,6 +87,7 @@ class _LocationSearchWidgetState extends State<LocationSearchWidget> {
                           ///x y 좌표 적용
                           searchGpsX = double.parse(mapData.gpsY); //gps x
                           searchGpsY = double.parse(mapData.gpsX); //gps y
+                          searchPlace = mapData.placeName;
                           mapDataController.autoCompleteList.clear();
                             mapDataController.isShowMap.value = true;
 
@@ -94,9 +97,9 @@ class _LocationSearchWidgetState extends State<LocationSearchWidget> {
 
 
                         Navigator.of(context).pop(Schedule(
-                            myPlace : mapData.placeName,gpsX: searchGpsY,gpsY: searchGpsX, title: '', memo: '', from: DateTime.now(), to: DateTime.now()));
+                            myPlace : searchPlace,gpsX: searchGpsY,gpsY: searchGpsX, title: '', memo: '', from: DateTime.now(), to: DateTime.now()));
                         print("xxxxxxxx${searchGpsX}");
-                        print("yyyyy${searchGpsY}");
+                        print("yyyyy${searchPlace}");
                       },
                       child: Card(
                         elevation: 1,

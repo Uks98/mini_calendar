@@ -47,6 +47,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
   MapDataController mapDataController = Get.put(MapDataController());
   double? outPageGpsX = 0.0;
   double? outPageGpsY = 0.0;
+  String? outPagePlace = "abv";
   RxBool get isShowStartPicker =>
       datePickerStateController.isShowStartDatePicker;
 
@@ -61,12 +62,8 @@ class _CalendarAddPageState extends State<CalendarAddPage>
     _titleController.text = widget.schedule.title.toString();
     datePickerStateController.startSelectedTime.value = widget.schedule.from;
     datePickerStateController.lastSelectedTime.value = widget.schedule.to;
-    outPageGpsX = widget.schedule.gpsX!;
-    outPageGpsY = widget.schedule.gpsY!;
-
-
-    mapDataController.myPlace.value = widget.schedule.myPlace;
-    print("placesss${ widget.schedule.myPlace}");
+    outPageGpsX = widget.schedule.gpsY!;
+    outPageGpsY = widget.schedule.gpsX!;
     _updateCameraPosition();
   }
 
@@ -86,7 +83,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
 
   NCameraPosition _updateCameraPosition() {
     return NCameraPosition(
-      target: NLatLng(outPageGpsX!, outPageGpsY!),
+      target: NLatLng(outPageGpsY!, outPageGpsX!),
       zoom: 17,
     );
   }
@@ -146,11 +143,13 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                       final gps =  await Get.to<Schedule>(LocationSearchWidget());
                       outPageGpsX = gps?.gpsX;
                       outPageGpsY = gps?.gpsY;
+                      outPagePlace = gps?.myPlace;
+                      print(outPagePlace);
                     } ,
                     child: Row(
                       children: [
                         "위치".text.make(),
-                        widget.schedule.myPlace.text.size(bigFontSize).make().pOnly(right: 4),
+                        outPagePlace!.text.size(bigFontSize).make().pOnly(right: 4),
                       ],
                     )),
 
@@ -233,7 +232,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
               naverMapController = controller;
               final marker = NMarker(
                   id: mapDataController.myPlace.value,
-                  position: NLatLng(outPageGpsX!,outPageGpsY!));
+                  position: NLatLng(outPageGpsY!,outPageGpsX!));
               final onMarkerInfoWindow =
               NInfoWindow.onMarker(id: "", text: widget.schedule.myPlace);
               controller.addOverlay(marker);
