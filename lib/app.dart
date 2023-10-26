@@ -71,8 +71,9 @@ class AppState extends State<App> with Nav, WidgetsBindingObserver {
         break;
       case AppLifecycleState.detached:
         break;
-      //case AppLifecycleState.hidden:
+      case AppLifecycleState.hidden:
         // TODO: Handle this case.
+        break;
     }
     super.didChangeAppLifecycleState(state);
   }

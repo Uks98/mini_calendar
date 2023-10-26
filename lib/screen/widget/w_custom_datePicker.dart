@@ -38,7 +38,7 @@ class ShowDateStartPicker extends StatelessWidget with ScreenInit {
                 SizedBox(
                   child: Row(
                     children: [
-                      "${startText}".text.size(bigFontSize).make(),
+                      "${startText}".text.size(normalFontSize).make(),
                       Obx(() =>
                           formatTime(_selectedDate)
                               .text
@@ -105,7 +105,7 @@ class ShowDateLastPicker extends StatelessWidget with ScreenInit {
                 SizedBox(
                   child: Row(
                     children: [
-                      "${startText}".text.size(bigFontSize).make(),
+                      "${startText}".text.size(normalFontSize).make(),
                       Obx(() =>
                               formatTime(_selectedDate)
                               .text

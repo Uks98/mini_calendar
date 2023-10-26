@@ -18,8 +18,9 @@ class AlarmSettingTile extends StatelessWidget {
     String arlText = alarmController.alarmTime.value;
     return Container(
       child: Row(
+
         children: [
-          "알림".text.size(bigFontSize).make(),
+          "알림".text.size(normalFontSize).make(),
       ContextMenuArea(
         width: 230.w,
         builder: (context) => [
@@ -30,7 +31,7 @@ class AlarmSettingTile extends StatelessWidget {
          buildAlarmListTile(alarmController,"30분 전",context),
          buildAlarmListTile(alarmController,"1시간 전",context),
         ],
-        child: Obx(()=>alarmController.alarmTime.value.text.size(bigFontSize).make().pOnly(left: 210.w),
+        child: Obx(()=>alarmController.alarmTime.value.text.size(bigFontSize).make().pOnly(left: isTextLengthPadding(alarmController.alarmTime.value) ? 260.w : 250.w),
       ))
         ],
       ),
@@ -42,5 +43,12 @@ class AlarmSettingTile extends StatelessWidget {
           alarmController.alarmTime.value = alarmText;
           Navigator.of(context).pop();
         },);
+  }
+  bool isTextLengthPadding(String text){
+    if(text.length > 2){
+      return false;
+    }else{
+      return true;
+    }
   }
 }

@@ -49,7 +49,6 @@ class _CalendarAddPageState extends State<CalendarAddPage>
   double? outPageGpsY = 0.0;
   String? outPagePlace = "";
   bool get isOnMap=> outPageGpsX != 0.0 ? true : false;
-
   RxBool get isShowStartPicker => datePickerStateController.isShowStartDatePicker;
 
   RxBool get isShowLastPicker => datePickerStateController.isShowLastDatePicker;
@@ -125,7 +124,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
 
                 ///종료 시간
                 ShowDateLastPicker(
-                  dateTime: DateTime.now(),
+                  dateTime: DateTime.now().add(Duration(hours: 1)),
                   startText: "종료",
                   datePickerStateController: datePickerStateController,
                 ),
@@ -142,18 +141,20 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                 ///위치 받아오기
                 GestureDetector(
                     onTap: ()async{
-                      final gps =  await Get.to<Schedule>(LocationSearchWidget());
-                      if(gps != null){
-                        outPageGpsX = gps.gpsX ?? 0.0;
-                        outPageGpsY = gps.gpsY ?? 0.0;
+                      var gps =  await Get.to<Schedule>(LocationSearchWidget());
+                      print("gps ${gps?.title}");
+                      if(gps == null){
+                        gps = Schedule(title: '', memo: '', from: DateTime.now(), to: DateTime.now(), myPlace: '', gpsX: 0.0, gpsY: 0.0);
+                      }else{
+                        outPageGpsX = gps.gpsX;
+                        outPageGpsY = gps.gpsY;
                       }
                       outPagePlace = gps?.myPlace;
-                      print("is on map${isOnMap}");
                       setState(() {});
                     } ,
                     child: Row(
                       children: [
-                        "위치".text.make(),
+                        "위치".text.size(normalFontSize).make(),
                         outPagePlace!.text.size(bigFontSize).make().pOnly(right: 4),
                       ],
                     )),

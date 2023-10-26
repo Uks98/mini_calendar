@@ -16,6 +16,6 @@ const spacer = Spacer();
  double bigFontSize = 18.0;
 
  ///타이머 시간 오른쪽 여백
-int timeTextRightPaddingSize = 150;
+int timeTextRightPaddingSize = 170;
 ///알람시간 오른쪽 여백
 int alarmTextRightPaddingSize = 10;
