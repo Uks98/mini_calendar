@@ -18,6 +18,7 @@ import '../../controller/alarm_setting_controller.dart';
 import '../../controller/date_picker_controller.dart';
 import '../../controller/map_data_controller.dart';
 import '../../tab/s_calendar_month_page.dart';
+import '../calendar/s_color_select_page.dart';
 import 'w_location_search_widget.dart';
 import 'alarm_setting_tile.dart';
 
@@ -35,7 +36,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
     with AfterLayoutMixin, ScreenInit {
   final double _textFieldWidth = 350;
   final double _textFieldHeight = 350;
-  final double _quickWidgetLeftPadding = 270;
+  final double _quickWidgetLeftPadding = 290;
   final _titleController = TextEditingController();
   final node = FocusNode();
 
@@ -114,7 +115,8 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                     spacer,
                   ],
                 ),
-
+                ///색상
+                const ColorSelectPage(),
                 ///시작 시간
                 ShowDateStartPicker(
                   dateTime: DateTime.now(),

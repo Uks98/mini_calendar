@@ -37,6 +37,7 @@ class ShowDateStartPicker extends StatelessWidget with ScreenInit {
               children: [
                 SizedBox(
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       "${startText}".text.size(normalFontSize).make(),
                       Obx(() =>
@@ -44,7 +45,7 @@ class ShowDateStartPicker extends StatelessWidget with ScreenInit {
                               .text
                               .size(normalFontSize)
                               .color(ColorBox.pickerText)
-                              .make()).pOnly(left: timeTextRightPaddingSize.w)
+                              .make()).pOnly()
                     ],
                   ),
                 ).w(390),
@@ -61,7 +62,7 @@ class ShowDateStartPicker extends StatelessWidget with ScreenInit {
                         mode: CupertinoDatePickerMode.dateAndTime,
                       ),
                     ),
-                  ).w(350).h(100).pOnly(top: smallHeight),
+                  ).w(350.w).h(100.h).pOnly(top: smallHeight),
               ],
             ),
           ),
@@ -104,6 +105,7 @@ class ShowDateLastPicker extends StatelessWidget with ScreenInit {
               children: [
                 SizedBox(
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       "${startText}".text.size(normalFontSize).make(),
                       Obx(() =>
@@ -111,7 +113,7 @@ class ShowDateLastPicker extends StatelessWidget with ScreenInit {
                               .text
                               .size(normalFontSize)
                               .color(ColorBox.pickerText)
-                              .make()).pOnly(left: timeTextRightPaddingSize.w)
+                              .make()).pOnly(left: 10)
                     ],
                   ),
                 ).w(390),

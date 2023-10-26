@@ -15,7 +15,6 @@ class AlarmSettingTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AlarmSettingController alarmController = Get.put(AlarmSettingController());
-    String arlText = alarmController.alarmTime.value;
     return Container(
       child: Row(
 

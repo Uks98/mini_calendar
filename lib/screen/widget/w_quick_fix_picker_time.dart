@@ -32,7 +32,7 @@ class QuickFixerDateWidget extends StatelessWidget with ScreenInit{
         TimeTileWidget(dateChangeController: dateChangeController,addMinute: () => addMinutes(1440), time: '1일',),
       ],
       child: Obx(()=>SizedBox(
-        child: dateChangeController.changeTimeText.value.text.color(ColorBox.pickerText).align(TextAlign.right).size(normalFontSize.sp).make(),
+        child: dateChangeController.changeTimeText.value.text.size(normalFontSize).color(ColorBox.pickerText).align(TextAlign.right).size(normalFontSize.sp).make(),
       ),),
     );
   }
@@ -55,7 +55,7 @@ class TimeTileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: time.text.make(),
+      title: time.text.size(normalFontSize).make(),
       onTap: () {
         dateChangeController.changeTimeText.value = time;
         if(time == "0분"){
