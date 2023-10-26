@@ -31,7 +31,7 @@ class AlarmSettingTile extends StatelessWidget {
          buildAlarmListTile(alarmController,"30분 전",context),
          buildAlarmListTile(alarmController,"1시간 전",context),
         ],
-        child: Obx(()=>alarmController.alarmTime.value.text.size(bigFontSize).make().pOnly(left: isTextLengthPadding(alarmController.alarmTime.value) ? 260.w : 250.w),
+        child: Obx(()=>alarmController.alarmTime.value.text.size(bigFontSize).make().pOnly(left: isTextLengthPadding(alarmController.alarmTime.value) ? 270.w : 255.w),
       ))
         ],
       ),

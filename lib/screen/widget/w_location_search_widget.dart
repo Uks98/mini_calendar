@@ -25,6 +25,7 @@ class _LocationSearchWidgetState extends State<LocationSearchWidget> {
   MapDataController mapDataController = Get.put(MapDataController());
   double searchGpsX = 0.0;
   double searchGpsY = 0.0;
+  double textFieldLeftPadding = 20.0;
   Schedule? schedule;
   final TextEditingController _locationController = TextEditingController();
 
@@ -43,9 +44,11 @@ class _LocationSearchWidgetState extends State<LocationSearchWidget> {
     _locationController.dispose();
   }
   Widget build(BuildContext context) {
-    final containerHeight = mapDataController.autoCompleteList.isEmpty ? 300.h : 100.h;
+    const containerHeight = 300.0;
     return Scaffold(
-      appBar: AppBar(title: "위치".text.size(bigFontSize).make(),
+      appBar: AppBar(
+
+        title: "위치".text.size(bigFontSize).make(),
         leading: IconButton(
           icon: Icon(Icons.close),
           onPressed: () {
@@ -53,15 +56,15 @@ class _LocationSearchWidgetState extends State<LocationSearchWidget> {
             //Navigator.push(context, MaterialPageRoute(builder: (context) => CalendarAddPage(schedule: Schedule(title: '',memo: '',from: DateTime.now(),to: DateTime.now(),myPlace: "",gpsX: 0.0,gpsY: 0.0), isShowMap: false)));
           },
         ),
+        centerTitle: true,
       ),
-      body: Container(
-        color: Colors.red,
+      body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
-                "위치".text.size(bigFontSize).make().pOnly(right: 4),
+                Icon(Icons.search_outlined),
                 Container(
                   width: 200.w,
                   child: TextField(
@@ -79,61 +82,58 @@ class _LocationSearchWidgetState extends State<LocationSearchWidget> {
                       contentPadding:
                           EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                       border: InputBorder.none, // 하단 밑줄 없애기
-                      hintText: '위치',
+                      hintText: '위치를 입력하세요.',
+                      //hintStyle: TextStyle(color: )
                     ),
                     controller: _locationController,
-                  ).w(200),
+                  ).w(200).pOnly(left: textFieldLeftPadding),
                 ),
               ],
-            ),
+            ).pOnly(left: textFieldLeftPadding),
             Obx(() =>mapDataController.autoCompleteList.isNotEmpty ? SingleChildScrollView(
-              child: Container(
-                height: containerHeight,
-                child: ListView.separated(
-                    itemBuilder: (context, index) {
-                      final mapData = mapDataController.autoCompleteList[index];
-                      return GestureDetector(
-                        onTap: (){
-                            mapDataController.myPlace.value = mapData.placeName;
-                            _locationController.text = mapDataController.myPlace.value;
-                            ///x y 좌표 적용
-                            searchGpsX = double.parse(mapData.gpsY); //gps x
-                            searchGpsY = double.parse(mapData.gpsX); //gps y
-                            searchPlace = mapData.placeName;
-                            mapDataController.autoCompleteList.clear();
-                              mapDataController.isShowMap.value = true;
+              child: ListView.separated(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    final mapData = mapDataController.autoCompleteList[index];
+                    return GestureDetector(
+                      onTap: (){
+                          mapDataController.myPlace.value = mapData.placeName;
+                          _locationController.text = mapDataController.myPlace.value;
+                          ///x y 좌표 적용
+                          searchGpsX = double.parse(mapData.gpsY); //gps x
+                          searchGpsY = double.parse(mapData.gpsX); //gps y
+                          searchPlace = mapData.placeName;
+                          mapDataController.autoCompleteList.clear();
+                            mapDataController.isShowMap.value = true;
 
-                          if(_locationController.text.isEmpty){
-                            mapDataController.isShowMap.value = false;
-                          }
-                          Navigator.of(context).pop(Schedule(
-                              myPlace : searchPlace,gpsX: searchGpsY,gpsY: searchGpsX, title: '', memo: '', from: DateTime.now(), to: DateTime.now()));
-                        },
-                        child: Card(
-                          elevation: 1,
-                          color: AppColors.darkGrey,
-                          child: Expanded(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                mapData.placeName.text.size(normalFontSize).make(),
-                                mapData.address.text
-                                    .size(smallFontSize)
-                                    .color(AppColors.brightGrey)
-                                    .make()
-                              ],
-                            ).paddingAll(smallHeight + 2.h),
-                          ),
-                        ),
-                      );
-                    },
-                    separatorBuilder: (BuildContext context, int index) {
-                      return Height(smallHeight);
-                    },
-                    itemCount: mapDataController.autoCompleteList.length,
-                  ).pOnly(left:smallWidth),
-              ),
+                        if(_locationController.text.isEmpty){
+                          mapDataController.isShowMap.value = false;
+                        }
+                        Navigator.of(context).pop(Schedule(
+                            myPlace : searchPlace,gpsX: searchGpsY,gpsY: searchGpsX, title: '', memo: '', from: DateTime.now(), to: DateTime.now()));
+                      },
+                      child: Card(
+                        elevation: 1,
+                        color: AppColors.darkGrey,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            mapData.placeName.text.size(normalFontSize).make(),
+                            mapData.address.text
+                                .size(smallFontSize)
+                                .color(AppColors.brightGrey)
+                                .make()
+                          ],
+                        ).paddingAll(smallHeight + 2.h),
+                      ),
+                    );
+                  },
+                  separatorBuilder: (BuildContext context, int index) {
+                    return Height(smallHeight);
+                  },
+                  itemCount: mapDataController.autoCompleteList.length,
+                ).pOnly(left:smallWidth),
             ) : Container()),
           ],
         ),
