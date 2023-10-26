@@ -7,6 +7,7 @@ class Schedule {
         required this.myPlace,
         required this.gpsX,
         required this.gpsY,
+        required this.colorIndex,
        // required this.eventColor,
         });
 
@@ -22,4 +23,5 @@ class Schedule {
  ///gps x
  double? gpsX;
  double? gpsY;
+ int colorIndex = 0;
 }

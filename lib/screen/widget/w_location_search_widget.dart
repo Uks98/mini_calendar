@@ -111,7 +111,7 @@ class _LocationSearchWidgetState extends State<LocationSearchWidget> {
                           mapDataController.isShowMap.value = false;
                         }
                         Navigator.of(context).pop(Schedule(
-                            myPlace : searchPlace,gpsX: searchGpsY,gpsY: searchGpsX, title: '', memo: '', from: DateTime.now(), to: DateTime.now()));
+                            myPlace : searchPlace,gpsX: searchGpsY,gpsY: searchGpsX, title: '', memo: '', from: DateTime.now(), to: DateTime.now(),colorIndex: 0));
                       },
                       child: Card(
                         elevation: 1,

@@ -1,18 +1,19 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
-import 'package:get/get_utils/get_utils.dart';
+import 'package:get/get.dart';
 import 'package:today_my_calendar/common/common.dart';
 import 'package:today_my_calendar/common/constant/app_colors.dart';
 import 'package:today_my_calendar/common/constant/constant_widget.dart';
 import 'package:today_my_calendar/screen/calendar/s_color_select_page.dart';
+import 'package:today_my_calendar/screen/widget/w_calendar_add_page.dart';
+
+import '../calendar/calendar_data/d_schedule_data.dart';
 
 class CustomBottomSheet {
-  void showCustomBottomSheet(BuildContext context,
+  Future showCustomBottomSheet(BuildContext context,
       {required double radius, required String title}) {
     int _selectIndex = 0; //선택한 컬러 인덱스
-    showModalBottomSheet(
+    return showModalBottomSheet(
       context: context,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
@@ -51,8 +52,7 @@ class CustomBottomSheet {
                           return GestureDetector(
                               onTap: (){
                                 colorController.selectIndex.value = index;
-                                print("real ${index}");
-                                print(colorController.selectIndex.value);
+                                Navigator.of(context).pop(index);
                               },
                               child: Obx(()=>circleOutlined(color, listIndex: index, checkIndex: colorController.selectIndex.value)));
                         }),

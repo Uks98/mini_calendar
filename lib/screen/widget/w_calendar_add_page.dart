@@ -49,6 +49,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
   double? outPageGpsX = 0.0;
   double? outPageGpsY = 0.0;
   String? outPagePlace = "";
+  int _colorIndex = 0;
   bool get isOnMap=> outPageGpsX != 0.0 ? true : false;
   RxBool get isShowStartPicker => datePickerStateController.isShowStartDatePicker;
 
@@ -65,7 +66,9 @@ class _CalendarAddPageState extends State<CalendarAddPage>
     datePickerStateController.lastSelectedTime.value = widget.schedule.to;
     outPageGpsX = widget.schedule.gpsY!;
     outPageGpsY = widget.schedule.gpsX!;
+    print(widget.schedule.myPlace);
     outPagePlace = widget.schedule.myPlace;
+    _colorIndex = widget.schedule.colorIndex;
     _updateCameraPosition();
   }
 
@@ -116,7 +119,29 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                   ],
                 ),
                 ///색상
-                const ColorSelectPage(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                "색상".text.size(normalFontSize).make(),
+                SizedBox(width: smallWidth,),
+                Tap(
+                  onTap: ()async{
+                    final corIndex = await customBottomSheet.showCustomBottomSheet(context,radius: 20.0.w,title: "이벤트 색상");
+                    _colorIndex = corIndex;
+                    setState(() {});
+                    print("나는야 인덱스${_colorIndex}}");
+                  },
+                  child: Obx(()=>Container(
+                    width: 20.w,
+                    height: 20.h,
+                    decoration: BoxDecoration(
+                      color: colorController.colorList[_colorIndex!],
+                      borderRadius: BorderRadius.circular(smallHeight),
+                    ),
+                  ).pOnly(right: bigWidth),
+                ),),
+              ],
+            ),
                 ///시작 시간
                 ShowDateStartPicker(
                   dateTime: DateTime.now(),
@@ -146,12 +171,12 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                       var gps =  await Get.to<Schedule>(LocationSearchWidget());
                       print("gps ${gps?.title}");
                       if(gps == null){
-                        gps = Schedule(title: '', memo: '', from: DateTime.now(), to: DateTime.now(), myPlace: '', gpsX: 0.0, gpsY: 0.0);
+                        gps = Schedule(title: '', memo: '', from: DateTime.now(), to: DateTime.now(), myPlace: '', gpsX: 0.0, gpsY: 0.0,colorIndex: 0);
                       }else{
                         outPageGpsX = gps.gpsX;
                         outPageGpsY = gps.gpsY;
                       }
-                      outPagePlace = gps?.myPlace;
+                      outPagePlace = gps.myPlace; //?.
                       setState(() {});
                     } ,
                     child: Row(
@@ -204,6 +229,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                           myPlace: mapDataController.myPlace.value,
                           gpsX: outPageGpsY,
                           gpsY: outPageGpsX,
+                          colorIndex: _colorIndex,
                         ));
                         datePickerStateController.isShowStartDatePicker.value =
                         false;

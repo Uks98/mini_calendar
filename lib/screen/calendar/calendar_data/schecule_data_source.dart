@@ -1,10 +1,16 @@
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
+import '../../../controller/color_select_controller.dart';
+import '../../../controller/month_data_controller.dart';
 import 'd_schedule_data.dart';
 
 class ScheduleDataSource extends CalendarDataSource {
+  int colorIndex = 1;
+  ColorSelectController colorController = Get.put(ColorSelectController());
+  MonthControl monthController = Get.put(MonthControl());
   /// Creates a meeting data source, which used to set the appointment
   /// collection to the calendar
   ScheduleDataSource(List<Schedule> source) {
@@ -24,6 +30,12 @@ class ScheduleDataSource extends CalendarDataSource {
   String getSubject(int index) {
     return _getMeetingData(index).title;
   }
+
+  @override
+  Color getColor(int cor) {
+    return colorController.colorList[monthController.monthDataList[cor].colorIndex];
+  }
+
 
   Schedule _getMeetingData(int index) {
     final dynamic schedule = appointments![index];
