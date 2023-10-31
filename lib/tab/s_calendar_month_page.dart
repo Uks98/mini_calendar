@@ -31,12 +31,12 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
     super.initState();
   }
 
-  // WriteTodoDialog calendarBottomSheet = WriteTodoDialog();
   @override
   Widget build(BuildContext context) {
     MonthControl monthControla = Get.put(MonthControl());
     screenInit(context);
     return Scaffold(
+      key: GlobalKey<_CalendarMonthPageState>(),
       floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
           onPressed: () {
@@ -46,11 +46,10 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
           }).pOnly(bottom: 20),
       body: Column(
         children: [
-          Expanded(
-            child: Obx(
-              () => Scaffold(
-                key: GlobalKey<_CalendarMonthPageState>(),
-                body: SfCalendar(
+          Obx(
+            () =>
+              Expanded(
+                child: SfCalendar(
                   onTap: (cp) {
                     calendarTapped(context, cp);
                     setState(() {});
@@ -61,8 +60,26 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
                   view: CalendarView.month,
                   dataSource:
                       ScheduleDataSource(monthControla.monthDataList.value),
-                  monthViewSettings: const MonthViewSettings(
-                    dayFormat: "EEE",
+                  monthViewSettings: MonthViewSettings(
+                    agendaViewHeight: 200.0.h,
+                      monthCellStyle: const MonthCellStyle(
+                          textStyle: TextStyle(
+                              fontStyle: FontStyle.normal,
+                              fontSize: 15,
+                              color: Colors.black),
+                          trailingDatesTextStyle: TextStyle(
+                              fontStyle: FontStyle.normal,
+                              fontSize: 15,
+                              color: Colors.black),
+                          leadingDatesTextStyle: TextStyle(
+                              fontStyle: FontStyle.normal,
+                              fontSize: 15,
+                              color: Colors.black),
+
+                          todayBackgroundColor: Colors.blue,
+                          leadingDatesBackgroundColor: Colors.grey,
+                          trailingDatesBackgroundColor: Colors.grey),
+                      dayFormat: "EEE",
                       agendaStyle: AgendaStyle(
                           backgroundColor: Colors.black,
                           appointmentTextStyle: TextStyle(
@@ -78,14 +95,13 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
                               fontSize: 25,
                               fontWeight: FontWeight.bold,
                               fontStyle: FontStyle.normal)),
-
                       appointmentDisplayCount: 4,
                       showAgenda: true,
                       appointmentDisplayMode:
                           MonthAppointmentDisplayMode.indicator),
                 ),
               ),
-            ),
+
           ),
         ],
       ),
