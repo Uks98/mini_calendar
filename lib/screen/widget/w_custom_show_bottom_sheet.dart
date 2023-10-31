@@ -12,7 +12,6 @@ import '../calendar/calendar_data/d_schedule_data.dart';
 class CustomBottomSheet {
   Future showCustomBottomSheet(BuildContext context,
       {required double radius, required String title}) {
-    int _selectIndex = 0; //선택한 컬러 인덱스
     return showModalBottomSheet(
       context: context,
       shape: RoundedRectangleBorder(

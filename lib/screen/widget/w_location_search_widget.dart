@@ -53,7 +53,6 @@ class _LocationSearchWidgetState extends State<LocationSearchWidget> {
           icon: Icon(Icons.close),
           onPressed: () {
             Navigator.of(context).pop();
-            //Navigator.push(context, MaterialPageRoute(builder: (context) => CalendarAddPage(schedule: Schedule(title: '',memo: '',from: DateTime.now(),to: DateTime.now(),myPlace: "",gpsX: 0.0,gpsY: 0.0), isShowMap: false)));
           },
         ),
         centerTitle: true,
@@ -119,7 +118,7 @@ class _LocationSearchWidgetState extends State<LocationSearchWidget> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            mapData.placeName.text.size(normalFontSize).make(),
+                            mapData.placeName.text.size(normalFontSize).color(AppColors.brightGrey).make(),
                             mapData.address.text
                                 .size(smallFontSize)
                                 .color(AppColors.brightGrey)

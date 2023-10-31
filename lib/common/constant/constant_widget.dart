@@ -22,3 +22,6 @@ const spacer = Spacer();
 double timeTextRightPaddingSize = 170;
 ///알람시간 오른쪽 여백
 double alarmTextRightPaddingSize = 10;
+
+///add page 위젯간 여백입니다.
+double addPageHeight = 20.h;
