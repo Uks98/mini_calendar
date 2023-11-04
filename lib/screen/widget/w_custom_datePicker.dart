@@ -28,6 +28,7 @@ class ShowDateStartPicker extends StatelessWidget with ScreenInit {
   Widget build(BuildContext context) {
     screenInit(context);
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Tap(
           onTap: () => datePickerStateController.showStartPicker(),
@@ -71,7 +72,7 @@ class ShowDateStartPicker extends StatelessWidget with ScreenInit {
     );
   }
   String formatTime(DateTime dateTime) {
-    final DateFormat formatter = DateFormat('MMM dd일 HH시 mm분');
+    final DateFormat formatter = DateFormat('M월 dd일 HH시 mm분');
     final String formatted = formatter.format(dateTime);
     return formatted;
   }
@@ -96,6 +97,7 @@ class ShowDateLastPicker extends StatelessWidget with ScreenInit {
   Widget build(BuildContext context) {
     screenInit(context);
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Tap(
           onTap: () => datePickerStateController.showLastPicker(),
@@ -144,7 +146,7 @@ class ShowDateLastPicker extends StatelessWidget with ScreenInit {
   }
 
   String formatTime(DateTime dateTime) {
-    final DateFormat formatter = DateFormat('MMM dd일 HH시 mm분');
+    final DateFormat formatter = DateFormat('M월 dd일 HH시 mm분');
     final String formatted = formatter.format(dateTime);
     return formatted;
   }
