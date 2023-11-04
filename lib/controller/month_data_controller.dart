@@ -16,14 +16,22 @@ class MonthControl extends GetxController {
     super.onInit();
     getToInitList();
   }
-
+  //id
+  int get newId {
+    return DateTime.now().microsecondsSinceEpoch;
+  }
+  void getToInitList()async{
+    final getMeetingList = await localDB.getTodoList();
+    monthDataList.addAll(getMeetingList);
+  }
+  ///스케쥴 추가
   void addSchedule(BuildContext context) async {
     final result = await Navigator.push<Schedule>(
       context,
       MaterialPageRoute(
         builder: (BuildContext context) => CalendarAddPage(
           schedule: Schedule(
-            id : null,
+            id : newId,
             title: '',
             to: DateTime.now(),
             from: DateTime.now(),
@@ -45,11 +53,7 @@ class MonthControl extends GetxController {
       monthDataList.refresh();
   }
 
-  void getToInitList()async{
-    final getMeetingList = await localDB.getTodoList();
-    monthDataList.addAll(getMeetingList);
-  }
-
+  ///스케쥴 업데이트
   void editSchedule(Schedule schedule, BuildContext context) async {
     final result = await Navigator.push<Schedule>(
       context,
@@ -72,10 +76,18 @@ class MonthControl extends GetxController {
       schedule.gpsY = result.gpsY;
       schedule.colorIndex = result.colorIndex;
       ///리스트 추가 및 갱신 함수
-      print("result ${result.id}");
       localDB.updateDBSchedule(schedule);
     }
+    print("id? ${result?.id}");
+
     monthDataList.refresh();
+  }
+  //스케쥴 삭제
+  Future<void> deleteSchedule(Schedule schedule)async{
+    monthDataList.remove(schedule);
+    await LocalDB.isar.writeTxn(()async{
+      await LocalDB.isar.schedules.delete(schedule.id);
+    });
   }
 }
 

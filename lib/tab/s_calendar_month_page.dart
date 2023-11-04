@@ -33,12 +33,12 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
 
   @override
   Widget build(BuildContext context) {
-    MonthControl monthControla = Get.put(MonthControl());
+    MonthControl monthController = Get.put(MonthControl());
     screenInit(context);
     return Scaffold(
       key: GlobalKey<_CalendarMonthPageState>(),
       floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add),
+          child: const Icon(Icons.add),
           onPressed: () {
             setState(() {
               monthControl.addSchedule(context);
@@ -54,12 +54,17 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
                     calendarTapped(context, cp);
                     setState(() {});
                   },
+                  onLongPress: (cpo){
+                    setState(() {
+                    calendarLongTapped(context,cpo);
+                    });
+                  },
                   controller: _calendarController,
                   headerHeight: 50.h,
                   headerDateFormat: "M",
                   view: CalendarView.month,
                   dataSource:
-                      ScheduleDataSource(monthControla.monthDataList.value),
+                      ScheduleDataSource(monthController.monthDataList.value),
                   monthViewSettings: MonthViewSettings(
                     agendaViewHeight: 200.0.h,
                       monthCellStyle: const MonthCellStyle(
@@ -113,7 +118,13 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
     if (calendarTapDetails.targetElement == CalendarElement.appointment) {
       Schedule event = calendarTapDetails.appointments![0];
       monthControl.editSchedule(event, context);
-
+    }
+  }
+  void calendarLongTapped(
+      BuildContext context, CalendarLongPressDetails calendarLongPressDetails){
+    if (calendarLongPressDetails.targetElement == CalendarElement.appointment) {
+      Schedule event = calendarLongPressDetails.appointments![0];
+      monthControl.deleteSchedule(event);
     }
   }
 }

@@ -18,7 +18,7 @@ class Schedule {
        // required this.eventColor,
         });
  @Index(type: IndexType.value)
- Id? id = Isar.autoIncrement;
+ Id id;
  @Index(type: IndexType.value)
  String title;
   ///간단한 메모

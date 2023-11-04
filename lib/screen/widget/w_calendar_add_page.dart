@@ -186,7 +186,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                       print("gps ${gps?.title}");
                       if (gps == null) {
                         gps = Schedule(
-                          id: null,
+                          id: DateTime.now().microsecondsSinceEpoch,
                             title: '',
                             memo: '',
                             from: DateTime.now(),
@@ -222,38 +222,45 @@ class _CalendarAddPageState extends State<CalendarAddPage>
 
                 Height(addPageHeight),
                 MemoContainer(textEditingController: _memoController,),
-                IconButton(
-                    onPressed: () {
-                      try {
-                        final lastTime =
-                            datePickerStateController.lastSelectedTime.value;
-                        alarmSet.getAlarmTime(
-                            id: _titleController.text,
-                            time: lastTime,
-                            setTextTime: alarmSettingController.alarmTime.value,
-                            context: context);
-                        Navigator.of(context).pop(Schedule(
-                          id: null,
-                          title: _titleController.text,
-                          memo: _memoController.text,
-                          from:
-                              datePickerStateController.startSelectedTime.value,
-                          to: datePickerStateController.lastSelectedTime.value,
-                          myPlace: outPagePlace.toString(),
-                          gpsX: outPageGpsY,
-                          gpsY: outPageGpsX,
-                          colorIndex: _colorIndex,
-                        ));
-                        datePickerStateController.isShowStartDatePicker.value =
-                            false;
-                        datePickerStateController.isShowLastDatePicker.value =
-                            false;
-                        naverMapController?.dispose();
-                      } catch (E) {
-                        print(E);
-                      }
-                    },
-                    icon: const Icon(Icons.check)),
+                Row(
+                  children: [
+                    TextButton(onPressed: (){
+
+                    }, child: Text("aa")),
+                    IconButton(
+                        onPressed: () {
+                          try {
+                            final lastTime =
+                                datePickerStateController.lastSelectedTime.value;
+                            alarmSet.getAlarmTime(
+                                id: _titleController.text,
+                                time: lastTime,
+                                setTextTime: alarmSettingController.alarmTime.value,
+                                context: context);
+                            Navigator.of(context).pop(Schedule(
+                              id: DateTime.now().microsecondsSinceEpoch,
+                              title: _titleController.text,
+                              memo: _memoController.text,
+                              from:
+                                  datePickerStateController.startSelectedTime.value,
+                              to: datePickerStateController.lastSelectedTime.value,
+                              myPlace: outPagePlace.toString(),
+                              gpsX: outPageGpsY,
+                              gpsY: outPageGpsX,
+                              colorIndex: _colorIndex,
+                            ));
+                            datePickerStateController.isShowStartDatePicker.value =
+                                false;
+                            datePickerStateController.isShowLastDatePicker.value =
+                                false;
+                            naverMapController?.dispose();
+                          } catch (E) {
+                            print(E);
+                          }
+                        },
+                        icon: const Icon(Icons.check)),
+                  ],
+                ),
               ],
             ).pOnly(left: 10.w),
           ),
