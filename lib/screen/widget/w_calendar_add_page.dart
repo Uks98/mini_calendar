@@ -51,7 +51,6 @@ class _CalendarAddPageState extends State<CalendarAddPage>
   double? outPageGpsY = 0.0;
   String? outPagePlace = "";
   int _colorIndex = 0;
-  bool isShowTiles = false;
 
   bool get isOnMap => outPageGpsX != 0.0 ? true : false;
 
@@ -103,194 +102,169 @@ class _CalendarAddPageState extends State<CalendarAddPage>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      resizeToAvoidBottomInset: false,
-      body: Container(
-        color: context.backgroundColor,
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  TextField(
-                    autocorrect: false,
-                    //focusNode: node,
-                    style: TextStyle(fontSize: bigFontSize), // 폰트 크기를 20으로 설정
-                    decoration: const InputDecoration(
-                      border: InputBorder.none, // 하단 밑줄 없애기
-                      hintText: '제목',
-                    ),
-                    controller: _titleController,
-                  ).w(_textFieldWidth),
-                  spacer,
-                ],
-              ),
-              Height(addPageHeight),
-
-              ///색상
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  "색상".text.size(normalFontSize).make(),
-                  SizedBox(
-                    width: smallWidth,
-                  ),
-                  Tap(
-                    onTap: () async {
-                      final corIndex =
-                          await customBottomSheet.showCustomBottomSheet(context,
-                              radius: 20.0.w, title: "이벤트 색상");
-                      _colorIndex = corIndex;
-                      setState(() {});
-                      print("나는야 인덱스${_colorIndex}}");
-                    },
-                    child: Obx(
-                      () => Container(
-                        width: 20.w,
-                        height: 20.h,
-                        decoration: BoxDecoration(
-                          color: colorController.colorList[_colorIndex!],
-                          borderRadius: BorderRadius.circular(smallHeight),
-                        ),
-                      ).pOnly(right: bigWidth),
-                    ),
-                  ),
-                ],
-              ),
-              Height(addPageHeight),
-
-              ///시작 시간
-              ShowDateStartPicker(
-                dateTime: DateTime.now(),
-                startText: "시작",
-                datePickerStateController: datePickerStateController,
-              ),
-              Height(addPageHeight),
-
-              ///종료 시간
-              ShowDateLastPicker(
-                dateTime: DateTime.now().add(Duration(hours: 1)),
-                startText: "종료",
-                datePickerStateController: datePickerStateController,
-              ),
-              Height(addPageHeight),
-
-              ///시간 분 단위로 올리기
-              QuickFixerDateWidget()
-                  .pOnly(top: middleHeight.h, left: _quickWidgetLeftPadding.w),
-
-              ///위젯 타일 전체보기 버튼
-              if (!isShowTiles) //false
-                Center(
-                  child: IconButton(
-                    icon: Icon(Icons.arrow_drop_down),
-                    onPressed: () {
-                      isShowTiles = true;
-                      setState(() {});
-                    },
-                  ),
-                ),
-
-              if (isShowTiles == true)
-                Column(
+        resizeToAvoidBottomInset: false,
+        body: Container(
+          color: context.backgroundColor,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Row(
                   children: [
-                    Height(addPageHeight),
-                    const AlarmSettingTile(),
-                    Height(addPageHeight),
-
-                    ///위치 받아오기
-                    GestureDetector(
-                        onTap: () async {
-                          var gps =
-                              await Get.to<Schedule>(LocationSearchWidget());
-                          print("gps ${gps?.title}");
-                          if (gps == null) {
-                            gps = Schedule(
-                                title: '',
-                                memo: '',
-                                from: DateTime.now(),
-                                to: DateTime.now(),
-                                myPlace: '',
-                                gpsX: 0.0,
-                                gpsY: 0.0,
-                                colorIndex: 0);
-                          } else {
-                            outPageGpsX = gps.gpsX;
-                            outPageGpsY = gps.gpsY;
-                          }
-                          outPagePlace = gps.myPlace; //?.
-                          setState(() {});
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            "위치".text.size(normalFontSize).make(),
-                            outPagePlace!.text
-                                .size(bigFontSize)
-                                .make()
-                                .pOnly(left: smallWidth),
-                          ],
-                        )),
-                    Height(addPageHeight),
-
-                    ///네이버 맵
-                    if ((widget.schedule.gpsY != 0.0 ||
-                            widget.schedule.gpsX != 0.0) ||
-                        isOnMap == true)
-                      showUserMap(),
-
-                    Height(addPageHeight),
-                    MemoContainer(
-                      textEditingController: _memoController,
-                    ),
-                    IconButton(
-                        onPressed: () {
-                          try {
-                            final lastTime = datePickerStateController
-                                .lastSelectedTime.value;
-                            alarmSet.getAlarmTime(
-                                id: _titleController.text,
-                                time: lastTime,
-                                setTextTime:
-                                    alarmSettingController.alarmTime.value,
-                                context: context);
-                            Navigator.of(context).pop(Schedule(
-                              title: _titleController.text,
-                              memo: _memoController.text,
-                              from: datePickerStateController
-                                  .startSelectedTime.value,
-                              to: datePickerStateController
-                                  .lastSelectedTime.value,
-                              myPlace: outPagePlace.toString(),
-                              gpsX: outPageGpsY,
-                              gpsY: outPageGpsX,
-                              colorIndex: _colorIndex,
-                            ));
-                            datePickerStateController
-                                .isShowStartDatePicker.value = false;
-                            datePickerStateController
-                                .isShowLastDatePicker.value = false;
-                            naverMapController?.dispose();
-                          } catch (E) {
-                            print(E);
-                          }
-                        },
-                        icon: const Icon(Icons.check)),
+                    TextField(
+                      autocorrect: false,
+                      //focusNode: node,
+                      style: TextStyle(fontSize: bigFontSize), // 폰트 크기를 20으로 설정
+                      decoration: const InputDecoration(
+                        border: InputBorder.none, // 하단 밑줄 없애기
+                        hintText: '제목',
+                      ),
+                      controller: _titleController,
+                    ).w(_textFieldWidth),
+                    spacer,
                   ],
-                ).pOnly(left: 10.w),
-            ],
-          ),
-        ),
+                ),
+                Height(addPageHeight),
 
-        ///알람 설정
-      ),
-    );
+                ///색상
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    "색상".text.size(normalFontSize).make(),
+                    SizedBox(
+                      width: smallWidth,
+                    ),
+                    Tap(
+                      onTap: () async {
+                        final corIndex = await customBottomSheet
+                            .showCustomBottomSheet(context,
+                                radius: 20.0.w, title: "이벤트 색상");
+                        _colorIndex = corIndex;
+                        setState(() {});
+                      },
+                      child: Obx(
+                        () => Container(
+                          width: 20.w,
+                          height: 20.h,
+                          decoration: BoxDecoration(
+                            color: colorController.colorList[_colorIndex!],
+                            borderRadius: BorderRadius.circular(smallHeight),
+                          ),
+                        ).pOnly(right: bigWidth),
+                      ),
+                    ),
+                  ],
+                ),
+                Height(addPageHeight),
+
+                ///시작 시간
+                ShowDateStartPicker(
+                  dateTime: DateTime.now(),
+                  startText: "시작",
+                  datePickerStateController: datePickerStateController,
+                ),
+                Height(addPageHeight),
+
+                ///종료 시간
+                ShowDateLastPicker(
+                  dateTime: DateTime.now().add(Duration(hours: 1)),
+                  startText: "종료",
+                  datePickerStateController: datePickerStateController,
+                ),
+                Height(addPageHeight),
+                ///시간 분 단위로 올리기
+                QuickFixerDateWidget().pOnly(
+                    top: middleHeight.h, left: _quickWidgetLeftPadding.w),
+
+                ///알람 설정
+                Height(addPageHeight),
+                const AlarmSettingTile(),
+                Height(addPageHeight),
+                ///위치 받아오기
+                GestureDetector(
+                    onTap: () async {
+                      var gps = await Get.to<Schedule>(LocationSearchWidget());
+                      print("gps ${gps?.title}");
+                      if (gps == null) {
+                        gps = Schedule(
+                          id: null,
+                            title: '',
+                            memo: '',
+                            from: DateTime.now(),
+                            to: DateTime.now(),
+                            myPlace: '',
+                            gpsX: 0.0,
+                            gpsY: 0.0,
+                            colorIndex: 0);
+                      } else {
+                        outPageGpsX = gps.gpsX;
+                        outPageGpsY = gps.gpsY;
+                      }
+                      outPagePlace = gps.myPlace; //?.
+                      setState(() {});
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        "위치".text.size(normalFontSize).make(),
+                        outPagePlace!.text
+                            .size(bigFontSize)
+                            .make()
+                            .pOnly(left: smallWidth),
+                      ],
+                    )),
+                Height(addPageHeight),
+                ///네이버 맵
+
+                if ((widget.schedule.gpsY != 0.0 ||
+                        widget.schedule.gpsX != 0.0) ||
+                    isOnMap == true)
+                  showUserMap(),
+
+                Height(addPageHeight),
+                MemoContainer(textEditingController: _memoController,),
+                IconButton(
+                    onPressed: () {
+                      try {
+                        final lastTime =
+                            datePickerStateController.lastSelectedTime.value;
+                        alarmSet.getAlarmTime(
+                            id: _titleController.text,
+                            time: lastTime,
+                            setTextTime: alarmSettingController.alarmTime.value,
+                            context: context);
+                        Navigator.of(context).pop(Schedule(
+                          id: null,
+                          title: _titleController.text,
+                          memo: _memoController.text,
+                          from:
+                              datePickerStateController.startSelectedTime.value,
+                          to: datePickerStateController.lastSelectedTime.value,
+                          myPlace: outPagePlace.toString(),
+                          gpsX: outPageGpsY,
+                          gpsY: outPageGpsX,
+                          colorIndex: _colorIndex,
+                        ));
+                        datePickerStateController.isShowStartDatePicker.value =
+                            false;
+                        datePickerStateController.isShowLastDatePicker.value =
+                            false;
+                        naverMapController?.dispose();
+                      } catch (E) {
+                        print(E);
+                      }
+                    },
+                    icon: const Icon(Icons.check)),
+              ],
+            ).pOnly(left: 10.w),
+          ),
+        ));
   }
 
   Widget showUserMap() {
     if (mapDataController.isShowMap.value == true) {
       return ClipRRect(
         borderRadius: BorderRadius.circular(middleWidth),
-        child: SizedBox(
+        child: Container(
           height: 200.h,
           width: MediaQuery.of(context).size.width - 80,
           child: NaverMap(

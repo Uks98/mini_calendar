@@ -112,8 +112,8 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
       BuildContext context, CalendarTapDetails calendarTapDetails) {
     if (calendarTapDetails.targetElement == CalendarElement.appointment) {
       Schedule event = calendarTapDetails.appointments![0];
-      print("abcs${event.myPlace}");
       monthControl.editSchedule(event, context);
+
     }
   }
 }

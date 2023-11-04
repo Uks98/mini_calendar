@@ -1,51 +1,47 @@
-// import 'package:flutter/foundation.dart';
-// import 'package:isar/isar.dart';
+import 'package:isar/isar.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:today_my_calendar/screen/calendar/calendar_data/d_schedule_data.dart';
 
-//
-// import '../../data/local/error/local_db_error.dart';
-// import '../network/result/simple_result.dart';
 
-class LocalDB {
-  //static late final Isar _isar;
+class LocalDB{
 
-// static Future<void> init() async {
-//   _isar = await Isar.open([LocalDocumentSchema], maxSizeMiB: 512);
-// }
-//
-// static Future<Result<List<LocalDocument>, String>> getDocuments() async {
-//   try {
-//     debugPrint('get response success');
-//     final documents = await _isar.localDocuments.filter().idGreaterThan(0).findAll();
-//     return Result.success(documents);
-//   } catch (e) {
-//     debugPrint('get response fail');
-//     return Result.failure(e.toString());
-//   }
-// }
-//
-// static Future<Result<void, LocalDBError>> addDocument(Document document) async {
-//   final documents = await _isar.localDocuments.filter().imageUrlMatches(document.imageUrl).findAll();
-//   if (documents.isNotEmpty) {
-//     debugPrint('already exist');
-//     return Result.failure(LocalDBError(LocalDBErrorType.alreadyExist, 'Document is already exist'));
-//   }
-//
-//   final localDocument = document.toLocalDocument();
-//   await _isar.writeTxn(() async {
-//     await _isar.localDocuments.put(localDocument);
-//   });
-//   return Result.success();
-// }
-//
-// static Future<Result<void, LocalDBError>> removeDocument(ImageUrlProvider document) async {
-//   final documents = await _isar.localDocuments.filter().imageUrlMatches(document.imageUrl).findAll();
-//   if (documents.isEmpty) {
-//     debugPrint('Not exist');
-//     return Result.failure(LocalDBError(LocalDBErrorType.notExist, 'Document is not exist'));
-//   }
-//   await _isar.writeTxn(() async {
-//     await _isar.localDocuments.delete(documents[0].id);
-//   });
-//   return Result.success();
-// }
+  static late final Isar isar;
+  LocalDB._();
+
+  static LocalDB instance = LocalDB._();
+
+  static Future<void> init()async{
+    final dir = await getApplicationDocumentsDirectory();
+    isar = await Isar.open(
+      [ScheduleSchema],
+      directory: dir.path,
+    );
+  }
+  Future<List<Schedule>> getTodoList() async{
+    final document = await isar.schedules.where().findAll();
+    return document.map((e) => e).toList();
+  }
+  Future<List<Schedule>> getSelectList(DateTime dateTime) async{
+    final document = await isar.schedules.where().idEqualTo(2).findAll();
+    print("document filter date ${dateTime}");
+    return document.map((e) => e).toList();
+  }
+  //{"background":4279451602,"eventName":"안녕 테스트","from":16952312400000000,"id":2,"isAllDay":false,"to":1695400440000000}
+
+
+  Future<void> addDBSchedule(Schedule schedule)async{
+    await isar.writeTxn(() async{
+      await isar.schedules.put(schedule);
+    });
+  }
+  Future<void> deleteDBSchedule(Id id)async{
+    await isar.writeTxn(()async{
+      await isar.schedules.delete(id);
+    });
+  }
+  Future<void> updateDBSchedule(Schedule schedule)async{
+    await isar.writeTxn(()async{
+      await isar.schedules.put(schedule);
+    });
+  }
 }

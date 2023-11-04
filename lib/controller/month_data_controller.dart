@@ -1,17 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:today_my_calendar/data/local/local_db.dart';
 
 import '../screen/calendar/calendar_data/d_schedule_data.dart';
 import '../screen/widget/w_calendar_add_page.dart';
 
 class MonthControl extends GetxController {
+  LocalDB localDB = LocalDB.instance;
   RxList<Schedule> monthDataList = <Schedule>[].obs;
 
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
+    getToInitList();
   }
 
   void addSchedule(BuildContext context) async {
@@ -20,6 +23,7 @@ class MonthControl extends GetxController {
       MaterialPageRoute(
         builder: (BuildContext context) => CalendarAddPage(
           schedule: Schedule(
+            id : null,
             title: '',
             to: DateTime.now(),
             from: DateTime.now(),
@@ -36,8 +40,14 @@ class MonthControl extends GetxController {
     if (result != null) {
       ///리스트 추가 및 갱신 함수
       monthDataList.add(result); //달력 아이템 리스트
+      localDB.addDBSchedule(result);
     }
       monthDataList.refresh();
+  }
+
+  void getToInitList()async{
+    final getMeetingList = await localDB.getTodoList();
+    monthDataList.addAll(getMeetingList);
   }
 
   void editSchedule(Schedule schedule, BuildContext context) async {
@@ -50,7 +60,6 @@ class MonthControl extends GetxController {
           ),
       ),
     );
-    print("edit place${schedule.myPlace}");
     if (result != null) {
       schedule.title = result.title;
       schedule.to = result.to;
@@ -62,8 +71,9 @@ class MonthControl extends GetxController {
       schedule.gpsX = result.gpsX;
       schedule.gpsY = result.gpsY;
       schedule.colorIndex = result.colorIndex;
-
       ///리스트 추가 및 갱신 함수
+      print("result ${result.id}");
+      localDB.updateDBSchedule(schedule);
     }
     monthDataList.refresh();
   }
