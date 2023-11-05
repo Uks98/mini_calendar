@@ -11,7 +11,6 @@ import '../../controller/alarm_setting_controller.dart';
 
 class AlarmSettingTile extends StatelessWidget {
   const AlarmSettingTile({super.key});
-
   @override
   Widget build(BuildContext context) {
     AlarmSettingController alarmController = Get.put(AlarmSettingController());

@@ -51,7 +51,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
   double? outPageGpsY = 0.0;
   String? outPagePlace = "";
   int _colorIndex = 0;
-
+  int get newId => DateTime.now().microsecondsSinceEpoch;
   bool get isOnMap => outPageGpsX != 0.0 ? true : false;
 
   RxBool get isShowStartPicker =>
@@ -101,7 +101,44 @@ class _CalendarAddPageState extends State<CalendarAddPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        actions: [
+          IconButton(onPressed: (){
+            try {
+              final lastTime =
+                  datePickerStateController.lastSelectedTime.value;
+              alarmSet.getAlarmTime(
+                //id epoch 사용시 오류 발생
+                  id: _titleController.text + newId.toString(),
+                  time: lastTime,
+                  setTextTime: alarmSettingController.alarmTime.value,
+                  context: context,
+                  title: _titleController.text,
+                  memo: _memoController.text
+              );
+              Navigator.of(context).pop(Schedule(
+                id: DateTime.now().microsecondsSinceEpoch,
+                title: _titleController.text,
+                memo: _memoController.text,
+                from:
+                datePickerStateController.startSelectedTime.value,
+                to: datePickerStateController.lastSelectedTime.value,
+                myPlace: outPagePlace.toString(),
+                gpsX: outPageGpsY,
+                gpsY: outPageGpsX,
+                colorIndex: _colorIndex,
+              ));
+              datePickerStateController.isShowStartDatePicker.value =
+              false;
+              datePickerStateController.isShowLastDatePicker.value =
+              false;
+              naverMapController?.dispose();
+            } catch (E) {
+              print(E);
+            }
+          }, icon: const Icon(Icons.check))
+        ],
+      ),
         resizeToAvoidBottomInset: false,
         body: Container(
           color: context.backgroundColor,
@@ -222,45 +259,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
 
                 Height(addPageHeight),
                 MemoContainer(textEditingController: _memoController,),
-                Row(
-                  children: [
-                    TextButton(onPressed: (){
 
-                    }, child: Text("aa")),
-                    IconButton(
-                        onPressed: () {
-                          try {
-                            final lastTime =
-                                datePickerStateController.lastSelectedTime.value;
-                            alarmSet.getAlarmTime(
-                                id: _titleController.text,
-                                time: lastTime,
-                                setTextTime: alarmSettingController.alarmTime.value,
-                                context: context);
-                            Navigator.of(context).pop(Schedule(
-                              id: DateTime.now().microsecondsSinceEpoch,
-                              title: _titleController.text,
-                              memo: _memoController.text,
-                              from:
-                                  datePickerStateController.startSelectedTime.value,
-                              to: datePickerStateController.lastSelectedTime.value,
-                              myPlace: outPagePlace.toString(),
-                              gpsX: outPageGpsY,
-                              gpsY: outPageGpsX,
-                              colorIndex: _colorIndex,
-                            ));
-                            datePickerStateController.isShowStartDatePicker.value =
-                                false;
-                            datePickerStateController.isShowLastDatePicker.value =
-                                false;
-                            naverMapController?.dispose();
-                          } catch (E) {
-                            print(E);
-                          }
-                        },
-                        icon: const Icon(Icons.check)),
-                  ],
-                ),
               ],
             ).pOnly(left: 10.w),
           ),

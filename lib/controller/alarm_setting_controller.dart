@@ -13,11 +13,13 @@ import '../main.dart';
 class AlarmSettingController extends GetxController{
   RxString alarmTime = "없음".obs;
   int count = 0;
-  void getAlarmTime({required id,required DateTime time, required String setTextTime,required BuildContext context,})async{
+  int get newId => DateTime.now().microsecondsSinceEpoch;
+  final flutterNotification = FlutterLocalNotificationsPlugin();
+    static final notification = flutterLocalNotificationsPlugin;
+  void getAlarmTime({required id,required DateTime time, required String setTextTime,required BuildContext context,required String title,required String memo})async{
     final now = tz.TZDateTime.now(tz.local);
     final dateNow = DateTime.parse(now.toString());
     var notiDay = dateNow.day;
-    final notification = flutterLocalNotificationsPlugin;
      final android = AndroidNotificationDetails(
        id,
       "알림테스트",
@@ -34,6 +36,7 @@ class AlarmSettingController extends GetxController{
       return;
     }
 
+
     print("알람 ${android.channelId}");
 
     // await flutterLocalNotificationsPlugin.show(1, "title", "body", detail);
@@ -44,31 +47,32 @@ class AlarmSettingController extends GetxController{
     switch(setTextTime){
       case "없음": null;
       break;
-      case "지정 시간": await zonedSchedule(count += 1,notification, time, notiDay, detail,0);
+      case "지정 시간": await zonedSchedule(DateTime.now().microsecond,notification, time, notiDay, detail,0,title,memo);
+
       break;
-      case "1분 전": await zonedSchedule(count += 1,notification, time, notiDay, detail,1);
+      case "1분 전": await zonedSchedule(newId + 1,notification, time, notiDay, detail,1,title,memo).then((value) => flutterNotification.cancel(id));
       break;
-      case "5분 전": await zonedSchedule(count += 1,notification, time, notiDay, detail,5);
+      case "5분 전": await zonedSchedule(newId + 1,notification, time, notiDay, detail,5,title,memo);
       break;
-      case "30분 전": await zonedSchedule(count += 1,notification, time, notiDay, detail,30);
+      case "30분 전": await zonedSchedule(newId + 1,notification, time, notiDay, detail,30,title,memo);
       break;
-      case "1시간 전": await zonedSchedule(count += 1,notification, time, notiDay, detail,60);
+      case "1시간 전": await zonedSchedule(newId + 1,notification, time, notiDay, detail,60,title,memo);
       break;
     }
     }
 
-  Future<void> zonedSchedule(int id,FlutterLocalNotificationsPlugin notification, DateTime time, int notiDay, NotificationDetails detail,int delTime) {
+  Future<void> zonedSchedule(int id,FlutterLocalNotificationsPlugin notification, DateTime time, int notiDay, NotificationDetails detail,int delTime,String title, String content) {
     return notification.zonedSchedule(
       id, //알람 아이디 값 유니크하게 변경(유니크 해야 알람이 각각 지정)
-      "alarmTitle",
-      "alarmDescription",
+      title,
+      content,
       tz.TZDateTime(tz.local, time.year, time.month, notiDay,
           time.hour, time.minute - delTime),
       detail,
       androidAllowWhileIdle: false,//주기적으로 표시
       uiLocalNotificationDateInterpretation:
       UILocalNotificationDateInterpretation.absoluteTime,
-      matchDateTimeComponents: DateTimeComponents.time,
+      matchDateTimeComponents: DateTimeComponents.time, //null 변경시 한번만옴
       // payload: DateFormat('HH:mm').format(alarmTime),
     );
   }

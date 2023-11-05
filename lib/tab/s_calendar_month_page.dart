@@ -8,6 +8,7 @@ import 'package:today_my_calendar/common/constant/app_colors.dart';
 import 'package:today_my_calendar/common/widget/mixin/init_screen_size_utill.dart';
 import 'package:today_my_calendar/screen/calendar/calendar_data/d_schedule_data.dart';
 import 'package:today_my_calendar/screen/widget/w_calendar_add_page.dart';
+import '../controller/alarm_setting_controller.dart';
 import '../controller/map_data_controller.dart';
 import '../controller/month_data_controller.dart';
 import '../screen/calendar/calendar_data/schecule_data_source.dart';
@@ -23,9 +24,8 @@ class CalendarMonthPage extends StatefulWidget with ScreenInit {
 
 class _CalendarMonthPageState extends State<CalendarMonthPage>
     with ScreenInit, MonthControllerMix {
-  MapDataController mapDataController = Get.put(MapDataController());
   final CalendarController _calendarController = CalendarController();
-
+  AlarmSettingController alarmController = Get.put(AlarmSettingController());
   @override
   void initState() {
     super.initState();
@@ -33,7 +33,7 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
 
   @override
   Widget build(BuildContext context) {
-    MonthControl monthController = Get.put(MonthControl());
+
     screenInit(context);
     return Scaffold(
       key: GlobalKey<_CalendarMonthPageState>(),
@@ -64,7 +64,7 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
                   headerDateFormat: "M",
                   view: CalendarView.month,
                   dataSource:
-                      ScheduleDataSource(monthController.monthDataList.value),
+                      ScheduleDataSource(monthControl.monthDataList.value),
                   monthViewSettings: MonthViewSettings(
                     agendaViewHeight: 200.0.h,
                       monthCellStyle: const MonthCellStyle(
