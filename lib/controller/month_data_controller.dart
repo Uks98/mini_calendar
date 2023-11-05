@@ -40,6 +40,7 @@ class MonthControl extends GetxController {
             memo: '',
             myPlace: '',
             colorIndex: 0,
+            isShowMap: false,
           ),
           isShowMap: false,
         ),

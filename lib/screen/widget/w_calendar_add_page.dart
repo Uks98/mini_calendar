@@ -53,7 +53,9 @@ class _CalendarAddPageState extends State<CalendarAddPage>
   int _colorIndex = 0;
   int get newId => DateTime.now().microsecondsSinceEpoch;
   bool get isOnMap => outPageGpsX != 0.0 ? true : false;
-
+  set isOnMap(bool value) {
+   value = widget.isShowMap;
+  }
   RxBool get isShowStartPicker =>
       datePickerStateController.isShowStartDatePicker;
 
@@ -74,6 +76,8 @@ class _CalendarAddPageState extends State<CalendarAddPage>
     outPagePlace = widget.schedule.myPlace;
     _colorIndex = widget.schedule.colorIndex;
 
+    isOnMap = widget.isShowMap;
+    print(isOnMap);
     _updateCameraPosition();
   }
 
@@ -127,6 +131,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                 gpsX: outPageGpsY,
                 gpsY: outPageGpsX,
                 colorIndex: _colorIndex,
+                isShowMap: isOnMap,
               ));
               datePickerStateController.isShowStartDatePicker.value =
               false;
@@ -220,7 +225,6 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                 GestureDetector(
                     onTap: () async {
                       var gps = await Get.to<Schedule>(LocationSearchWidget());
-                      print("gps ${gps?.title}");
                       if (gps == null) {
                         gps = Schedule(
                           id: DateTime.now().microsecondsSinceEpoch,
@@ -231,7 +235,9 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                             myPlace: '',
                             gpsX: 0.0,
                             gpsY: 0.0,
-                            colorIndex: 0);
+                            colorIndex: 0,
+                          isShowMap: isOnMap,
+                        );
                       } else {
                         outPageGpsX = gps.gpsX;
                         outPageGpsY = gps.gpsY;
@@ -252,10 +258,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                 Height(addPageHeight),
                 ///네이버 맵
 
-                if ((widget.schedule.gpsY != 0.0 ||
-                        widget.schedule.gpsX != 0.0) ||
-                    isOnMap == true)
-                  showUserMap(),
+                showUserMap(),
 
                 Height(addPageHeight),
                 MemoContainer(textEditingController: _memoController,),
@@ -267,12 +270,17 @@ class _CalendarAddPageState extends State<CalendarAddPage>
   }
 
   Widget showUserMap() {
-    if (mapDataController.isShowMap.value == true) {
+    if ((widget.schedule.gpsY != 0.0 ||
+        widget.schedule.gpsX != 0.0) ||
+        isOnMap == true) {
       return ClipRRect(
         borderRadius: BorderRadius.circular(middleWidth),
         child: Container(
           height: 200.h,
-          width: MediaQuery.of(context).size.width - 80,
+          width: MediaQuery
+              .of(context)
+              .size
+              .width - 80,
           child: NaverMap(
             options: NaverMapViewOptions(
                 initialCameraPosition: _updateCameraPosition()),
@@ -282,7 +290,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                   id: mapDataController.myPlace.value,
                   position: NLatLng(outPageGpsY!, outPageGpsX!));
               final onMarkerInfoWindow =
-                  NInfoWindow.onMarker(id: "", text: outPagePlace.toString());
+              NInfoWindow.onMarker(id: "", text: outPagePlace.toString());
               controller.addOverlay(marker);
               marker.openInfoWindow(onMarkerInfoWindow);
               // print(mapDataController.isShowMap.value);
@@ -293,6 +301,6 @@ class _CalendarAddPageState extends State<CalendarAddPage>
         ),
       );
     }
-    return Container();
+      return Container();
   }
 }

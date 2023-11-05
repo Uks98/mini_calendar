@@ -15,6 +15,7 @@ class Schedule {
         required this.gpsX,
         required this.gpsY,
         required this.colorIndex,
+        required this.isShowMap
        // required this.eventColor,
         });
  @Index(type: IndexType.value)
@@ -42,4 +43,6 @@ class Schedule {
 
  @Index(type: IndexType.value)
  int colorIndex = 0;
+ @Index(type: IndexType.value)
+  bool isShowMap = false;
 }

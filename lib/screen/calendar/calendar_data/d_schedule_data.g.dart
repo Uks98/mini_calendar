@@ -37,23 +37,28 @@ const ScheduleSchema = CollectionSchema(
       name: r'gpsY',
       type: IsarType.double,
     ),
-    r'memo': PropertySchema(
+    r'isShowMap': PropertySchema(
       id: 4,
+      name: r'isShowMap',
+      type: IsarType.bool,
+    ),
+    r'memo': PropertySchema(
+      id: 5,
       name: r'memo',
       type: IsarType.string,
     ),
     r'myPlace': PropertySchema(
-      id: 5,
+      id: 6,
       name: r'myPlace',
       type: IsarType.string,
     ),
     r'title': PropertySchema(
-      id: 6,
+      id: 7,
       name: r'title',
       type: IsarType.string,
     ),
     r'to': PropertySchema(
-      id: 7,
+      id: 8,
       name: r'to',
       type: IsarType.dateTime,
     )
@@ -167,6 +172,19 @@ const ScheduleSchema = CollectionSchema(
           caseSensitive: false,
         )
       ],
+    ),
+    r'isShowMap': IndexSchema(
+      id: 5924038329956868250,
+      name: r'isShowMap',
+      unique: false,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'isShowMap',
+          type: IndexType.value,
+          caseSensitive: false,
+        )
+      ],
     )
   },
   links: {},
@@ -199,10 +217,11 @@ void _scheduleSerialize(
   writer.writeDateTime(offsets[1], object.from);
   writer.writeDouble(offsets[2], object.gpsX);
   writer.writeDouble(offsets[3], object.gpsY);
-  writer.writeString(offsets[4], object.memo);
-  writer.writeString(offsets[5], object.myPlace);
-  writer.writeString(offsets[6], object.title);
-  writer.writeDateTime(offsets[7], object.to);
+  writer.writeBool(offsets[4], object.isShowMap);
+  writer.writeString(offsets[5], object.memo);
+  writer.writeString(offsets[6], object.myPlace);
+  writer.writeString(offsets[7], object.title);
+  writer.writeDateTime(offsets[8], object.to);
 }
 
 Schedule _scheduleDeserialize(
@@ -217,10 +236,11 @@ Schedule _scheduleDeserialize(
     gpsX: reader.readDoubleOrNull(offsets[2]),
     gpsY: reader.readDoubleOrNull(offsets[3]),
     id: id,
-    memo: reader.readString(offsets[4]),
-    myPlace: reader.readString(offsets[5]),
-    title: reader.readString(offsets[6]),
-    to: reader.readDateTime(offsets[7]),
+    isShowMap: reader.readBool(offsets[4]),
+    memo: reader.readString(offsets[5]),
+    myPlace: reader.readString(offsets[6]),
+    title: reader.readString(offsets[7]),
+    to: reader.readDateTime(offsets[8]),
   );
   return object;
 }
@@ -241,12 +261,14 @@ P _scheduleDeserializeProp<P>(
     case 3:
       return (reader.readDoubleOrNull(offset)) as P;
     case 4:
-      return (reader.readString(offset)) as P;
+      return (reader.readBool(offset)) as P;
     case 5:
       return (reader.readString(offset)) as P;
     case 6:
       return (reader.readString(offset)) as P;
     case 7:
+      return (reader.readString(offset)) as P;
+    case 8:
       return (reader.readDateTime(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -332,6 +354,14 @@ extension ScheduleQueryWhereSort on QueryBuilder<Schedule, Schedule, QWhere> {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         const IndexWhereClause.any(indexName: r'colorIndex'),
+      );
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterWhere> anyIsShowMap() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        const IndexWhereClause.any(indexName: r'isShowMap'),
       );
     });
   }
@@ -1298,6 +1328,51 @@ extension ScheduleQueryWhere on QueryBuilder<Schedule, Schedule, QWhereClause> {
       ));
     });
   }
+
+  QueryBuilder<Schedule, Schedule, QAfterWhereClause> isShowMapEqualTo(
+      bool isShowMap) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'isShowMap',
+        value: [isShowMap],
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterWhereClause> isShowMapNotEqualTo(
+      bool isShowMap) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'isShowMap',
+              lower: [],
+              upper: [isShowMap],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'isShowMap',
+              lower: [isShowMap],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'isShowMap',
+              lower: [isShowMap],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'isShowMap',
+              lower: [],
+              upper: [isShowMap],
+              includeUpper: false,
+            ));
+      }
+    });
+  }
 }
 
 extension ScheduleQueryFilter
@@ -1612,6 +1687,16 @@ extension ScheduleQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterFilterCondition> isShowMapEqualTo(
+      bool value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'isShowMap',
+        value: value,
       ));
     });
   }
@@ -2115,6 +2200,18 @@ extension ScheduleQuerySortBy on QueryBuilder<Schedule, Schedule, QSortBy> {
     });
   }
 
+  QueryBuilder<Schedule, Schedule, QAfterSortBy> sortByIsShowMap() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isShowMap', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterSortBy> sortByIsShowMapDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isShowMap', Sort.desc);
+    });
+  }
+
   QueryBuilder<Schedule, Schedule, QAfterSortBy> sortByMemo() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'memo', Sort.asc);
@@ -2226,6 +2323,18 @@ extension ScheduleQuerySortThenBy
     });
   }
 
+  QueryBuilder<Schedule, Schedule, QAfterSortBy> thenByIsShowMap() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isShowMap', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterSortBy> thenByIsShowMapDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isShowMap', Sort.desc);
+    });
+  }
+
   QueryBuilder<Schedule, Schedule, QAfterSortBy> thenByMemo() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'memo', Sort.asc);
@@ -2301,6 +2410,12 @@ extension ScheduleQueryWhereDistinct
     });
   }
 
+  QueryBuilder<Schedule, Schedule, QDistinct> distinctByIsShowMap() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'isShowMap');
+    });
+  }
+
   QueryBuilder<Schedule, Schedule, QDistinct> distinctByMemo(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -2358,6 +2473,12 @@ extension ScheduleQueryProperty
   QueryBuilder<Schedule, double?, QQueryOperations> gpsYProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'gpsY');
+    });
+  }
+
+  QueryBuilder<Schedule, bool, QQueryOperations> isShowMapProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'isShowMap');
     });
   }
 
