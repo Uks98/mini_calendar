@@ -262,7 +262,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
 
                 Height(addPageHeight),
                 MemoContainer(textEditingController: _memoController,),
-
+                Height(80.h),
               ],
             ).pOnly(left: 10.w),
           ),

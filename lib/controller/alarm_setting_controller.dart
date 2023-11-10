@@ -13,7 +13,7 @@ import '../main.dart';
 class AlarmSettingController extends GetxController{
   RxString alarmTime = "없음".obs;
   int count = 0;
-  int get newId => DateTime.now().microsecondsSinceEpoch;
+  int get newId => DateTime.now().microsecond;
   final flutterNotification = FlutterLocalNotificationsPlugin();
     static final notification = flutterLocalNotificationsPlugin;
   void getAlarmTime({required id,required DateTime time, required String setTextTime,required BuildContext context,required String title,required String memo})async{
@@ -47,10 +47,10 @@ class AlarmSettingController extends GetxController{
     switch(setTextTime){
       case "없음": null;
       break;
-      case "지정 시간": await zonedSchedule(DateTime.now().microsecond,notification, time, notiDay, detail,0,title,memo);
+      case "지정 시간": await zonedSchedule(newId,notification,time, notiDay, detail,0,title,memo).then((value) => flutterNotification.cancel(newId));
 
       break;
-      case "1분 전": await zonedSchedule(newId + 1,notification, time, notiDay, detail,1,title,memo).then((value) => flutterNotification.cancel(id));
+      case "1분 전": await zonedSchedule(newId + 1,notification, time, notiDay, detail,1,title,memo).then((value) => flutterNotification.cancel(newId));
       break;
       case "5분 전": await zonedSchedule(newId + 1,notification, time, notiDay, detail,5,title,memo);
       break;

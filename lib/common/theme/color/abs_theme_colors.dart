@@ -34,6 +34,8 @@ abstract class AbstractThemeColors {
 
   Color get text => AppColors.darkGrey;
 
+  Color get dtext => AppColors.darkGrey;
+
   Color get hintText => AppColors.middleGrey;
 
   Color get focusedBorder => AppColors.darkGrey;
@@ -45,4 +47,6 @@ abstract class AbstractThemeColors {
   Color get snackbarBgColor => AppColors.mediumBlue;
 
   Color get blueButtonBackground => AppColors.darkBlue;
+
+  Color get todayTileColor => Color.fromARGB(255, 228, 228, 228);
 }

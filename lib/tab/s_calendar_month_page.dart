@@ -5,6 +5,7 @@ import 'package:get/instance_manager.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:today_my_calendar/common/common.dart';
 import 'package:today_my_calendar/common/constant/app_colors.dart';
+import 'package:today_my_calendar/common/constant/constant_widget.dart';
 import 'package:today_my_calendar/common/widget/mixin/init_screen_size_utill.dart';
 import 'package:today_my_calendar/screen/calendar/calendar_data/d_schedule_data.dart';
 import 'package:today_my_calendar/screen/widget/w_calendar_add_page.dart';
@@ -66,48 +67,59 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
                   dataSource:
                       ScheduleDataSource(monthControl.monthDataList.value),
                   monthViewSettings: MonthViewSettings(
+                      agendaItemHeight: 40,//agenda 높이
+                  showTrailingAndLeadingDates: false,
+                    numberOfWeeksInView: 3,
                     agendaViewHeight: 200.0.h,
-                      monthCellStyle: const MonthCellStyle(
-                          textStyle: TextStyle(
-                              fontStyle: FontStyle.normal,
-                              fontSize: 15,
-                              color: Colors.black),
-                          trailingDatesTextStyle: TextStyle(
-                              fontStyle: FontStyle.normal,
-                              fontSize: 15,
-                              color: Colors.black),
-                          leadingDatesTextStyle: TextStyle(
-                              fontStyle: FontStyle.normal,
-                              fontSize: 15,
-                              color: Colors.black),
+                      monthCellStyle: MonthCellStyle(
 
-                          todayBackgroundColor: Colors.blue,
-                          leadingDatesBackgroundColor: Colors.grey,
-                          trailingDatesBackgroundColor: Colors.grey),
-                      dayFormat: "EEE",
+                          textStyle: TextStyle(
+                              fontSize: smallFontSize + 3,
+                              fontWeight: FontWeight.bold,
+                              color: context.appColors.text,
+                          ),
+                          trailingDatesTextStyle: TextStyle(
+                            fontSize: smallFontSize + 30,
+                            fontWeight: FontWeight.bold,
+                            color: context.appColors.text,
+                          ),
+                          leadingDatesTextStyle: TextStyle(
+                            fontSize: smallFontSize + 3,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.red,
+                          ),
+                          todayBackgroundColor: context.appColors.iconButton, //야간모드
+                      ),
+                      dayFormat: "E",
                       agendaStyle: AgendaStyle(
-                          backgroundColor: Colors.black,
+                        placeholderTextStyle: TextStyle(
+                          color: context.appColors.text,
+                        ),
                           appointmentTextStyle: TextStyle(
                               color: Colors.white,
-                              fontSize: 13,
-                              fontStyle: FontStyle.italic),
+                              fontSize: smallFontSize + 2,
+                          ),
                           dayTextStyle: TextStyle(
-                              color: AppColors.brightGrey,
-                              fontSize: 13,
-                              fontStyle: FontStyle.italic),
-                          dateTextStyle: TextStyle(
-                              color: AppColors.brightGrey,
-                              fontSize: 25,
+                              color: AppColors.grey,
+                              fontSize: normalFontSize,
                               fontWeight: FontWeight.bold,
-                              fontStyle: FontStyle.normal)),
+                              fontStyle: FontStyle.normal,
+                          ),
+                          dateTextStyle: TextStyle(
+                              color: AppColors.grey,
+                              fontSize: bigFontSize,
+                              fontWeight: FontWeight.bold,
+                              fontStyle: FontStyle.normal)
+                      ),
                       appointmentDisplayCount: 4,
                       showAgenda: true,
                       appointmentDisplayMode:
-                          MonthAppointmentDisplayMode.indicator),
+                          MonthAppointmentDisplayMode.appointment),
                 ),
               ),
 
           ),
+          Height(30.h),
         ],
       ),
     );
