@@ -166,12 +166,11 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                   ],
                 ),
                 Height(addPageHeight),
-
                 ///색상
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    "색상".text.size(normalFontSize).make(),
+                    "색상".text.size(normalFontSize).make().paddingOnly(left: 4.h),
                     SizedBox(
                       width: smallWidth,
                     ),
@@ -215,7 +214,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                 Height(addPageHeight),
                 ///시간 분 단위로 올리기
                 QuickFixerDateWidget().pOnly(
-                    top: middleHeight.h, left: _quickWidgetLeftPadding.w),
+                    top: normalHeight.h, left: _quickWidgetLeftPadding.w),
 
                 ///알람 설정
                 Height(addPageHeight),
@@ -248,7 +247,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        "위치".text.size(normalFontSize).make(),
+                        "위치".text.size(normalFontSize).make().paddingOnly(left: 4.w),
                         outPagePlace!.text
                             .size(bigFontSize)
                             .make()

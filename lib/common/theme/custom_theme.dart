@@ -38,9 +38,6 @@ ThemeData lightTheme = ThemeData(
     fontFamily: "dream",
     visualDensity: VisualDensity.adaptivePlatformDensity,
     brightness: Brightness.light,
-    // textTheme: CustomGoogleFonts.diphylleiaTextTheme(
-    //   ThemeData(brightness: Brightness.light).textTheme,
-    // ),
     colorScheme: ColorScheme.fromSeed(seedColor: CustomTheme.light.appColors.seedColor));
 
 const darkColorSeed = Color(0xbcd5ff7e);

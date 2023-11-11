@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/instance_manager.dart';
@@ -8,9 +9,7 @@ import 'package:today_my_calendar/common/constant/app_colors.dart';
 import 'package:today_my_calendar/common/constant/constant_widget.dart';
 import 'package:today_my_calendar/common/widget/mixin/init_screen_size_utill.dart';
 import 'package:today_my_calendar/screen/calendar/calendar_data/d_schedule_data.dart';
-import 'package:today_my_calendar/screen/widget/w_calendar_add_page.dart';
 import '../controller/alarm_setting_controller.dart';
-import '../controller/map_data_controller.dart';
 import '../controller/month_data_controller.dart';
 import '../screen/calendar/calendar_data/schecule_data_source.dart';
 
@@ -39,18 +38,25 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
     return Scaffold(
       key: GlobalKey<_CalendarMonthPageState>(),
       floatingActionButton: FloatingActionButton(
-          child: const Icon(Icons.add),
+        backgroundColor: context.appColors.floatingColor,
+          child: Icon(Icons.add,color: context.appColors.floatingIconColor,),
           onPressed: () {
             setState(() {
               monthControl.addSchedule(context);
+              print("타임 ${DateTimeComponents.time}");
             });
-          }).pOnly(bottom: 20),
+          }).pOnly(bottom: 20.h),
       body: Column(
         children: [
           Obx(
             () =>
               Expanded(
                 child: SfCalendar(
+                  todayHighlightColor: context.appColors.floatingColor, //당일 색상
+                  cellBorderColor: Colors.transparent,
+                  headerStyle: CalendarHeaderStyle(
+                    textStyle: TextStyle(fontSize: bigFontSize + 10),
+                  ),
                   onTap: (cp) {
                     calendarTapped(context, cp);
                     setState(() {});
@@ -62,19 +68,20 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
                   },
                   controller: _calendarController,
                   headerHeight: 50.h,
-                  headerDateFormat: "M",
+                  headerDateFormat: "MM",
                   view: CalendarView.month,
                   dataSource:
                       ScheduleDataSource(monthControl.monthDataList.value),
                   monthViewSettings: MonthViewSettings(
                       agendaItemHeight: 40,//agenda 높이
-                  showTrailingAndLeadingDates: false,
-                    numberOfWeeksInView: 3,
+                    numberOfWeeksInView: 4,
                     agendaViewHeight: 200.0.h,
                       monthCellStyle: MonthCellStyle(
-
+                        todayTextStyle: TextStyle(
+                          backgroundColor: Colors.red
+                        ),
                           textStyle: TextStyle(
-                              fontSize: smallFontSize + 3,
+                              fontSize: smallFontSize + 2,
                               fontWeight: FontWeight.bold,
                               color: context.appColors.text,
                           ),
@@ -90,7 +97,7 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
                           ),
                           todayBackgroundColor: context.appColors.iconButton, //야간모드
                       ),
-                      dayFormat: "E",
+                      dayFormat: "E", //월요일 .. 화요일 ..
                       agendaStyle: AgendaStyle(
                         placeholderTextStyle: TextStyle(
                           color: context.appColors.text,

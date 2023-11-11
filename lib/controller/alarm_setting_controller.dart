@@ -16,6 +16,7 @@ class AlarmSettingController extends GetxController{
   int get newId => DateTime.now().microsecond;
   final flutterNotification = FlutterLocalNotificationsPlugin();
     static final notification = flutterLocalNotificationsPlugin;
+    final alarmList = [];
   void getAlarmTime({required id,required DateTime time, required String setTextTime,required BuildContext context,required String title,required String memo})async{
     final now = tz.TZDateTime.now(tz.local);
     final dateNow = DateTime.parse(now.toString());
@@ -47,7 +48,13 @@ class AlarmSettingController extends GetxController{
     switch(setTextTime){
       case "없음": null;
       break;
-      case "지정 시간": await zonedSchedule(newId,notification,time, notiDay, detail,0,title,memo).then((value) => flutterNotification.cancel(newId));
+      case "지정 시간": await zonedSchedule(newId,notification,time, notiDay, detail,0,title,memo).then((value) {
+        alarmList.add(newId);
+        if(newId == newId || id == id){
+        flutterNotification.cancel(newId);
+        flutterNotification.cancel(id);
+        }
+    });
 
       break;
       case "1분 전": await zonedSchedule(newId + 1,notification, time, notiDay, detail,1,title,memo).then((value) => flutterNotification.cancel(newId));
@@ -69,7 +76,7 @@ class AlarmSettingController extends GetxController{
       tz.TZDateTime(tz.local, time.year, time.month, notiDay,
           time.hour, time.minute - delTime),
       detail,
-      androidAllowWhileIdle: false,//주기적으로 표시
+      androidAllowWhileIdle: true,//주기적으로 표시
       uiLocalNotificationDateInterpretation:
       UILocalNotificationDateInterpretation.absoluteTime,
       matchDateTimeComponents: DateTimeComponents.time, //null 변경시 한번만옴

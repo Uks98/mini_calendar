@@ -26,7 +26,9 @@ class CustomBottomSheet {
           width: MediaQuery.of(context).size.width,
           child: Column(
             children: [
+              Height(normalHeight),
               title.text.size(bigFontSize).make(),
+              Height(normalHeight),
               Stack(
                 children: [
                   VxBox()
@@ -55,7 +57,7 @@ class CustomBottomSheet {
                               },
                               child: Obx(()=>circleOutlined(color, listIndex: index, checkIndex: colorController.selectIndex.value)));
                         }),
-                  ).pOnly(left: middleHeight, top: middleHeight),),
+                  ).pOnly(left: normalHeight, top: normalHeight),),
                 ],
               ),
             ],

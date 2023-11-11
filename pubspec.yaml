@@ -136,8 +136,8 @@ flutter:
   fonts:
      - family: dream
        fonts:
-         - asset: fonts/SCDream3.otf
-         - asset: fonts/SCDream4.otf
+         - asset: fonts/NEXON Lv2 Gothic OTF Medium.otf
+         #- asset: fonts/SCDream4.otf
   #         style: italic
   #   - family: Trajan Pro
   #     fonts:

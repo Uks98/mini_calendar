@@ -48,5 +48,9 @@ abstract class AbstractThemeColors {
 
   Color get blueButtonBackground => AppColors.darkBlue;
 
-  Color get todayTileColor => Color.fromARGB(255, 228, 228, 228);
+  Color get todayTileColor => const Color.fromARGB(255, 228, 228, 228);
+
+  Color get floatingIconColor => const Color(0xffF3EEEA);
+
+  Color get floatingColor => const Color(0xff83A2FF);
 }

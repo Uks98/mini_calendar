@@ -18,7 +18,7 @@ class AlarmSettingTile extends StatelessWidget {
       child: Row(
 
         children: [
-          "알림".text.size(normalFontSize).make(),
+          "알림".text.size(normalFontSize).make().paddingOnly(left: 4.w),
       ContextMenuArea(
         width: 230.w,
         builder: (context) => [

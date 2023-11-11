@@ -30,7 +30,6 @@ class _ColorSelectPageState extends State<ColorSelectPage> {
         Tap(
           onTap: ()async{
             final index = await customBottomSheet.showCustomBottomSheet(context,radius: 20.0.w,title: "이벤트 색상");
-            print(index);
           },
           child: Container(
             width: 20.w,

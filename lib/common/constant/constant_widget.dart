@@ -9,7 +9,7 @@ const spacer = Spacer();
  double bigWidth = 20.0.w;
 
  double smallHeight = 5.0.h;
- double middleHeight = 10.0.h;
+ double normalHeight = 10.0.h;
  double bigHeight = 20.0.h;
 
  double smallFontSize = 10.0;
