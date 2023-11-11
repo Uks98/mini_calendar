@@ -6,9 +6,10 @@ import 'package:today_my_calendar/common/widget/mixin/init_screen_size_utill.dar
 import '../../common/constant/app_colors.dart';
 import '../../common/theme/custom_theme.dart';
 
-class MemoContainer extends StatelessWidget with ScreenInit{
+class MemoContainer extends StatelessWidget with ScreenInit {
   TextEditingController textEditingController;
-  MemoContainer({super.key,required this.textEditingController});
+
+  MemoContainer({super.key, required this.textEditingController});
 
   @override
   Widget build(BuildContext context) {
@@ -22,14 +23,15 @@ class MemoContainer extends StatelessWidget with ScreenInit{
           borderRadius: BorderRadius.circular(10),
         ),
         child: TextField(
-          style: TextStyle(color: AppColors.darkGrey),
+
+          style: const TextStyle(color: AppColors.darkGrey,fontWeight: FontWeight.w300),
           maxLines: 6,
           controller: textEditingController,
           decoration: const InputDecoration(
             hintText: '노트',
+            hintStyle: TextStyle(fontWeight: FontWeight.w300),
             border: InputBorder.none,
-            contentPadding:
-            EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           ),
         ),
       ),

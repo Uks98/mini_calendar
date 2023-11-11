@@ -18,7 +18,7 @@ class AlarmSettingTile extends StatelessWidget {
       child: Row(
 
         children: [
-          "알림".text.size(normalFontSize).make().paddingOnly(left: 4.w),
+          "알림".text.size(normalFontSize).fontWeight(FontWeight.w300,).make().paddingOnly(left: 4.w),
       ContextMenuArea(
         width: 230.w,
         builder: (context) => [
@@ -29,7 +29,7 @@ class AlarmSettingTile extends StatelessWidget {
          buildAlarmListTile(alarmController,"30분 전",context),
          buildAlarmListTile(alarmController,"1시간 전",context),
         ],
-        child: Obx(()=>alarmController.alarmTime.value.text.size(bigFontSize).make().pOnly(left: isTextLengthPadding(alarmController.alarmTime.value) ? 270.w : 255.w),
+        child: Obx(()=>alarmController.alarmTime.value.text.size(bigFontSize).fontWeight(FontWeight.w300,).make().pOnly(left: isTextLengthPadding(alarmController.alarmTime.value) ? 270.w : 255.w),
       ))
         ],
       ),
@@ -37,7 +37,7 @@ class AlarmSettingTile extends StatelessWidget {
   }
 
   ListTile buildAlarmListTile(AlarmSettingController alarmController,String alarmText,BuildContext context) {
-    return ListTile(title: alarmText.text.size(bigFontSize).make(),onTap: (){
+    return ListTile(title: alarmText.text.size(bigFontSize).fontWeight(FontWeight.w300,).make(),onTap: (){
           alarmController.alarmTime.value = alarmText;
           Navigator.of(context).pop();
         },);

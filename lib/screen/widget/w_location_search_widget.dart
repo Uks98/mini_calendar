@@ -47,7 +47,6 @@ class _LocationSearchWidgetState extends State<LocationSearchWidget> {
     const containerHeight = 300.0;
     return Scaffold(
       appBar: AppBar(
-
         title: "위치".text.size(bigFontSize).make(),
         leading: IconButton(
           icon: Icon(Icons.close),
@@ -82,6 +81,7 @@ class _LocationSearchWidgetState extends State<LocationSearchWidget> {
                           EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                       border: InputBorder.none, // 하단 밑줄 없애기
                       hintText: '위치를 입력하세요.',
+                      hintStyle: TextStyle(fontWeight: FontWeight.w300)
                       //hintStyle: TextStyle(color: )
                     ),
                     controller: _locationController,

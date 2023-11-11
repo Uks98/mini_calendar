@@ -158,7 +158,8 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                       style: TextStyle(fontSize: bigFontSize), // 폰트 크기를 20으로 설정
                       decoration: const InputDecoration(
                         border: InputBorder.none, // 하단 밑줄 없애기
-                        hintText: '제목',
+                        hintText: ' 제목',
+                        hintStyle: TextStyle(fontWeight: FontWeight.w300),
                       ),
                       controller: _titleController,
                     ).w(_textFieldWidth),
@@ -170,7 +171,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    "색상".text.size(normalFontSize).make().paddingOnly(left: 4.h),
+                    "색상".text.size(normalFontSize).fontWeight(FontWeight.w300,).make().paddingOnly(left: 5.h),
                     SizedBox(
                       width: smallWidth,
                     ),
@@ -247,9 +248,9 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        "위치".text.size(normalFontSize).make().paddingOnly(left: 4.w),
+                        "위치".text.size(normalFontSize).fontWeight(FontWeight.w300,).make().paddingOnly(left: 4.w),
                         outPagePlace!.text
-                            .size(bigFontSize)
+                            .size(bigFontSize).fontWeight(FontWeight.w300,)
                             .make()
                             .pOnly(left: smallWidth),
                       ],

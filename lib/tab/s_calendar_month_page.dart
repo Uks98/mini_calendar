@@ -38,7 +38,7 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
     return Scaffold(
       key: GlobalKey<_CalendarMonthPageState>(),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: context.appColors.floatingColor,
+        backgroundColor: context.appColors.calendarMainColor,
           child: Icon(Icons.add,color: context.appColors.floatingIconColor,),
           onPressed: () {
             setState(() {
@@ -52,10 +52,16 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
             () =>
               Expanded(
                 child: SfCalendar(
-                  todayHighlightColor: context.appColors.floatingColor, //당일 색상
+                  selectionDecoration: BoxDecoration(
+                    color: context.appColors.calendarMainColor.withOpacity(0.1),
+                    border: Border.all(color: context.appColors.calendarMainColor,
+                        width: 2),
+                    borderRadius: const BorderRadius.all(Radius.circular(5)),
+                  ),
+                  todayHighlightColor: context.appColors.calendarMainColor, //당일 색상
                   cellBorderColor: Colors.transparent,
                   headerStyle: CalendarHeaderStyle(
-                    textStyle: TextStyle(fontSize: bigFontSize + 10),
+                    textStyle: TextStyle(fontSize: bigFontSize + 5),
                   ),
                   onTap: (cp) {
                     calendarTapped(context, cp);
@@ -73,13 +79,9 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
                   dataSource:
                       ScheduleDataSource(monthControl.monthDataList.value),
                   monthViewSettings: MonthViewSettings(
-                      agendaItemHeight: 40,//agenda 높이
+                      agendaItemHeight: 45.h,//agenda 높이
                     numberOfWeeksInView: 4,
-                    agendaViewHeight: 200.0.h,
                       monthCellStyle: MonthCellStyle(
-                        todayTextStyle: TextStyle(
-                          backgroundColor: Colors.red
-                        ),
                           textStyle: TextStyle(
                               fontSize: smallFontSize + 2,
                               fontWeight: FontWeight.bold,
@@ -93,9 +95,8 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
                           leadingDatesTextStyle: TextStyle(
                             fontSize: smallFontSize + 3,
                             fontWeight: FontWeight.bold,
-                            color: Colors.red,
                           ),
-                          todayBackgroundColor: context.appColors.iconButton, //야간모드
+                          todayBackgroundColor: AppColors.darkGrey, //야간모드 당일 셀 color
                       ),
                       dayFormat: "E", //월요일 .. 화요일 ..
                       agendaStyle: AgendaStyle(

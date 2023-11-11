@@ -93,6 +93,8 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  flutter_localizations:
+    sdk: flutter
 
 dev_dependencies:
   flutter_test:
@@ -137,7 +139,8 @@ flutter:
      - family: dream
        fonts:
          - asset: fonts/NEXON Lv2 Gothic OTF Medium.otf
-         #- asset: fonts/SCDream4.otf
+         - asset: fonts/NEXON Lv2 Gothic OTF Light.otf
+           weight: 300
   #         style: italic
   #   - family: Trajan Pro
   #     fonts:

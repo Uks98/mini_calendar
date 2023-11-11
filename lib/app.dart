@@ -6,7 +6,7 @@ import 'package:nav/nav.dart';
 import 'package:today_my_calendar/common/common.dart';
 import 'package:today_my_calendar/screen/widget/w_calendar_add_page.dart';
 import 'package:today_my_calendar/tab/s_main_screen.dart';
-
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'common/theme/custom_theme.dart';
 import 'common/theme/custom_theme_app.dart';
 
@@ -44,6 +44,15 @@ class AppState extends State<App> with Nav, WidgetsBindingObserver {
     return CustomThemeApp(
       child: Builder(builder: (context) {
         return GetMaterialApp(
+          localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [
+            Locale('en'), // 영어
+            Locale('ko'), // 한국어
+          ],
           debugShowCheckedModeBanner: false,
           builder: (context, child) => MediaQuery(
             data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),

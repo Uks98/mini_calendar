@@ -40,12 +40,12 @@ class ShowDateStartPicker extends StatelessWidget with ScreenInit {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      "${startText}".text.size(normalFontSize).make(),
+                      "${startText}".text.size(normalFontSize).fontWeight(FontWeight.w300,).make(),
                       Obx(() =>
                           formatTime(_selectedDate)
                               .text
                               .size(normalFontSize)
-                              .color(ColorBox.pickerText)
+                              .color(ColorBox.pickerText).fontWeight(FontWeight.w300,)
                               .make()).pOnly()
                     ],
                   ),
@@ -109,12 +109,12 @@ class ShowDateLastPicker extends StatelessWidget with ScreenInit {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      "${startText}".text.size(normalFontSize).make(),
+                      "${startText}".text.size(normalFontSize).fontWeight(FontWeight.w300,).make(),
                       Obx(() =>
                               formatTime(_selectedDate)
                               .text
                               .size(normalFontSize)
-                              .color(ColorBox.pickerText)
+                              .color(ColorBox.pickerText).fontWeight(FontWeight.w300,)
                               .make()).pOnly(left: 10)
                     ],
                   ),
