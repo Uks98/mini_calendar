@@ -17,10 +17,11 @@ class AlarmSettingController extends GetxController{
   final flutterNotification = FlutterLocalNotificationsPlugin();
     static final notification = flutterLocalNotificationsPlugin;
     final alarmList = [];
-  void getAlarmTime({required id,required DateTime time, required String setTextTime,required BuildContext context,required String title,required String memo})async{
+  void getAlarmTime({required String id,required DateTime time, required String setTextTime,required BuildContext context,required String title,required String memo})async{
     final now = tz.TZDateTime.now(tz.local);
     final dateNow = DateTime.parse(now.toString());
     var notiDay = dateNow.day;
+
      final android = AndroidNotificationDetails(
        id,
       "알림테스트",
@@ -36,9 +37,10 @@ class AlarmSettingController extends GetxController{
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: "알람권한을 설정해주세요".text.size(bigFontSize).make()));
       return;
     }
-
-
-    print("알람 ${android.channelId}");
+    await flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+        AndroidFlutterLocalNotificationsPlugin>()
+        ?.deleteNotificationChannelGroup(id);
 
     // await flutterLocalNotificationsPlugin.show(1, "title", "body", detail);
     // 예외처리
@@ -48,22 +50,15 @@ class AlarmSettingController extends GetxController{
     switch(setTextTime){
       case "없음": null;
       break;
-      case "지정 시간": await zonedSchedule(newId,notification,time, notiDay, detail,0,title,memo).then((value) {
-        alarmList.add(newId);
-        if(newId == newId || id == id){
-        flutterNotification.cancel(newId);
-        flutterNotification.cancel(id);
-        }
-    });
+      case "지정 시간": await zonedSchedule(newId,notification,time, notiDay, detail,0,title,memo);
 
       break;
-      case "1분 전": await zonedSchedule(newId + 1,notification, time, notiDay, detail,1,title,memo).then((value) => flutterNotification.cancel(newId));
+      case "1분 전": await zonedSchedule(newId,notification, time, notiDay, detail,1,title,memo);
+      case "5분 전": await zonedSchedule(newId,notification, time, notiDay, detail,5,title,memo);
       break;
-      case "5분 전": await zonedSchedule(newId + 1,notification, time, notiDay, detail,5,title,memo);
+      case "30분 전": await zonedSchedule(newId,notification, time, notiDay, detail,30,title,memo);
       break;
-      case "30분 전": await zonedSchedule(newId + 1,notification, time, notiDay, detail,30,title,memo);
-      break;
-      case "1시간 전": await zonedSchedule(newId + 1,notification, time, notiDay, detail,60,title,memo);
+      case "1시간 전": await zonedSchedule(newId,notification, time, notiDay, detail,60,title,memo);
       break;
     }
     }
@@ -73,14 +68,14 @@ class AlarmSettingController extends GetxController{
       id, //알람 아이디 값 유니크하게 변경(유니크 해야 알람이 각각 지정)
       title,
       content,
-      tz.TZDateTime(tz.local, time.year, time.month, notiDay,
-          time.hour, time.minute - delTime),
+       tz.TZDateTime(tz.local, time.year, time.month, notiDay,
+           time.hour, time.minute - delTime),
       detail,
       androidAllowWhileIdle: true,//주기적으로 표시
       uiLocalNotificationDateInterpretation:
       UILocalNotificationDateInterpretation.absoluteTime,
-      matchDateTimeComponents: DateTimeComponents.time, //null 변경시 한번만옴
-      // payload: DateFormat('HH:mm').format(alarmTime),
+      matchDateTimeComponents: DateTimeComponents.time,
+      //payload: DateFormat('HH:mm').format(alarmTime),
     );
   }
-  }
+}

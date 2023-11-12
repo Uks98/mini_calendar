@@ -138,6 +138,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
               datePickerStateController.isShowLastDatePicker.value =
               false;
               naverMapController?.dispose();
+              _deleteFocus();
             } catch (E) {
               print(E);
             }
@@ -155,7 +156,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                     TextField(
                       autocorrect: false,
                       //focusNode: node,
-                      style: TextStyle(fontSize: bigFontSize), // 폰트 크기를 20으로 설정
+                      style: TextStyle(fontSize: bigFontSize,fontWeight: FontWeight.w300), // 폰트 크기를 20으로 설정
                       decoration: const InputDecoration(
                         border: InputBorder.none, // 하단 밑줄 없애기
                         hintText: ' 제목',
@@ -302,5 +303,11 @@ class _CalendarAddPageState extends State<CalendarAddPage>
       );
     }
       return Container();
+  }
+  void _deleteFocus(){
+    FocusScopeNode currentFocus = FocusScope.of(context);
+    if (!currentFocus.hasPrimaryFocus) {
+      currentFocus.unfocus();
+    }
   }
 }
