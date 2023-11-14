@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:today_my_calendar/data/local/local_db.dart';
 
 import '../screen/calendar/calendar_data/d_schedule_data.dart';
@@ -26,26 +27,25 @@ class MonthControl extends GetxController {
   }
   ///스케쥴 추가
   void addSchedule(BuildContext context) async {
-    final result = await Navigator.push<Schedule>(
-      context,
-      MaterialPageRoute(
-        builder: (BuildContext context) => CalendarAddPage(
-          schedule: Schedule(
-            id : newId,
-            title: '',
-            to: DateTime.now(),
-            from: DateTime.now(),
-            gpsX: 0.0,
-            gpsY: 0.0,
-            memo: '',
-            myPlace: '',
-            colorIndex: 0,
-            isShowMap: false,
-          ),
+    final result = await Get.to<Schedule>(
+      CalendarAddPage(
+        schedule: Schedule(
+          id : newId,
+          title: '',
+          to: DateTime.now(),
+          from: DateTime.now(),
+          gpsX: 0.0,
+          gpsY: 0.0,
+          memo: '',
+          myPlace: '',
+          colorIndex: 0,
           isShowMap: false,
         ),
+        isShowMap: false,
       ),
-    );
+    transition: Transition.downToUp,
+      duration: const Duration(milliseconds: 500)
+      );
     if (result != null) {
       ///리스트 추가 및 갱신 함수
       monthDataList.add(result); //달력 아이템 리스트
@@ -53,20 +53,35 @@ class MonthControl extends GetxController {
     }
       monthDataList.refresh();
   }
-
+  ///캘린더를 탭했을 때 생기는 이벤트 함수
+  void calendarTapped(
+      BuildContext context, CalendarTapDetails calendarTapDetails) {
+    if (calendarTapDetails.targetElement == CalendarElement.appointment) {
+      Schedule event = calendarTapDetails.appointments![0];
+      editSchedule(event, context);
+    }
+  }
+  ///캘린더를 롱 탭 했을 때 생기는 이벤트 함수
+  void calendarLongTapped(
+      BuildContext context, CalendarLongPressDetails calendarLongPressDetails){
+    if (calendarLongPressDetails.targetElement == CalendarElement.appointment) {
+      Schedule event = calendarLongPressDetails.appointments![0];
+      deleteSchedule(event);
+    }
+  }
   ///스케쥴 업데이트
   void editSchedule(Schedule schedule, BuildContext context) async {
-    final result = await Navigator.push<Schedule>(
-      context,
-      MaterialPageRoute(
-          builder: (BuildContext context) => CalendarAddPage(
+    final result = await Get.to(
+      transition: Transition.downToUp,
+      duration: const Duration(milliseconds: 500),
+      CalendarAddPage(
                 schedule: schedule,
             isShowMap: true,
           ),
-      ),
-    );
+      );
     if (result != null) {
       schedule.title = result.title;
+      schedule.memo = result.memo;
       schedule.to = result.to;
       schedule.from = result.from;
       if(schedule.myPlace == '' || schedule.myPlace.isEmpty){
@@ -79,7 +94,6 @@ class MonthControl extends GetxController {
       ///리스트 추가 및 갱신 함수
       localDB.updateDBSchedule(schedule);
     }
-    print("id? ${result?.id}");
 
     monthDataList.refresh();
   }

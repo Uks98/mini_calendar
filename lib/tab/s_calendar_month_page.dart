@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,9 +10,11 @@ import 'package:today_my_calendar/common/constant/app_colors.dart';
 import 'package:today_my_calendar/common/constant/constant_widget.dart';
 import 'package:today_my_calendar/common/widget/mixin/init_screen_size_utill.dart';
 import 'package:today_my_calendar/screen/calendar/calendar_data/d_schedule_data.dart';
+import 'package:today_my_calendar/tab/s_setting_page.dart';
 import '../controller/alarm_setting_controller.dart';
 import '../controller/month_data_controller.dart';
 import '../screen/calendar/calendar_data/schecule_data_source.dart';
+import '../screen/widget/w_calendar_add_page.dart';
 
 class CalendarMonthPage extends StatefulWidget with ScreenInit {
   const CalendarMonthPage({
@@ -37,21 +40,24 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
     screenInit(context);
     return Scaffold(
       key: GlobalKey<_CalendarMonthPageState>(),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: context.appColors.calendarMainColor,
-          child: Icon(Icons.add,color: context.appColors.floatingIconColor,),
-          onPressed: () {
-            setState(() {
-              monthControl.addSchedule(context);
-              print("타임 ${DateTimeComponents.time}");
-            });
-          }).pOnly(bottom: 20.h),
+      floatingActionButton:FloatingActionButton(
+         backgroundColor: context.appColors.calendarMainColor,
+           child: Icon(Icons.add,color: context.appColors.floatingIconColor,),
+           onPressed: () {
+             setState(() {
+               monthControl.addSchedule(context);
+               print("타임 ${DateTimeComponents.time}");
+             });
+           }).pOnly(bottom: 20.h),
       body: Column(
         children: [
           Obx(
             () =>
               Expanded(
                 child: SfCalendar(
+                  //viewNavigationMode: ViewNavigationMode.snap,
+                  // showTodayButton: true,
+                  view: CalendarView.month,
                   selectionDecoration: BoxDecoration(
                     color: context.appColors.calendarMainColor.withOpacity(0.1),
                     border: Border.all(color: context.appColors.calendarMainColor,
@@ -64,18 +70,14 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
                     textStyle: TextStyle(fontSize: bigFontSize + 5),
                   ),
                   onTap: (cp) {
-                    calendarTapped(context, cp);
-                    setState(() {});
+                    monthControl.calendarTapped(context, cp);
                   },
                   onLongPress: (cpo){
-                    setState(() {
-                    calendarLongTapped(context,cpo);
-                    });
+                    monthControl.calendarLongTapped(context, cpo);
                   },
                   controller: _calendarController,
                   headerHeight: 50.h,
                   headerDateFormat: "MM",
-                  view: CalendarView.month,
                   dataSource:
                       ScheduleDataSource(monthControl.monthDataList.value),
                   monthViewSettings: MonthViewSettings(
@@ -133,18 +135,5 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
     );
   }
 
-  void calendarTapped(
-      BuildContext context, CalendarTapDetails calendarTapDetails) {
-    if (calendarTapDetails.targetElement == CalendarElement.appointment) {
-      Schedule event = calendarTapDetails.appointments![0];
-      monthControl.editSchedule(event, context);
-    }
-  }
-  void calendarLongTapped(
-      BuildContext context, CalendarLongPressDetails calendarLongPressDetails){
-    if (calendarLongPressDetails.targetElement == CalendarElement.appointment) {
-      Schedule event = calendarLongPressDetails.appointments![0];
-      monthControl.deleteSchedule(event);
-    }
-  }
+
 }

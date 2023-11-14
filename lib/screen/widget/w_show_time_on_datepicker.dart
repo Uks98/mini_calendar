@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:today_my_calendar/common/common.dart';
 
 import '../../common/constant/constant_widget.dart';
@@ -15,8 +16,8 @@ class ShowTimeOnDatePicker{
           "${timeHour} : ${timeMinute}".text.bold.size(bigFontSize).make(),
           if (isShow)
             SizedBox(
-              width: 350,
-              height: 100,
+              width: 350.h,
+              height: 100.w,
               child: Center(
                 child: CupertinoDatePicker(
                   dateOrder: DatePickerDateOrder.ymd,

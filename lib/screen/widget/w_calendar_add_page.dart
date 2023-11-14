@@ -46,12 +46,14 @@ class _CalendarAddPageState extends State<CalendarAddPage>
       Get.put(DatePickerStateController());
   AlarmSettingController alarmSettingController =
       Get.put(AlarmSettingController());
+  AlarmSettingController alarmController = Get.put(AlarmSettingController());
   MapDataController mapDataController = Get.put(MapDataController());
   double? outPageGpsX = 0.0;
   double? outPageGpsY = 0.0;
   String? outPagePlace = "";
   int _colorIndex = 0;
   int get newId => DateTime.now().microsecondsSinceEpoch;
+  bool isShowDetail = false; //add page 더보기 버튼
   bool get isOnMap => outPageGpsX != 0.0 ? true : false;
   set isOnMap(bool value) {
    value = widget.isShowMap;
@@ -75,10 +77,10 @@ class _CalendarAddPageState extends State<CalendarAddPage>
     outPageGpsY = widget.schedule.gpsX!;
     outPagePlace = widget.schedule.myPlace;
     _colorIndex = widget.schedule.colorIndex;
-
     isOnMap = widget.isShowMap;
     print(isOnMap);
     _updateCameraPosition();
+
   }
 
   @override
@@ -137,6 +139,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
               false;
               datePickerStateController.isShowLastDatePicker.value =
               false;
+              alarmController.alarmTime.value = "없음";
               naverMapController?.dispose();
               _deleteFocus();
             } catch (E) {
@@ -155,7 +158,6 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                   children: [
                     TextField(
                       autocorrect: false,
-                      //focusNode: node,
                       style: TextStyle(fontSize: bigFontSize,fontWeight: FontWeight.w300), // 폰트 크기를 20으로 설정
                       decoration: const InputDecoration(
                         border: InputBorder.none, // 하단 밑줄 없애기
@@ -189,7 +191,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                           width: 20.w,
                           height: 20.h,
                           decoration: BoxDecoration(
-                            color: colorController.colorList[_colorIndex!],
+                            color: colorController.colorList[_colorIndex],
                             borderRadius: BorderRadius.circular(smallHeight),
                           ),
                         ).pOnly(right: bigWidth),
@@ -220,50 +222,59 @@ class _CalendarAddPageState extends State<CalendarAddPage>
 
                 ///알람 설정
                 Height(addPageHeight),
-                const AlarmSettingTile(),
-                Height(addPageHeight),
-                ///위치 받아오기
-                GestureDetector(
-                    onTap: () async {
-                      var gps = await Get.to<Schedule>(LocationSearchWidget());
-                      if (gps == null) {
-                        gps = Schedule(
-                          id: DateTime.now().microsecondsSinceEpoch,
-                            title: '',
-                            memo: '',
-                            from: DateTime.now(),
-                            to: DateTime.now(),
-                            myPlace: '',
-                            gpsX: 0.0,
-                            gpsY: 0.0,
-                            colorIndex: 0,
-                          isShowMap: isOnMap,
-                        );
-                      } else {
-                        outPageGpsX = gps.gpsX;
-                        outPageGpsY = gps.gpsY;
-                      }
-                      outPagePlace = gps.myPlace; //?.
-                      setState(() {});
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        "위치".text.size(normalFontSize).fontWeight(FontWeight.w300,).make().paddingOnly(left: 4.w),
-                        outPagePlace!.text
-                            .size(bigFontSize).fontWeight(FontWeight.w300,)
-                            .make()
-                            .pOnly(left: smallWidth),
-                      ],
-                    )),
-                Height(addPageHeight),
-                ///네이버 맵
 
-                showUserMap(),
+                if(!isShowDetail)
+                  Center(
+                    child: IconButton(onPressed: ()=> setState(() {isShowDetail = true;}),icon: const Icon(Icons.arrow_drop_down),),
+                  ),
+                if(isShowDetail == true)
+                Column(
+                  children: [
+                    const AlarmSettingTile(),
+                    Height(addPageHeight),
+                    ///위치 받아오기
+                    GestureDetector(
+                        onTap: () async {
+                          var gps = await Get.to<Schedule>(LocationSearchWidget());
+                          if (gps == null) {
+                            gps = Schedule(
+                              id: DateTime.now().microsecondsSinceEpoch,
+                              title: '',
+                              memo: '',
+                              from: DateTime.now(),
+                              to: DateTime.now(),
+                              myPlace: '',
+                              gpsX: 0.0,
+                              gpsY: 0.0,
+                              colorIndex: 0,
+                              isShowMap: isOnMap,
+                            );
+                          } else {
+                            outPageGpsX = gps.gpsX;
+                            outPageGpsY = gps.gpsY;
+                          }
+                          outPagePlace = gps.myPlace; //?.
+                          setState(() {});
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            "위치".text.size(normalFontSize).fontWeight(FontWeight.w300,).make().paddingOnly(left: 4.w),
+                            outPagePlace!.text
+                                .size(bigFontSize).fontWeight(FontWeight.w300,)
+                                .make()
+                                .pOnly(right: smallWidth + 2),
+                          ],
+                        )),
+                    Height(addPageHeight),
+                    ///네이버 맵
+                    showUserMap(),
+                    Height(addPageHeight),
+                    MemoContainer(textEditingController: _memoController,),
+                    Height(80.h),
+                  ],
+                )
 
-                Height(addPageHeight),
-                MemoContainer(textEditingController: _memoController,),
-                Height(80.h),
               ],
             ).pOnly(left: 10.w),
           ),

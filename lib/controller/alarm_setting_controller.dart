@@ -12,7 +12,6 @@ import '../main.dart';
 
 class AlarmSettingController extends GetxController{
   RxString alarmTime = "없음".obs;
-  int count = 0;
   int get newId => DateTime.now().microsecond;
   final flutterNotification = FlutterLocalNotificationsPlugin();
     static final notification = flutterLocalNotificationsPlugin;

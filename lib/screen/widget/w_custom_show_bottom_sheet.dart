@@ -41,7 +41,7 @@ class CustomBottomSheet {
                     width: colorCircleSize,
                     height: colorCircleSize,
                     child: Obx(()=>GridView.builder(
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         itemCount: colorController.colorList.value.length,
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
@@ -71,8 +71,8 @@ class CustomBottomSheet {
       {required listIndex, required checkIndex}) {
     return Stack(children: [
       VxBox()
-          .width(30)
-          .height(30)
+          .width(25.w)
+          .height(25.h)
           .withRounded(value: smallWidth + 3.w)
           .color(color)
           .make(),

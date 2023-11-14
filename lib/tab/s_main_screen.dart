@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:today_my_calendar/screen/widget/w_menu_drawer.dart';
 
@@ -40,7 +41,8 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
       child: Scaffold(
         extendBody: extendBody, //bottomNavigationBar 아래 영역 까지 그림
         drawer: const MenuDrawer(),
-        body: Container(
+        body:
+   Container(
           color: context.appColors.seedColor.getMaterialColorValues[200],
           padding: EdgeInsets.only(bottom: extendBody ? 60 - bottomNavigationBarBorderRadius : 0),
           child: SafeArea(
@@ -90,16 +92,17 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
           topLeft: Radius.circular(bottomNavigationBarBorderRadius),
           topRight: Radius.circular(bottomNavigationBarBorderRadius),
         ),
-        child: BottomNavigationBar(
-          items: navigationBarItems(context),
-          currentIndex: _currentIndex,
-          selectedItemColor: context.appColors.text,
-          unselectedItemColor: context.appColors.iconButtonInactivate,
-          onTap: _handleOnTapNavigationBarItem,
-          showSelectedLabels: true,
-          showUnselectedLabels: true,
-          type: BottomNavigationBarType.fixed,
-        ),
+          child: BottomNavigationBar(
+            items: navigationBarItems(context),
+            currentIndex: _currentIndex,
+            selectedItemColor: context.appColors.text,
+            unselectedItemColor: context.appColors.iconButtonInactivate,
+            onTap: _handleOnTapNavigationBarItem,
+            showSelectedLabels: true,
+            showUnselectedLabels: true,
+            type: BottomNavigationBarType.fixed,
+          ),
+
       ),
     );
   }
