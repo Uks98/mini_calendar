@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:today_my_calendar/common/common.dart';
 import 'package:today_my_calendar/controller/month_data_controller.dart';
+import 'package:today_my_calendar/tab/s_setting_page.dart';
 
 import '../common/constant/constant_widget.dart';
 import '../screen/calendar/calendar_data/d_schedule_data.dart';
@@ -20,6 +21,11 @@ class _CalendarDayPageState extends State<CalendarDayPage> with MonthControllerM
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(icon: Icon(Icons.add_circle),onPressed: (){
+          Get.to(SettingPage());
+        },),
+      ),
       body: Obx(() =>SfCalendar(
         allowedViews: const <CalendarView>
         [

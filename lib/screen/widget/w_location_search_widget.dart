@@ -22,7 +22,7 @@ class LocationSearchWidget extends StatefulWidget {
 }
 
 class _LocationSearchWidgetState extends State<LocationSearchWidget> {
-  GlobalKey _otherKey = GlobalKey(); // Define a new GlobalKey.
+  final GlobalKey _otherKey = GlobalKey(); // Define a new GlobalKey.
   MapDataController mapDataController = Get.put(MapDataController());
   double searchGpsX = 0.0;
   double searchGpsY = 0.0;
@@ -85,13 +85,12 @@ class _LocationSearchWidgetState extends State<LocationSearchWidget> {
           children: [
             Row(
               children: [
-                Icon(Icons.search_outlined),
-                Container(
+                const Icon(Icons.search_outlined),
+                SizedBox(
                   width: 200.w,
                   child: TextField(
                     key: _otherKey,
                     onTap: () {
-                      // _locationController.clear();
                       mapDataController.autoCompleteList.clear();
                       mapDataController.isShowMap.value = false;
                     },
@@ -124,7 +123,7 @@ class _LocationSearchWidgetState extends State<LocationSearchWidget> {
                       return Height(smallHeight);
                     },
                     itemBuilder: (BuildContext context, int index, Animation<double> animation) {
-                      final mapData = mapDataController.autoCompleteList[index];
+                      final mapData = mapDataController.autoCompleteList.elementAt(index);
                       return GestureDetector(
                         onTap: () {
                           mapDataController.myPlace.value = mapData.placeName;
@@ -152,6 +151,7 @@ class _LocationSearchWidgetState extends State<LocationSearchWidget> {
                               to: DateTime.now(),
                               colorIndex: 0,
                               isShowMap: false));
+                          print(searchPlace);
                         },
                         child: Card(
                           elevation: 1,

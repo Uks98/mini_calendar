@@ -8,7 +8,9 @@ import '../service/convert_locatoon_json_datal_ist.dart';
 
 class MapDataController extends GetxController{
   RxList<LocationData> mapList = <LocationData>[].obs;
-  RxList<LocationData> autoCompleteList = <LocationData>[].obs;
+  //set 변경
+  RxSet<LocationData> autoCompleteList = <LocationData>{}.obs;
+
   RxDouble gpsX = 0.0.obs;
   RxDouble gpsY = 0.0.obs;
   RxString myPlace = "".obs;
@@ -20,7 +22,7 @@ class MapDataController extends GetxController{
       autoCompleteList.clear();
       return;
     }
-    autoCompleteList.value = mapList.where((element) => element.placeName.contains(keyword)).toList();
+    autoCompleteList.value = mapList.where((element) => element.placeName.contains(keyword)).toSet();
     getMapData(context, keyword);
     print(autoCompleteList.toString());
   }

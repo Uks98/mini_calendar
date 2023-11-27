@@ -46,7 +46,6 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
            onPressed: () {
              setState(() {
                monthControl.addSchedule(context);
-               print("타임 ${DateTimeComponents.time}");
              });
            }).pOnly(bottom: 20.h),
       body: Column(
@@ -55,14 +54,37 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
             () =>
               Expanded(
                 child: SfCalendar(
+        //       appointmentBuilder: (BuildContext context,
+        // CalendarAppointmentDetails details) {
+        //         return Container(color: Colors.red,);
+        //       },
+        //           monthCellBuilder:
+        //               (BuildContext buildContext, MonthCellDetails details) {
+        //             int today = DateTime.now().day;
+        //             return Container(
+        //               decoration: BoxDecoration(
+        //                 //야간모드 당일 셀 color
+        //                 color:  details.date.day == today?AppColors.darkGrey: Colors.transparent,
+        //                 borderRadius: BorderRadius.circular(10),
+        //                   border: Border.all(color: Colors.transparent, width: 0.5)
+        //               ),
+        //                 child: Padding(
+        //                   padding: EdgeInsets.only(top:5.h,left: 20.h),
+        //                   child: Text(
+        //                   details.date.day.toString(),
+        //                   style: TextStyle(color: details.date.day == today? context.appColors.textBadgeText: Colors.black,),
+        //                   ),
+        //                 )
+        //             );
+        //           },
                   //viewNavigationMode: ViewNavigationMode.snap,
                   // showTodayButton: true,
                   view: CalendarView.month,
                   selectionDecoration: BoxDecoration(
-                    color: context.appColors.calendarMainColor.withOpacity(0.1),
-                    border: Border.all(color: context.appColors.calendarMainColor,
+                    color: Colors.grey.withOpacity(0.3),
+                    border: Border.all(color: Colors.transparent,
                         width: 2),
-                    borderRadius: const BorderRadius.all(Radius.circular(5)),
+                    borderRadius: const BorderRadius.all(Radius.circular(8)),
                   ),
                   todayHighlightColor: context.appColors.calendarMainColor, //당일 색상
                   cellBorderColor: Colors.transparent,
@@ -98,7 +120,7 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
                             fontSize: smallFontSize + 3,
                             fontWeight: FontWeight.bold,
                           ),
-                          todayBackgroundColor: AppColors.darkGrey, //야간모드 당일 셀 color
+
                       ),
                       dayFormat: "E", //월요일 .. 화요일 ..
                       agendaStyle: AgendaStyle(

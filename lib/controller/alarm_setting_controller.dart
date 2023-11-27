@@ -36,11 +36,11 @@ class AlarmSettingController extends GetxController{
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: "알람권한을 설정해주세요".text.size(bigFontSize).make()));
       return;
     }
+
     await flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
         AndroidFlutterLocalNotificationsPlugin>()
         ?.deleteNotificationChannelGroup(id);
-
     // await flutterLocalNotificationsPlugin.show(1, "title", "body", detail);
     // 예외처리
     if (time.hour > dateNow.hour || time.hour == dateNow.hour && now.minute >= dateNow.minute) {
@@ -60,6 +60,7 @@ class AlarmSettingController extends GetxController{
       case "1시간 전": await zonedSchedule(newId,notification, time, notiDay, detail,60,title,memo);
       break;
     }
+
     }
 
   Future<void> zonedSchedule(int id,FlutterLocalNotificationsPlugin notification, DateTime time, int notiDay, NotificationDetails detail,int delTime,String title, String content) {
