@@ -54,29 +54,25 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
             () =>
               Expanded(
                 child: SfCalendar(
-        //       appointmentBuilder: (BuildContext context,
-        // CalendarAppointmentDetails details) {
-        //         return Container(color: Colors.red,);
-        //       },
-        //           monthCellBuilder:
-        //               (BuildContext buildContext, MonthCellDetails details) {
-        //             int today = DateTime.now().day;
-        //             return Container(
-        //               decoration: BoxDecoration(
-        //                 //야간모드 당일 셀 color
-        //                 color:  details.date.day == today?AppColors.darkGrey: Colors.transparent,
-        //                 borderRadius: BorderRadius.circular(10),
-        //                   border: Border.all(color: Colors.transparent, width: 0.5)
-        //               ),
-        //                 child: Padding(
-        //                   padding: EdgeInsets.only(top:5.h,left: 20.h),
-        //                   child: Text(
-        //                   details.date.day.toString(),
-        //                   style: TextStyle(color: details.date.day == today? context.appColors.textBadgeText: Colors.black,),
-        //                   ),
-        //                 )
-        //             );
-        //           },
+                  // monthCellBuilder:
+                  //     (BuildContext buildContext, MonthCellDetails details) {
+                  //   int today = DateTime.now().day;
+                  //   return Container(
+                  //     decoration: BoxDecoration(
+                  //       //야간모드 당일 셀 color
+                  //       color:  details.date.day == today?AppColors.darkGrey: Colors.transparent,
+                  //       borderRadius: BorderRadius.circular(10),
+                  //         border: Border.all(color: Colors.transparent, width: 0.5)
+                  //     ),
+                  //       child: Padding(
+                  //         padding: EdgeInsets.only(top:5.h,left: 20.h),
+                  //         child: Text(
+                  //         details.date.day.toString(),
+                  //         style: TextStyle(color: details.date.day == today? context.appColors.textBadgeText: context.appColors.text,),
+                  //         ),
+                  //       )
+                  //   );
+                  // },
                   //viewNavigationMode: ViewNavigationMode.snap,
                   // showTodayButton: true,
                   view: CalendarView.month,

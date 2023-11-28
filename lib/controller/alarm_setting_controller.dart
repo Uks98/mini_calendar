@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
-import 'package:timezone/data/latest.dart' as tz;
 import 'package:today_my_calendar/common/common.dart';
 import 'dart:io';
 import '../common/constant/constant_widget.dart';
@@ -13,7 +12,6 @@ import '../main.dart';
 class AlarmSettingController extends GetxController{
   RxString alarmTime = "없음".obs;
   int get newId => DateTime.now().microsecond;
-  final flutterNotification = FlutterLocalNotificationsPlugin();
     static final notification = flutterLocalNotificationsPlugin;
     final alarmList = [];
   void getAlarmTime({required String id,required DateTime time, required String setTextTime,required BuildContext context,required String title,required String memo})async{
@@ -37,10 +35,7 @@ class AlarmSettingController extends GetxController{
       return;
     }
 
-    await flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<
-        AndroidFlutterLocalNotificationsPlugin>()
-        ?.deleteNotificationChannelGroup(id);
+
     // await flutterLocalNotificationsPlugin.show(1, "title", "body", detail);
     // 예외처리
     if (time.hour > dateNow.hour || time.hour == dateNow.hour && now.minute >= dateNow.minute) {
@@ -49,7 +44,7 @@ class AlarmSettingController extends GetxController{
     switch(setTextTime){
       case "없음": null;
       break;
-      case "지정 시간": await zonedSchedule(newId,notification,time, notiDay, detail,0,title,memo);
+      case "지정 시간": await zonedSchedule(newId,notification,time, notiDay, detail,0,title,memo).then((value) => notification.cancel(newId));
 
       break;
       case "1분 전": await zonedSchedule(newId,notification, time, notiDay, detail,1,title,memo);
@@ -60,10 +55,16 @@ class AlarmSettingController extends GetxController{
       case "1시간 전": await zonedSchedule(newId,notification, time, notiDay, detail,60,title,memo);
       break;
     }
+    await flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+        AndroidFlutterLocalNotificationsPlugin>()
+        ?.deleteNotificationChannelGroup(id);
 
     }
 
   Future<void> zonedSchedule(int id,FlutterLocalNotificationsPlugin notification, DateTime time, int notiDay, NotificationDetails detail,int delTime,String title, String content) {
+    tz.setLocalLocation(tz.getLocation('Asia/Seoul'));
+    final now = tz.TZDateTime.now(tz.local);
     return notification.zonedSchedule(
       id, //알람 아이디 값 유니크하게 변경(유니크 해야 알람이 각각 지정)
       title,
