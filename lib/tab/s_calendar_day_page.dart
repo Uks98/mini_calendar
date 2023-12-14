@@ -26,29 +26,36 @@ class _CalendarDayPageState extends State<CalendarDayPage> with MonthControllerM
           Get.to(SettingPage());
         },),
       ),
-      body: Obx(() =>SfCalendar(
-        allowedViews: const <CalendarView>
-        [
-          CalendarView.day,
-          CalendarView.week,
-          CalendarView.timelineWeek,
-          CalendarView.timelineDay,
+      body: Obx(() =>Column(
+        children: [
+          Expanded(
+            child: SfCalendar(
+              allowedViews: const <CalendarView>
+              [
+                CalendarView.day,
+                CalendarView.week,
+                CalendarView.timelineWeek,
+                CalendarView.timelineDay,
+              ],
+              onTap: (cp) {
+                monthControl.calendarTapped(context, cp);
+              },
+              viewHeaderHeight: bigHeight + 60,
+              todayHighlightColor: context.appColors.calendarMainColor, //당일 색상
+              headerDateFormat: "MM",
+                headerStyle: CalendarHeaderStyle(
+                  textStyle: TextStyle(fontSize:bigFontSize + 5),
+                ),
+                allowAppointmentResize: true,
+              dragAndDropSettings : DragAndDropSettings (
+                  allowNavigation : true),
+             dataSource: ScheduleDataSource(monthControl.monthDataList.value),
+              view: CalendarView.day,
+                ),
+          ),
+          Height(bigHeight + 30)
         ],
-        onTap: (cp) {
-          monthControl.calendarTapped(context, cp);
-        },
-        viewHeaderHeight: bigHeight + 60,
-        todayHighlightColor: context.appColors.calendarMainColor, //당일 색상
-        headerDateFormat: "MM",
-          headerStyle: CalendarHeaderStyle(
-            textStyle: TextStyle(fontSize:bigFontSize + 5),
-          ),
-          allowAppointmentResize: true,
-        dragAndDropSettings : DragAndDropSettings (
-            allowNavigation : true),
-       dataSource: ScheduleDataSource(monthControl.monthDataList.value),
-        view: CalendarView.day,
-          ),
+      ),
       ),
     );
   }

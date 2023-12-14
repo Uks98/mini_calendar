@@ -14,7 +14,7 @@ import 'package:today_my_calendar/tab/s_setting_page.dart';
 import '../controller/alarm_setting_controller.dart';
 import '../controller/month_data_controller.dart';
 import '../screen/calendar/calendar_data/schecule_data_source.dart';
-import '../screen/widget/w_calendar_add_page.dart';
+import '../screen/calendar/s_calendar_add_page.dart';
 
 class CalendarMonthPage extends StatefulWidget with ScreenInit {
   const CalendarMonthPage({

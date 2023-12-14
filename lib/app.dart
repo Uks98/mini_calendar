@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:nav/nav.dart';
 import 'package:today_my_calendar/common/common.dart';
-import 'package:today_my_calendar/screen/widget/w_calendar_add_page.dart';
+import 'package:today_my_calendar/screen/calendar/s_calendar_add_page.dart';
 import 'package:today_my_calendar/tab/s_main_screen.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'common/theme/custom_theme.dart';
@@ -84,6 +84,8 @@ class AppState extends State<App> with Nav, WidgetsBindingObserver {
       // case AppLifecycleState.hidden:
       //  // TODO: Handle this case.
       //  break;
+      case AppLifecycleState.hidden:
+        // TODO: Handle this case.
     }
     super.didChangeAppLifecycleState(state);
   }

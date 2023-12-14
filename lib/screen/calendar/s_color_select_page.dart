@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:today_my_calendar/common/common.dart';
 import 'package:today_my_calendar/screen/calendar/calendar_data/d_schedule_data.dart';
-import 'package:today_my_calendar/screen/widget/w_calendar_add_page.dart';
+import 'package:today_my_calendar/screen/calendar/s_calendar_add_page.dart';
 import 'package:today_my_calendar/screen/widget/w_custom_show_bottom_sheet.dart';
 import 'package:today_my_calendar/tab/s_calendar_day_page.dart';
 

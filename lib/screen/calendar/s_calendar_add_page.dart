@@ -13,20 +13,24 @@ import '../../common/widget/mixin/init_screen_size_utill.dart';
 import '../../controller/alarm_setting_controller.dart';
 import '../../controller/date_picker_controller.dart';
 import '../../controller/map_data_controller.dart';
-import '../calendar/s_color_select_page.dart';
-import 'w_location_search_widget.dart';
-import 'alarm_setting_tile.dart';
+import 'calendar_memo_page.dart';
+import 's_color_select_page.dart';
+import '../widget/w_location_search_widget.dart';
+import '../widget/alarm_setting_tile.dart';
 
 class CalendarAddPage extends StatefulWidget {
   final Schedule? scheduleForEdit;
   Schedule schedule;
   bool isShowMap;
+  bool initShowDetail; //페이지 상세보기
 
   CalendarAddPage(
       {super.key,
       this.scheduleForEdit,
       required this.schedule,
-      required this.isShowMap});
+      required this.isShowMap,
+      required this.initShowDetail
+      });
 
   @override
   State<CalendarAddPage> createState() => _CalendarAddPageState();
@@ -38,7 +42,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
   final double _textFieldHeight = 350;
   final double _quickWidgetLeftPadding = 290;
   final _titleController = TextEditingController();
-  final _memoController = TextEditingController();
+  //final _memoController = TextEditingController();
   final node = FocusNode();
 
   //controller
@@ -51,6 +55,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
   double? outPageGpsX = 0.0;
   double? outPageGpsY = 0.0;
   String? outPagePlace = "";
+  String? memoText;
   int _colorIndex = 0;
   int get newId => DateTime.now().microsecondsSinceEpoch;
   bool isShowDetail = false; //add page 더보기 버튼
@@ -70,7 +75,8 @@ class _CalendarAddPageState extends State<CalendarAddPage>
     // TODO: implement initState
     super.initState();
     _titleController.text = widget.schedule.title.toString();
-    _memoController.text = widget.schedule.memo.toString();
+    //_memoController.text = widget.schedule.memo.toString();
+    memoText = widget.schedule.memo.toString();
     datePickerStateController.startSelectedTime.value = widget.schedule.from;
     datePickerStateController.lastSelectedTime.value = widget.schedule.to;
     outPageGpsX = widget.schedule.gpsY!;
@@ -78,6 +84,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
     outPagePlace = widget.schedule.myPlace;
     _colorIndex = widget.schedule.colorIndex;
     isOnMap = widget.isShowMap;
+    isShowDetail = widget.initShowDetail;
     print(isOnMap);
     _updateCameraPosition();
 
@@ -120,12 +127,12 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                   setTextTime: alarmSettingController.alarmTime.value,
                   context: context,
                   title: _titleController.text,
-                  memo: _memoController.text
+                  memo: memoText.toString(),
               );
               Navigator.of(context).pop(Schedule(
                 id: DateTime.now().microsecondsSinceEpoch,
                 title: _titleController.text,
-                memo: _memoController.text,
+                memo: memoText.toString(),
                 from:
                 datePickerStateController.startSelectedTime.value,
                 to: datePickerStateController.lastSelectedTime.value,
@@ -270,7 +277,9 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                     ///네이버 맵
                     showUserMap(),
                     Height(addPageHeight),
-                    MemoContainer(textEditingController: _memoController,),
+                    //메모
+                    //메모페이지로 이동
+                    moveToMemo(),
                     Height(80.h),
                   ],
                 )
@@ -279,6 +288,33 @@ class _CalendarAddPageState extends State<CalendarAddPage>
             ).pOnly(left: 10.w),
           ),
         ));
+  }
+
+  GestureDetector moveToMemo() {
+    return GestureDetector(
+                    onTap: ()async{
+                      Schedule memos = await Get.to(MemoPage(memoText: Schedule(
+                        id: DateTime.now().microsecondsSinceEpoch,
+                        title: '',
+                        memo: '',
+                        from: DateTime.now(),
+                        to: DateTime.now(),
+                        myPlace: '',
+                        gpsX: 0.0,
+                        gpsY: 0.0,
+                        colorIndex: 0,
+                        isShowMap: isOnMap,
+                      ),),);
+                      memoText = memos.memo;
+                      setState(() {});
+                    },
+                    child: memoText == null ?
+                     Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Expanded(child: "메모".text.size(normalFontSize).fontWeight(FontWeight.w300,).make().paddingOnly(left: 4.w)),
+                    ],):MemoContainer(memoText: memoText!,),
+                  );
   }
 
   Widget showUserMap() {

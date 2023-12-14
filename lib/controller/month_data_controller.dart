@@ -5,7 +5,7 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:today_my_calendar/data/local/local_db.dart';
 
 import '../screen/calendar/calendar_data/d_schedule_data.dart';
-import '../screen/widget/w_calendar_add_page.dart';
+import '../screen/calendar/s_calendar_add_page.dart';
 
 class MonthControl extends GetxController {
   LocalDB localDB = LocalDB.instance;
@@ -42,9 +42,10 @@ class MonthControl extends GetxController {
           isShowMap: false,
         ),
         isShowMap: false,
+        initShowDetail: false,
       ),
     transition: Transition.downToUp,
-      duration: const Duration(milliseconds: 500)
+      duration: const Duration(milliseconds: 300)
       );
     if (result != null) {
       ///리스트 추가 및 갱신 함수
@@ -77,6 +78,7 @@ class MonthControl extends GetxController {
       CalendarAddPage(
                 schedule: schedule,
             isShowMap: true,
+        initShowDetail: true,
           ),
       );
     if (result != null) {

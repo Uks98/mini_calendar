@@ -45,9 +45,10 @@ class AlarmSettingController extends GetxController{
       case "없음": null;
       break;
       case "지정 시간": await zonedSchedule(newId,notification,time, notiDay, detail,0,title,memo).then((value) => notification.cancel(newId));
-
+      print(newId);
       break;
       case "1분 전": await zonedSchedule(newId,notification, time, notiDay, detail,1,title,memo);
+      break;
       case "5분 전": await zonedSchedule(newId,notification, time, notiDay, detail,5,title,memo);
       break;
       case "30분 전": await zonedSchedule(newId,notification, time, notiDay, detail,30,title,memo);
@@ -64,7 +65,6 @@ class AlarmSettingController extends GetxController{
 
   Future<void> zonedSchedule(int id,FlutterLocalNotificationsPlugin notification, DateTime time, int notiDay, NotificationDetails detail,int delTime,String title, String content) {
     tz.setLocalLocation(tz.getLocation('Asia/Seoul'));
-    final now = tz.TZDateTime.now(tz.local);
     return notification.zonedSchedule(
       id, //알람 아이디 값 유니크하게 변경(유니크 해야 알람이 각각 지정)
       title,

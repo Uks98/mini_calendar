@@ -5,7 +5,7 @@ import 'package:today_my_calendar/common/common.dart';
 import 'package:today_my_calendar/common/constant/app_colors.dart';
 import 'package:today_my_calendar/common/constant/constant_widget.dart';
 import 'package:today_my_calendar/screen/calendar/s_color_select_page.dart';
-import 'package:today_my_calendar/screen/widget/w_calendar_add_page.dart';
+import 'package:today_my_calendar/screen/calendar/s_calendar_add_page.dart';
 
 import '../calendar/calendar_data/d_schedule_data.dart';
 
