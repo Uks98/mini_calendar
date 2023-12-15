@@ -80,9 +80,11 @@ class _MessageDialogState extends DialogState<MessageDialog> with MonthControlle
                         child: Container(
                           height: 50,
                           alignment: Alignment.center,
-                          child: Text(
+                          child:
+
+                          Text(
                             widget.positiveButtonText ?? '예',
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.redAccent,
                               fontSize: 16,
                               fontWeight: FontWeight.w700,

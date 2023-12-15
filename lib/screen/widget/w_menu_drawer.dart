@@ -101,7 +101,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
             },
           ),
           const Line(),
-          isSmallScreen(context) ? const Height(10) : const EmptyExpanded(),
+         // isSmallScreen(context) ? const Height(10) : const EmptyExpanded(),
           //다크모드 스위치
           MouseRegion(
             cursor: SystemMouseCursors.click,

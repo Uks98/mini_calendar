@@ -75,7 +75,6 @@ class _CalendarAddPageState extends State<CalendarAddPage>
     // TODO: implement initState
     super.initState();
     _titleController.text = widget.schedule.title.toString();
-    //_memoController.text = widget.schedule.memo.toString();
     memoText = widget.schedule.memo.toString();
     datePickerStateController.startSelectedTime.value = widget.schedule.from;
     datePickerStateController.lastSelectedTime.value = widget.schedule.to;
@@ -85,7 +84,6 @@ class _CalendarAddPageState extends State<CalendarAddPage>
     _colorIndex = widget.schedule.colorIndex;
     isOnMap = widget.isShowMap;
     isShowDetail = widget.initShowDetail;
-    print(isOnMap);
     _updateCameraPosition();
 
   }
@@ -298,7 +296,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                       Schedule memos = await Get.to(MemoPage(memoText: Schedule(
                         id: DateTime.now().microsecondsSinceEpoch,
                         title: '',
-                        memo: '',
+                        memo: memoText.toString(),
                         from: DateTime.now(),
                         to: DateTime.now(),
                         myPlace: '',
