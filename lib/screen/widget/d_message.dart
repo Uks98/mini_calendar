@@ -1,30 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:nav/dialog/dialog.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:today_my_calendar/common/dart/extension/context_extension.dart';
 import 'package:today_my_calendar/common/widget/w_tap.dart';
 
 import '../../common/widget/scaffold/center_dialog_scaffold.dart';
 import '../../common/widget/w_line.dart';
+import '../../controller/month_data_controller.dart';
 import '../../data/simple_result.dart';
 
 
 class MessageDialog extends DialogWidget<SimpleResult> {
   final String? message;
-  final String? buttonText;
+  final String? positiveButtonText;
+  final String? negativeButtonText;
   final bool cancelable;
   final TextAlign textAlign;
   final double fontSize;
+  final CalendarLongPressDetails? calendarLongPressDetails;
 
   MessageDialog(
       this.message, {
-        super.context,
-        super.key,
-        this.buttonText,
+        this.positiveButtonText,
+        this.negativeButtonText,
         this.fontSize = 14,
         this.cancelable = true,
         this.textAlign = TextAlign.start,
+        this.calendarLongPressDetails
       });
-  //:super(barrierDismissible: false); super 파라미터를 통해서 다이얼로그 커스텀 가능
 
   @override
   State<StatefulWidget> createState() {
@@ -32,9 +35,7 @@ class MessageDialog extends DialogWidget<SimpleResult> {
   }
 }
 
-class _MessageDialogState extends DialogState<MessageDialog> {
-  var isChecked = false;
-
+class _MessageDialogState extends DialogState<MessageDialog> with MonthControllerMix {
   @override
   Widget build(BuildContext context) {
     return CenterDialogScaffold(
@@ -67,22 +68,52 @@ class _MessageDialogState extends DialogState<MessageDialog> {
                   ],
                 ),
                 Line(color: context.appColors.divider),
-                Tap(
-                  onTap: () {
-                    widget.hide(SimpleResult.success());
-                  },
-                  child: Container(
-                      height: 50,
-                      alignment: Alignment.center,
-                      child: Text(
-                        widget.buttonText ?? 'close',
-                        style: TextStyle(
-                          color: context.appColors.confirmText,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                          fontStyle: FontStyle.normal,
+                Row(
+                  children: [
+                    Expanded(
+                      child: Tap(
+                        onTap: () {
+                          widget.hide(SimpleResult.success());
+                          monthControl.calendarLongTapped(context, widget.calendarLongPressDetails!);
+                          Navigator.of(context).pop();
+                        },
+                        child: Container(
+                          height: 50,
+                          alignment: Alignment.center,
+                          child: Text(
+                            widget.positiveButtonText ?? '예',
+                            style: TextStyle(
+                              color: Colors.redAccent,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                              fontStyle: FontStyle.normal,
+                            ),
+                          ),
                         ),
-                      )),
+                      ),
+                    ),
+                    Expanded(
+                      child: Tap(
+                        onTap: () {
+                          widget.hide(SimpleResult.success());
+                          Navigator.of(context).pop();
+                        },
+                        child: Container(
+                          height: 50,
+                          alignment: Alignment.center,
+                          child: Text(
+                            widget.negativeButtonText ?? '아니오',
+                            style: TextStyle(
+                              color: context.appColors.text,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                              fontStyle: FontStyle.normal,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 )
               ],
             )));

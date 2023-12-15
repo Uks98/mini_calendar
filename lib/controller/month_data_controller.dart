@@ -6,6 +6,7 @@ import 'package:today_my_calendar/data/local/local_db.dart';
 
 import '../screen/calendar/calendar_data/d_schedule_data.dart';
 import '../screen/calendar/s_calendar_add_page.dart';
+import '../screen/widget/d_message.dart';
 
 class MonthControl extends GetxController {
   LocalDB localDB = LocalDB.instance;
@@ -62,9 +63,11 @@ class MonthControl extends GetxController {
       editSchedule(event, context);
     }
   }
+
   ///캘린더를 롱 탭 했을 때 생기는 이벤트 함수
   void calendarLongTapped(
       BuildContext context, CalendarLongPressDetails calendarLongPressDetails){
+
     if (calendarLongPressDetails.targetElement == CalendarElement.appointment) {
       Schedule event = calendarLongPressDetails.appointments![0];
       deleteSchedule(event);
@@ -74,7 +77,7 @@ class MonthControl extends GetxController {
   void editSchedule(Schedule schedule, BuildContext context) async {
     final result = await Get.to(
       transition: Transition.downToUp,
-      duration: const Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 250),
       CalendarAddPage(
                 schedule: schedule,
             isShowMap: true,

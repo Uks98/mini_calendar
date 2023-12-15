@@ -15,6 +15,7 @@ import '../controller/alarm_setting_controller.dart';
 import '../controller/month_data_controller.dart';
 import '../screen/calendar/calendar_data/schecule_data_source.dart';
 import '../screen/calendar/s_calendar_add_page.dart';
+import '../screen/widget/d_message.dart';
 
 class CalendarMonthPage extends StatefulWidget with ScreenInit {
   const CalendarMonthPage({
@@ -54,27 +55,6 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
             () =>
               Expanded(
                 child: SfCalendar(
-                  // monthCellBuilder:
-                  //     (BuildContext buildContext, MonthCellDetails details) {
-                  //   int today = DateTime.now().day;
-                  //   return Container(
-                  //     decoration: BoxDecoration(
-                  //       //야간모드 당일 셀 color
-                  //       color:  details.date.day == today?AppColors.darkGrey: Colors.transparent,
-                  //       borderRadius: BorderRadius.circular(10),
-                  //         border: Border.all(color: Colors.transparent, width: 0.5)
-                  //     ),
-                  //       child: Padding(
-                  //         padding: EdgeInsets.only(top:5.h,left: 20.h),
-                  //         child: Text(
-                  //         details.date.day.toString(),
-                  //         style: TextStyle(color: details.date.day == today? context.appColors.textBadgeText: context.appColors.text,),
-                  //         ),
-                  //       )
-                  //   );
-                  // },
-                  //viewNavigationMode: ViewNavigationMode.snap,
-                  // showTodayButton: true,
                   view: CalendarView.month,
                   selectionDecoration: BoxDecoration(
                     color: Colors.grey.withOpacity(0.3),
@@ -91,7 +71,7 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
                     monthControl.calendarTapped(context, cp);
                   },
                   onLongPress: (cpo){
-                    monthControl.calendarLongTapped(context, cpo);
+                    showMessageDialog(context,cpo);
                   },
                   controller: _calendarController,
                   headerHeight: 50.h,
@@ -153,5 +133,20 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
     );
   }
 
-
+  void showMessageDialog(BuildContext context,CalendarLongPressDetails calendarLongPressDetails) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return MessageDialog(
+          "이 일정을 삭제하겠습니다?",
+          positiveButtonText: "삭제",
+          negativeButtonText: "취소",
+          fontSize: 16,
+          cancelable: false,
+          textAlign: TextAlign.center,
+          calendarLongPressDetails: calendarLongPressDetails,
+        );
+      },
+    );
+  }
 }

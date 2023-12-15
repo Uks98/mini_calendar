@@ -11,7 +11,6 @@ export '../common/dart/extension/animation_controller_extension.dart';
 export '../common/dart/extension/collection_extension.dart';
 export '../common/dart/extension/context_extension.dart';
 export '../common/dart/extension/num_extension.dart';
-export '../common/dart/kotlin_style/kotlin_extension.dart';
 export 'constants.dart';
 export 'dart/extension/snackbar_context_extension.dart';
 export 'theme/color/abs_theme_colors.dart';

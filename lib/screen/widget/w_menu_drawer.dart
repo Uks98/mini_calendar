@@ -98,9 +98,6 @@ class _MenuDrawerState extends State<MenuDrawer> {
             onTap: () async {
               final manager = DefaultCacheManager();
               await manager.emptyCache();
-              if (mounted) {
-                MessageDialog('clear_cache_done'.tr()).show();
-              }
             },
           ),
           const Line(),

@@ -279,6 +279,8 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                     Height(addPageHeight),
                     //메모
                     //메모페이지로 이동
+                    "메모".text.size(normalFontSize).fontWeight(FontWeight.w300,).make().paddingOnly(right: 315.w),
+                    Height(normalHeight),
                     moveToMemo(),
                     Height(80.h),
                   ],
@@ -308,12 +310,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                       memoText = memos.memo;
                       setState(() {});
                     },
-                    child: memoText == null ?
-                     Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Expanded(child: "메모".text.size(normalFontSize).fontWeight(FontWeight.w300,).make().paddingOnly(left: 4.w)),
-                    ],):MemoContainer(memoText: memoText!,),
+                     child: MemoContainer(memoText: memoText!,)
                   );
   }
 
