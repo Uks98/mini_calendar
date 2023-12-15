@@ -7,7 +7,6 @@ import 'package:today_my_calendar/controller/month_data_controller.dart';
 import 'package:today_my_calendar/tab/s_setting_page.dart';
 
 import '../common/constant/constant_widget.dart';
-import '../screen/calendar/calendar_data/d_schedule_data.dart';
 import '../screen/calendar/calendar_data/schecule_data_source.dart';
 
 class CalendarDayPage extends StatefulWidget {
@@ -40,6 +39,9 @@ class _CalendarDayPageState extends State<CalendarDayPage> with MonthControllerM
               onTap: (cp) {
                 monthControl.calendarTapped(context, cp);
               },
+              onLongPress: (cpo){
+                  showMessageDialog(context,cpo);
+              },
               viewHeaderHeight: bigHeight + 60,
               todayHighlightColor: context.appColors.calendarMainColor, //당일 색상
               headerDateFormat: "MM",
@@ -47,7 +49,7 @@ class _CalendarDayPageState extends State<CalendarDayPage> with MonthControllerM
                   textStyle: TextStyle(fontSize:bigFontSize + 5),
                 ),
                 allowAppointmentResize: true,
-              dragAndDropSettings : DragAndDropSettings (
+              dragAndDropSettings : const DragAndDropSettings (
                   allowNavigation : true),
              dataSource: ScheduleDataSource(monthControl.monthDataList.value),
               view: CalendarView.day,

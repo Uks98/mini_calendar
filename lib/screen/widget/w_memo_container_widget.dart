@@ -5,7 +5,6 @@ import 'package:today_my_calendar/common/constant/constant_widget.dart';
 import 'package:today_my_calendar/common/widget/mixin/init_screen_size_utill.dart';
 
 import '../../common/constant/app_colors.dart';
-import '../../common/theme/custom_theme.dart';
 
 class MemoContainer extends StatelessWidget with ScreenInit {
   String memoText;

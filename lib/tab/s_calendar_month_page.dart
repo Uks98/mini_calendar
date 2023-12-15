@@ -17,8 +17,8 @@ import '../screen/calendar/calendar_data/schecule_data_source.dart';
 import '../screen/calendar/s_calendar_add_page.dart';
 import '../screen/widget/d_message.dart';
 
-class CalendarMonthPage extends StatefulWidget with ScreenInit {
-  const CalendarMonthPage({
+class CalendarMonthPage extends StatefulWidget {
+    const CalendarMonthPage({
     super.key,
   });
 
@@ -71,7 +71,7 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
                     monthControl.calendarTapped(context, cp);
                   },
                   onLongPress: (cpo){
-                    showMessageDialog(context,cpo);
+                    showMessageDialog(context, cpo);
                   },
                   controller: _calendarController,
                   headerHeight: 50.h,
@@ -119,7 +119,7 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
                               fontWeight: FontWeight.bold,
                               fontStyle: FontStyle.normal)
                       ),
-                      appointmentDisplayCount: 4,
+                      appointmentDisplayCount: 3,
                       showAgenda: true,
                       appointmentDisplayMode:
                           MonthAppointmentDisplayMode.appointment),
@@ -133,20 +133,5 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
     );
   }
 
-  void showMessageDialog(BuildContext context,CalendarLongPressDetails calendarLongPressDetails) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return MessageDialog(
-          "이 일정을 삭제하겠습니다?",
-          positiveButtonText: "삭제",
-          negativeButtonText: "취소",
-          fontSize: 16,
-          cancelable: false,
-          textAlign: TextAlign.center,
-          calendarLongPressDetails: calendarLongPressDetails,
-        );
-      },
-    );
-  }
+
 }

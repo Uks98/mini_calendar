@@ -2,7 +2,7 @@
     package="com.mocoCalendar.moko">
 
     <application
-        android:label="today_my_calendar"
+        android:label="모코 캘린더"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
 

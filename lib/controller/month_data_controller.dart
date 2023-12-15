@@ -110,7 +110,22 @@ class MonthControl extends GetxController {
     });
   }
 }
-
+void showMessageDialog(BuildContext context,CalendarLongPressDetails calendarLongPressDetails) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return MessageDialog(
+        "이 일정을 삭제하겠습니다?",
+        positiveButtonText: "삭제",
+        negativeButtonText: "취소",
+        fontSize: 16,
+        cancelable: false,
+        textAlign: TextAlign.center,
+        calendarLongPressDetails: calendarLongPressDetails,
+      );
+    },
+  );
+}
 mixin class MonthControllerMix {
   late MonthControl monthControl = Get.put(MonthControl());
 }
