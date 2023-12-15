@@ -8,14 +8,11 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:today_my_calendar/common/common.dart';
 import 'package:today_my_calendar/common/constant/app_colors.dart';
 import 'package:today_my_calendar/common/constant/constant_widget.dart';
+import 'package:today_my_calendar/common/theme/custom_theme.dart';
 import 'package:today_my_calendar/common/widget/mixin/init_screen_size_utill.dart';
-import 'package:today_my_calendar/screen/calendar/calendar_data/d_schedule_data.dart';
-import 'package:today_my_calendar/tab/s_setting_page.dart';
 import '../controller/alarm_setting_controller.dart';
 import '../controller/month_data_controller.dart';
 import '../screen/calendar/calendar_data/schecule_data_source.dart';
-import '../screen/calendar/s_calendar_add_page.dart';
-import '../screen/widget/d_message.dart';
 
 class CalendarMonthPage extends StatefulWidget {
     const CalendarMonthPage({
@@ -30,6 +27,7 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
     with ScreenInit, MonthControllerMix {
   final CalendarController _calendarController = CalendarController();
   AlarmSettingController alarmController = Get.put(AlarmSettingController());
+  bool isDarkMode = false;
   @override
   void initState() {
     super.initState();
@@ -37,6 +35,12 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
 
   @override
   Widget build(BuildContext context) {
+    final s = context.themeType;
+    if(s == CustomTheme.dark){
+      isDarkMode = true;
+    } else {
+      isDarkMode = false;
+    }
 
     screenInit(context);
     return Scaffold(
@@ -55,6 +59,7 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
             () =>
               Expanded(
                 child: SfCalendar(
+                  todayTextStyle: const TextStyle(color: Colors.white),
                   view: CalendarView.month,
                   selectionDecoration: BoxDecoration(
                     color: Colors.grey.withOpacity(0.3),
@@ -62,7 +67,7 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
                         width: 2),
                     borderRadius: const BorderRadius.all(Radius.circular(8)),
                   ),
-                  todayHighlightColor: context.appColors.calendarMainColor, //당일 색상
+                  todayHighlightColor:  !isDarkMode ? context.appColors.calendarMainColor : context.appColors.todaySelectedColor, //당일 색상
                   cellBorderColor: Colors.transparent,
                   headerStyle: CalendarHeaderStyle(
                     textStyle: TextStyle(fontSize: bigFontSize + 5),
@@ -95,6 +100,7 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
                           leadingDatesTextStyle: TextStyle(
                             fontSize: smallFontSize + 3,
                             fontWeight: FontWeight.bold,
+                            color: context.appColors.text,
                           ),
 
                       ),

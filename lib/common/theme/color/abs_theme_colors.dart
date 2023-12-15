@@ -52,5 +52,11 @@ abstract class AbstractThemeColors {
 
   Color get floatingIconColor => const Color(0xffF3EEEA);
 
-  Color get calendarMainColor => const Color(0xff83A2FF);
+  Color get calendarMainColor => const Color(0xff0F0F0F);
+
+  Color get todaySelectedColor => const Color(0xff4E4FEB);
+
+
+
+
 }

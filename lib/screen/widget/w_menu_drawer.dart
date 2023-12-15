@@ -103,20 +103,20 @@ class _MenuDrawerState extends State<MenuDrawer> {
           const Line(),
          // isSmallScreen(context) ? const Height(10) : const EmptyExpanded(),
           //다크모드 스위치
-          MouseRegion(
-            cursor: SystemMouseCursors.click,
-            child: ModeSwitch(
-              value: context.isDarkMode,
-              onChanged: (value) {
-                ThemeUtil.toggleTheme(context);
-              },
-              height: 30,
-              //activeThumbImage: Image.asset('$basePath/darkmode/moon.png'),
-              //inactiveThumbImage: Image.asset('$basePath/darkmode/sun.png'),
-              activeThumbColor: Colors.transparent,
-              inactiveThumbColor: Colors.transparent,
-            ).pOnly(left: 20),
-          ),
+          // MouseRegion(
+          //   cursor: SystemMouseCursors.click,
+          //   child: ModeSwitch(
+          //     value: context.isDarkMode,
+          //     onChanged: (value) {
+          //       ThemeUtil.toggleTheme(context);
+          //     },
+          //     height: 30,
+          //     //activeThumbImage: Image.asset('$basePath/darkmode/moon.png'),
+          //     //inactiveThumbImage: Image.asset('$basePath/darkmode/sun.png'),
+          //     activeThumbColor: Colors.transparent,
+          //     inactiveThumbColor: Colors.transparent,
+          //   ).pOnly(left: 20),
+          // ),
           const Height(10),
           Row(
             children: [
@@ -141,7 +141,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
   }
 
   void toggleTheme() {
-    ThemeUtil.toggleTheme(context);
+    ThemeUtil().toggleTheme(context);
   }
 
   void closeDrawer(BuildContext context) {

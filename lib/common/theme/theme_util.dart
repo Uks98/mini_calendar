@@ -1,11 +1,13 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
+import '../../controller/month_data_controller.dart';
 import '../common.dart';
 import '../data/preference/prefs.dart';
 import 'custom_theme.dart';
 
-class ThemeUtil {
+class ThemeUtil with MonthControllerMix{
   static Brightness get systemBrightness =>
       SchedulerBinding.instance.platformDispatcher.platformBrightness;
 
@@ -15,14 +17,19 @@ class ThemeUtil {
   }
 
   //다크모드 토글
-  static void toggleTheme(BuildContext context) {
+   void toggleTheme(BuildContext context) {
     final theme = context.themeType;
     switch (theme) {
       case CustomTheme.dark:
         changeTheme(context, CustomTheme.light);
+
+        // monthControl.isDarkMode.value = false;
+        // print( MonthControl().isDarkMode.value);
         break;
       case CustomTheme.light:
         changeTheme(context, CustomTheme.dark);
+        // monthControl.isDarkMode.value = true;
+        // print( monthControl.isDarkMode.value);
         break;
     }
   }

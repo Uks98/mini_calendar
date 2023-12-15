@@ -25,6 +25,7 @@ class AlarmSettingController extends GetxController{
       channelDescription: "toText",
       importance: Importance.max,
       priority: Priority.max,
+      //icon: "android/app/src/main/calendar-playstore"
     );
      final detail = NotificationDetails(
       android: android,

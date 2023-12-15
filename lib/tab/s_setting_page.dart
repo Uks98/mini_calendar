@@ -19,7 +19,7 @@ class SettingPage extends StatelessWidget {
               child: Switch(
                 value: context.isDarkMode,
                 onChanged: (value) {
-                  ThemeUtil.toggleTheme(context);
+                  ThemeUtil().toggleTheme(context);
                 },
               ).pOnly(left: 20),
             ),

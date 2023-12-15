@@ -11,7 +11,7 @@ import '../screen/widget/d_message.dart';
 class MonthControl extends GetxController {
   LocalDB localDB = LocalDB.instance;
   RxList<Schedule> monthDataList = <Schedule>[].obs;
-
+  //RxBool isDarkMode = false.obs;
   @override
   void onInit() {
     // TODO: implement onInit

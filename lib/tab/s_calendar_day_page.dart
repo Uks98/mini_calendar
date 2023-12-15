@@ -7,6 +7,7 @@ import 'package:today_my_calendar/controller/month_data_controller.dart';
 import 'package:today_my_calendar/tab/s_setting_page.dart';
 
 import '../common/constant/constant_widget.dart';
+import '../common/theme/custom_theme.dart';
 import '../screen/calendar/calendar_data/schecule_data_source.dart';
 
 class CalendarDayPage extends StatefulWidget {
@@ -17,6 +18,7 @@ class CalendarDayPage extends StatefulWidget {
 }
 
 class _CalendarDayPageState extends State<CalendarDayPage> with MonthControllerMix {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,6 +31,12 @@ class _CalendarDayPageState extends State<CalendarDayPage> with MonthControllerM
         children: [
           Expanded(
             child: SfCalendar(
+              todayTextStyle: TextStyle(color: Colors.white),
+              scheduleViewSettings: const ScheduleViewSettings(
+                dayHeaderSettings: DayHeaderSettings(
+                  dayFormat: "EEE"
+                )
+              ),
               allowedViews: const <CalendarView>
               [
                 CalendarView.day,
@@ -44,13 +52,12 @@ class _CalendarDayPageState extends State<CalendarDayPage> with MonthControllerM
               },
               viewHeaderHeight: bigHeight + 60,
               todayHighlightColor: context.appColors.calendarMainColor, //당일 색상
+              showTodayButton: true,
               headerDateFormat: "MM",
                 headerStyle: CalendarHeaderStyle(
                   textStyle: TextStyle(fontSize:bigFontSize + 5),
                 ),
                 allowAppointmentResize: true,
-              dragAndDropSettings : const DragAndDropSettings (
-                  allowNavigation : true),
              dataSource: ScheduleDataSource(monthControl.monthDataList.value),
               view: CalendarView.day,
                 ),
