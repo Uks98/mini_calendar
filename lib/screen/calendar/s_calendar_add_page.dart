@@ -69,7 +69,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
   RxBool get isShowLastPicker => datePickerStateController.isShowLastDatePicker;
   final alarmSet = Get.put(AlarmSettingController());
   NaverMapController? naverMapController;
-
+  final GlobalKey<FormState> _formKey1 = GlobalKey<FormState>();
   @override
   void initState() {
     // TODO: implement initState
@@ -162,6 +162,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                 Row(
                   children: [
                     TextField(
+                      key: _formKey1,
                       autocorrect: false,
                       style: TextStyle(fontSize: bigFontSize,fontWeight: FontWeight.w300), // 폰트 크기를 20으로 설정
                       decoration: const InputDecoration(

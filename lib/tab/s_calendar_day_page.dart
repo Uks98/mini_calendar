@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:today_my_calendar/common/common.dart';
@@ -23,15 +24,15 @@ class _CalendarDayPageState extends State<CalendarDayPage> with MonthControllerM
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(icon: Icon(Icons.add_circle),onPressed: (){
-          Get.to(SettingPage());
+        leading: IconButton(icon: const Icon(Icons.add_circle),onPressed: (){
+          Get.to(const SettingPage());
         },),
       ),
       body: Obx(() =>Column(
         children: [
           Expanded(
             child: SfCalendar(
-              todayTextStyle: TextStyle(color: Colors.white),
+              todayTextStyle: const TextStyle(color: Colors.white),
               scheduleViewSettings: const ScheduleViewSettings(
                 dayHeaderSettings: DayHeaderSettings(
                   dayFormat: "EEE"
