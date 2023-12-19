@@ -93,7 +93,7 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
             },
           ),
         ],
-      ).pOnly(bottom: 20.h),
+      ).pOnly(bottom: 10.h),
       body: Column(
         children: [
           Obx(

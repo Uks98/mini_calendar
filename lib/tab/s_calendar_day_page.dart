@@ -23,11 +23,6 @@ class _CalendarDayPageState extends State<CalendarDayPage> with MonthControllerM
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(icon: const Icon(Icons.add_circle),onPressed: (){
-          Get.to(const SettingPage());
-        },),
-      ),
       body: Obx(() =>Column(
         children: [
           Expanded(

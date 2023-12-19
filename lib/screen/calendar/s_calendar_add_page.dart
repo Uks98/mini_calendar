@@ -145,6 +145,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
               datePickerStateController.isShowLastDatePicker.value =
               false;
               alarmController.alarmTime.value = "없음";
+              FocusScope.of(context).unfocus();
               naverMapController?.dispose();
               _deleteFocus();
             } catch (E) {
