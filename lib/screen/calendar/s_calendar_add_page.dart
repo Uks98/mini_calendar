@@ -140,12 +140,12 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                 colorIndex: _colorIndex,
                 isShowMap: isOnMap,
               ));
+              FocusScope.of(context).unfocus();
               datePickerStateController.isShowStartDatePicker.value =
               false;
               datePickerStateController.isShowLastDatePicker.value =
               false;
               alarmController.alarmTime.value = "없음";
-              FocusScope.of(context).unfocus();
               naverMapController?.dispose();
               _deleteFocus();
             } catch (E) {
@@ -163,7 +163,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                 Row(
                   children: [
                     TextField(
-                      key: _formKey1,
+                      key: Key("sadnasdnsakdsadsadsad"),
                       autocorrect: false,
                       style: TextStyle(fontSize: bigFontSize,fontWeight: FontWeight.w300), // 폰트 크기를 20으로 설정
                       decoration: const InputDecoration(
@@ -189,7 +189,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                       onTap: () async {
                         final corIndex = await customBottomSheet
                             .showCustomBottomSheet(context,
-                                radius: 20.0.w, title: "이벤트 색상");
+                                radius: 20.0.w, title: "테마");
                         _colorIndex = corIndex;
                         setState(() {});
                       },
@@ -198,7 +198,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                           width: 20.w,
                           height: 20.h,
                           decoration: BoxDecoration(
-                            color: colorController.colorList[_colorIndex],
+                            color: colorController.colorList.keys.elementAt(_colorIndex),
                             borderRadius: BorderRadius.circular(smallHeight),
                           ),
                         ).pOnly(right: bigWidth),
@@ -319,7 +319,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
         widget.schedule.gpsX != 0.0) ||
         isOnMap == true) {
       return ClipRRect(
-        borderRadius: BorderRadius.circular(middleWidth),
+        borderRadius: BorderRadius.circular(normalWidth),
         child: Container(
           height: 200.h,
           width: MediaQuery

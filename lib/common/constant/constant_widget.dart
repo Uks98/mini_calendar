@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 const spacer = Spacer();
 
  double smallWidth = 5.0.w;
- double middleWidth = 10.0.w;
+ double normalWidth = 10.0.w;
  double bigWidth = 20.0.w;
 
  double smallHeight = 5.0.h;
@@ -17,7 +17,7 @@ const spacer = Spacer();
  double bigFontSize = 18.0;
 
  ///색상 선택
- double colorCircleSize = 100.w;
+ double colorSelectPageHeight = 500.w;
  ///타이머 시간 오른쪽 여백
 double timeTextRightPaddingSize = 170;
 ///알람시간 오른쪽 여백

@@ -1,7 +1,5 @@
-import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/instance_manager.dart';
@@ -9,7 +7,7 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:today_my_calendar/common/common.dart';
 import 'package:today_my_calendar/common/constant/app_colors.dart';
 import 'package:today_my_calendar/common/constant/constant_widget.dart';
-import 'package:today_my_calendar/common/theme/custom_theme.dart';
+import 'package:today_my_calendar/common/theme/color/mix_find_theme.dart';
 import 'package:today_my_calendar/common/widget/mixin/init_screen_size_utill.dart';
 import 'package:today_my_calendar/tab/s_setting_page.dart';
 import '../controller/alarm_setting_controller.dart';
@@ -26,12 +24,11 @@ class CalendarMonthPage extends StatefulWidget {
 }
 
 class _CalendarMonthPageState extends State<CalendarMonthPage>
-    with ScreenInit, MonthControllerMix {
+    with ScreenInit, MonthControllerMix,ThemeDarkFind {
   final CalendarController _calendarController = CalendarController();
   AlarmSettingController alarmController = Get.put(AlarmSettingController());
   final _floatingKey =
       GlobalKey<ExpandableFabState>(); // floating action button global key
-  bool isDarkMode = false;
 
   Color get changeSmallFloatingColor => !isDarkMode
       ? context.appColors.calendarMainColor
@@ -42,6 +39,7 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
       : context.appColors.floatingIconColor;
   String month = "";
 
+
   @override
   void initState() {
     super.initState();
@@ -49,19 +47,13 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
 
   @override
   Widget build(BuildContext context) {
-    final s = context.themeType;
-    if (s == CustomTheme.dark) {
-      isDarkMode = true;
-    } else {
-      isDarkMode = false;
-    }
-
+   findDarkMode(context);
     screenInit(context);
     return Scaffold(
       key: GlobalKey<_CalendarMonthPageState>(),
       floatingActionButtonLocation: ExpandableFab.location,
       floatingActionButton: ExpandableFab(
-        overlayStyle: ExpandableFabOverlayStyle(blur:  3.0),
+        overlayStyle: ExpandableFabOverlayStyle(blur:  10.0),
         openButtonBuilder: buildRotateFloatingActionButtonBuilder(context, const Icon(Icons.add)),
         closeButtonBuilder: buildRotateFloatingActionButtonBuilder(context, const Icon(Icons.close)),
         type: ExpandableFabType.up,
@@ -184,7 +176,7 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
   RotateFloatingActionButtonBuilder buildRotateFloatingActionButtonBuilder(
       BuildContext context, Icon icon) {
     return RotateFloatingActionButtonBuilder(
-      heroTag: "d",
+      heroTag: "f",
       child: icon,
       fabSize: ExpandableFabSize.regular,
       foregroundColor: context.appColors.floatingIconColor,

@@ -33,7 +33,7 @@ class ScheduleDataSource extends CalendarDataSource {
 
   @override
   Color getColor(int cor) {
-    return colorController.colorList[monthController.monthDataList[cor].colorIndex];
+    return colorController.colorList.keys.elementAt(monthController.monthDataList[cor].colorIndex);
   }
 
 

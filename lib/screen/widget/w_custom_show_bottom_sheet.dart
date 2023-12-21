@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -5,11 +7,10 @@ import 'package:today_my_calendar/common/common.dart';
 import 'package:today_my_calendar/common/constant/app_colors.dart';
 import 'package:today_my_calendar/common/constant/constant_widget.dart';
 import 'package:today_my_calendar/screen/calendar/s_color_select_page.dart';
-import 'package:today_my_calendar/screen/calendar/s_calendar_add_page.dart';
 
-import '../calendar/calendar_data/d_schedule_data.dart';
+import '../../common/theme/color/mix_find_theme.dart';
 
-class CustomBottomSheet {
+class CustomBottomSheet with ThemeDarkFind{
   Future showCustomBottomSheet(BuildContext context,
       {required double radius, required String title}) {
     return showModalBottomSheet(
@@ -21,46 +22,53 @@ class CustomBottomSheet {
         ),
       ),
       builder: (BuildContext context) {
-        return SizedBox(
-          height: 300.h,
-          width: MediaQuery.of(context).size.width,
-          child: Column(
-            children: [
-              Height(normalHeight),
-              title.text.size(bigFontSize).make(),
-              Height(normalHeight),
-              Stack(
-                children: [
-                  VxBox()
-                      .color(AppColors.brightGrey)
-                      .width(300.w)
-                      .height(200.h)
-                      .withRounded(value: 10.w)
-                      .make(),
-                  SizedBox(
-                    width: colorCircleSize,
-                    height: colorCircleSize,
-                    child: Obx(()=>GridView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: colorController.colorList.value.length,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3, // 열의 개수 설정
-                        ),
-                        itemBuilder: (context, index) {
-                          final color = colorController.colorList.value[index];
-                          colorController.selectIndex.value = index;
-                          return GestureDetector(
-                              onTap: (){
-                                colorController.selectIndex.value = index;
-                                Navigator.of(context).pop(index);
-                              },
-                              child: Obx(()=>circleOutlined(color, listIndex: index, checkIndex: colorController.selectIndex.value)));
-                        }),
-                  ).pOnly(left: normalHeight, top: normalHeight),),
-                ],
-              ),
-            ],
+        findDarkMode(context);
+        return FractionallySizedBox(
+          heightFactor: 1.0,
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width,
+            child: Column(
+              children: [
+                Height(normalHeight),
+                title.text.size(bigFontSize).make(),
+                Height(normalHeight),
+                Stack(
+                  children: [
+                    SizedBox(
+                      width: colorSelectPageHeight,
+                      height: 300,
+                      child: Obx(() => ListView.separated(
+                            itemCount:
+                                colorController.colorList.value.entries.length,
+                            itemBuilder: (context, index) {
+                              print(isDarkMode);
+                              var entry = colorController
+                                  .colorList.value.entries
+                                  .elementAt(index);
+                              return Obx(() => GestureDetector(
+                                onTap: () {
+                                  colorController.selectIndex.value = index;
+                                  Navigator.of(context).pop(index);
+                                },
+                                child: Row(children: [
+                                  circleOutlined(entry.key,
+                                      listIndex: index,
+                                      checkIndex:
+                                      colorController.selectIndex.value),
+                                  Width(normalWidth),
+                                  entry.value.text.color(isDarkMode ? Colors.white : Colors.black).fontWeight(FontWeight.w300).make(),
+                                ],),
+                              ),);
+                            },
+                            separatorBuilder: (BuildContext ctx, int idx) {
+                              return const sep_col_height();
+                            },
+                          )).pOnly(left: normalHeight, top: normalHeight),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         );
       },
@@ -71,12 +79,12 @@ class CustomBottomSheet {
       {required listIndex, required checkIndex}) {
     return Stack(children: [
       VxBox()
-          .width(25.w)
-          .height(25.h)
-          .withRounded(value: smallWidth + 3.w)
+          .width(30.w)
+          .height(30.h)
+          .withRounded(value: smallWidth)
           .color(color)
           .make(),
-        checkIndex == listIndex
+      checkIndex == listIndex
           ? Icon(
               Icons.check,
               size: bigHeight,
@@ -84,5 +92,27 @@ class CustomBottomSheet {
             ).pOnly(left: smallWidth, top: smallHeight)
           : const SizedBox(),
     ]);
+  }
+}
+
+class sep_col_height extends StatelessWidget {
+  const sep_col_height({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        SizedBox(height: smallHeight),
+        Divider(
+          indent: 1.w,
+          endIndent: 10.w,
+          thickness: 0.8,
+          color: Colors.grey[500],
+        ),
+        SizedBox(height: smallHeight),
+      ],
+    );
   }
 }
