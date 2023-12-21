@@ -22,14 +22,9 @@ class ThemeUtil with MonthControllerMix{
     switch (theme) {
       case CustomTheme.dark:
         changeTheme(context, CustomTheme.light);
-
-        // monthControl.isDarkMode.value = false;
-        // print( MonthControl().isDarkMode.value);
         break;
       case CustomTheme.light:
         changeTheme(context, CustomTheme.dark);
-        // monthControl.isDarkMode.value = true;
-        // print( monthControl.isDarkMode.value);
         break;
     }
   }

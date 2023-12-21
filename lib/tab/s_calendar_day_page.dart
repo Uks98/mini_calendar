@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:today_my_calendar/common/common.dart';
 import 'package:today_my_calendar/controller/month_data_controller.dart';
-import 'package:today_my_calendar/tab/s_setting_page.dart';
+import 'package:today_my_calendar/screen/setting/s_setting_page.dart';
 
 import '../common/constant/constant_widget.dart';
 import '../common/theme/custom_theme.dart';

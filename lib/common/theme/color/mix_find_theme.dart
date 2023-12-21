@@ -6,16 +6,14 @@ import 'package:today_my_calendar/common/common.dart';
 import '../custom_theme.dart';
 
 mixin class ThemeDarkFind{
-  bool isDarkMode = false;
+  bool isLightMode = false;
   void findDarkMode(BuildContext context){
     final theme = context.themeType;
     switch(theme){
       case CustomTheme.dark:
-        isDarkMode = true;
-        print(isDarkMode);
+        isLightMode = true;
       case CustomTheme.light:
-        isDarkMode = false;
-        print(isDarkMode);
+        isLightMode = false;
     }
     // if (theme == CustomTheme.dark) {
     //   print(theme);

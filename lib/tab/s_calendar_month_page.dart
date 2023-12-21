@@ -9,7 +9,9 @@ import 'package:today_my_calendar/common/constant/app_colors.dart';
 import 'package:today_my_calendar/common/constant/constant_widget.dart';
 import 'package:today_my_calendar/common/theme/color/mix_find_theme.dart';
 import 'package:today_my_calendar/common/widget/mixin/init_screen_size_utill.dart';
-import 'package:today_my_calendar/tab/s_setting_page.dart';
+import 'package:today_my_calendar/controller/setting_calendardata_controller.dart';
+import 'package:today_my_calendar/screen/setting/s_setting_page.dart';
+import '../common/data/preference/prefs.dart';
 import '../controller/alarm_setting_controller.dart';
 import '../controller/month_data_controller.dart';
 import '../screen/calendar/calendar_data/schecule_data_source.dart';
@@ -26,15 +28,17 @@ class CalendarMonthPage extends StatefulWidget {
 class _CalendarMonthPageState extends State<CalendarMonthPage>
     with ScreenInit, MonthControllerMix,ThemeDarkFind {
   final CalendarController _calendarController = CalendarController();
-  AlarmSettingController alarmController = Get.put(AlarmSettingController());
+  final AlarmSettingController alarmController = Get.put(AlarmSettingController());
+  final SettingCalendarController _settingCalendarController = Get.put(SettingCalendarController());
+
   final _floatingKey =
       GlobalKey<ExpandableFabState>(); // floating action button global key
 
-  Color get changeSmallFloatingColor => !isDarkMode
+  Color get changeSmallFloatingColor => !isLightMode
       ? context.appColors.calendarMainColor
       : context.appColors.floatingIconColor;
 
-  Color get changeSmallFloatingIconColor => isDarkMode
+  Color get changeSmallFloatingIconColor => isLightMode
       ? context.appColors.calendarMainColor
       : context.appColors.floatingIconColor;
   String month = "";
@@ -91,6 +95,9 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
           Obx(
             () => Expanded(
               child: SfCalendar(
+                showTodayButton: true,
+                weekNumberStyle: const WeekNumberStyle(textStyle: TextStyle(fontWeight: FontWeight.w300,fontSize: 11)),
+                showWeekNumber: Prefs.isWeekNum.get(), //주번호
                 viewHeaderHeight: 63.h,
                 todayTextStyle: const TextStyle(color: Colors.white),
                 view: CalendarView.month,
@@ -99,7 +106,7 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
                   border: Border.all(color: Colors.transparent, width: 2),
                   borderRadius: const BorderRadius.all(Radius.circular(8)),
                 ),
-                todayHighlightColor: !isDarkMode
+                todayHighlightColor: !isLightMode
                     ? context.appColors.calendarMainColor
                     : context.appColors.todaySelectedColor,
                 //당일 색상
@@ -125,7 +132,8 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
                     monthCellStyle: MonthCellStyle(
                       textStyle: TextStyle(
                         fontSize: smallFontSize + 2,
-                        fontWeight: FontWeight.bold,
+                        //달력 dayStyle
+                        fontWeight: Prefs.isDayFontWeight.get() ? FontWeight.bold : FontWeight.w300,
                         color: context.appColors.text,
                       ),
                       trailingDatesTextStyle: TextStyle(
@@ -147,7 +155,8 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
                         ),
                         appointmentTextStyle: TextStyle(
                           color: Colors.white,
-                          fontSize: smallFontSize + 2,
+                          //일정 폰트!!
+                          fontSize:  Prefs.appointmentTextSize.get(),
                         ),
                         dayTextStyle: TextStyle(
                           color: AppColors.grey,

@@ -41,7 +41,6 @@ class CustomBottomSheet with ThemeDarkFind{
                             itemCount:
                                 colorController.colorList.value.entries.length,
                             itemBuilder: (context, index) {
-                              print(isDarkMode);
                               var entry = colorController
                                   .colorList.value.entries
                                   .elementAt(index);
@@ -56,7 +55,7 @@ class CustomBottomSheet with ThemeDarkFind{
                                       checkIndex:
                                       colorController.selectIndex.value),
                                   Width(normalWidth),
-                                  entry.value.text.color(isDarkMode ? Colors.white : Colors.black).fontWeight(FontWeight.w300).make(),
+                                  entry.value.text.color(isLightMode ? Colors.white : Colors.black).fontWeight(FontWeight.w300).make(),
                                 ],),
                               ),);
                             },

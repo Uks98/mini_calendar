@@ -25,12 +25,7 @@ void _initNotiSetting() async {
   const initializationSettingsAndroid =
   AndroidInitializationSettings('@mipmap/ic_launcher');
   tz.initializeTimeZones();
-  //tz.setLocalLocation(tz.getLocation('Asia/Seoul'));
-  // const initializationSettingsIOS = IOSInitializationSettings(
-  //   requestAlertPermission: false,
-  //   requestBadgePermission: false,
-  //   requestSoundPermission: false,
-  // );
+
 
   const initializationSettings = InitializationSettings(
     android: initializationSettingsAndroid,
