@@ -210,7 +210,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
 
                 ///시작 시간
                 ShowDateStartPicker(
-                  dateTime: DateTime.now(),
+                  //dateTime: DateTime.now(),
                   startText: "시작",
                   datePickerStateController: datePickerStateController,
                 ),
@@ -218,7 +218,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
 
                 ///종료 시간
                 ShowDateLastPicker(
-                  dateTime: DateTime.now().add(Duration(hours: 1)),
+                  //dateTime: DateTime.now(),
                   startText: "종료",
                   datePickerStateController: datePickerStateController,
                 ),

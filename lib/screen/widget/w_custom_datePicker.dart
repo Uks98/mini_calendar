@@ -11,13 +11,13 @@ import 'package:get/get.dart';
 
 class ShowDateStartPicker extends StatelessWidget with ScreenInit {
   String startText;
-  DateTime dateTime;
+  DateTime? dateTime;
 
   ShowDateStartPicker({
     super.key,
     required this.startText,
     required this.datePickerStateController,
-    required this.dateTime,
+    this.dateTime,
   });
 
   DateTime get _selectedDate =>
@@ -40,13 +40,21 @@ class ShowDateStartPicker extends StatelessWidget with ScreenInit {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      "${startText}".text.size(normalFontSize).fontWeight(FontWeight.w300,).make(),
-                      Obx(() =>
-                          formatTime(_selectedDate)
-                              .text
-                              .size(normalFontSize)
-                              .color(ColorBox.pickerText).fontWeight(FontWeight.w300,)
-                              .make()).pOnly()
+                      "${startText}"
+                          .text
+                          .size(normalFontSize)
+                          .fontWeight(
+                            FontWeight.w300,
+                          )
+                          .make(),
+                      Obx(() => formatTime(_selectedDate)
+                          .text
+                          .size(normalFontSize)
+                          .color(ColorBox.pickerText)
+                          .fontWeight(
+                            FontWeight.w300,
+                          )
+                          .make()).pOnly()
                     ],
                   ),
                 ).w(390),
@@ -71,6 +79,7 @@ class ShowDateStartPicker extends StatelessWidget with ScreenInit {
       ],
     );
   }
+
   String formatTime(DateTime dateTime) {
     final DateFormat formatter = DateFormat('M월 dd일 HH시 mm분');
     final String formatted = formatter.format(dateTime);
@@ -80,13 +89,13 @@ class ShowDateStartPicker extends StatelessWidget with ScreenInit {
 
 class ShowDateLastPicker extends StatelessWidget with ScreenInit {
   String startText;
-  DateTime dateTime;
+  DateTime? dateTime;
 
   ShowDateLastPicker({
     super.key,
     required this.startText,
     required this.datePickerStateController,
-    required this.dateTime,
+    this.dateTime,
   });
 
   DateTime get _selectedDate =>
@@ -109,13 +118,20 @@ class ShowDateLastPicker extends StatelessWidget with ScreenInit {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      "${startText}".text.size(normalFontSize).fontWeight(FontWeight.w300,).make(),
-                      Obx(() =>
-                              formatTime(_selectedDate)
-                              .text
-                              .size(normalFontSize)
-                              .color(ColorBox.pickerText).fontWeight(FontWeight.w300,)
-                              .make()).pOnly(left: 10)
+                      startText.text
+                          .size(normalFontSize)
+                          .fontWeight(
+                            FontWeight.w300,
+                          )
+                          .make(),
+                      Obx(() => formatTime(_selectedDate)
+                          .text
+                          .size(normalFontSize)
+                          .color(ColorBox.pickerText)
+                          .fontWeight(
+                            FontWeight.w300,
+                          )
+                          .make()).pOnly(left: 10)
                     ],
                   ),
                 ).w(390),
@@ -128,11 +144,13 @@ class ShowDateLastPicker extends StatelessWidget with ScreenInit {
                         dateOrder: DatePickerDateOrder.ymd,
                         minimumYear: 2010,
                         maximumYear: 2099,
-                        initialDateTime: _selectedDate.add(Duration(
-                            minutes: datePickerStateController.addTime.value)),
+                        initialDateTime: _selectedDate.add(
+                          Duration(
+                              minutes: datePickerStateController.addTime.value),
+                        ),
                         onDateTimeChanged: (date) {
                           datePickerStateController.lastTimeChanged(date);
-                          },
+                        },
                         mode: CupertinoDatePickerMode.dateAndTime,
                       ),
                     ),
@@ -147,7 +165,8 @@ class ShowDateLastPicker extends StatelessWidget with ScreenInit {
 
   String formatTime(DateTime dateTime) {
     final DateFormat formatter = DateFormat('M월 dd일 HH시 mm분');
-    final String formatted = formatter.format(dateTime);
+    //기존 시간보다 한시간 추가 됨
+    final String formatted = formatter.format(dateTime.add(Duration(hours: 1)));
     return formatted;
   }
 }
