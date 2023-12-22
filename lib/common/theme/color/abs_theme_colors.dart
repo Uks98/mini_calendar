@@ -55,6 +55,8 @@ abstract class AbstractThemeColors {
   Color get calendarMainColor => const Color(0xff0F0F0F);
 
   Color get todaySelectedColor => const Color(0xff4E4FEB);
+  Color get settingListColor => const Color(0xffF3F3F3);
+
 
 
 

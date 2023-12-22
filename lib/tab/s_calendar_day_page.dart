@@ -8,6 +8,7 @@ import 'package:today_my_calendar/controller/month_data_controller.dart';
 import 'package:today_my_calendar/screen/setting/s_setting_page.dart';
 
 import '../common/constant/constant_widget.dart';
+import '../common/data/preference/prefs.dart';
 import '../common/theme/custom_theme.dart';
 import '../screen/calendar/calendar_data/schecule_data_source.dart';
 
@@ -27,6 +28,7 @@ class _CalendarDayPageState extends State<CalendarDayPage> with MonthControllerM
         children: [
           Expanded(
             child: SfCalendar(
+              appointmentTextStyle: TextStyle(fontSize: Prefs.appointmentTextSize.get()),
               todayTextStyle: const TextStyle(color: Colors.white),
               scheduleViewSettings: const ScheduleViewSettings(
                 dayHeaderSettings: DayHeaderSettings(

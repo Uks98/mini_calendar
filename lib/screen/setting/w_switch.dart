@@ -1,7 +1,11 @@
 
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:today_my_calendar/common/common.dart';
+
+import '../../common/constant/constant_widget.dart';
 
 class SettingSwitch extends StatelessWidget {
   final String settingName;
@@ -11,11 +15,18 @@ class SettingSwitch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        settingName.text.make(),
-        CupertinoSwitch(value: isOn, onChanged: onChanged),
-      ],
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(smallWidth),
+      ),
+      color: context.appColors.settingListColor,
+      child: Row(
+        children: [
+          Width(normalWidth),
+          settingName.text.size(bigFontSize).color(Colors.black).fontWeight(FontWeight.w300).make(),
+          const Spacer(),
+          CupertinoSwitch(value: isOn, onChanged: onChanged),
+        ],).paddingAll(smallHeight),
     );
   }
 }

@@ -61,7 +61,7 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
         openButtonBuilder: buildRotateFloatingActionButtonBuilder(context, const Icon(Icons.add)),
         closeButtonBuilder: buildRotateFloatingActionButtonBuilder(context, const Icon(Icons.close)),
         type: ExpandableFabType.up,
-        distance: 60.w,
+        distance: 55.w,
         key: _floatingKey,
         children: [
           FloatingActionButton.small(
@@ -185,7 +185,7 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
   RotateFloatingActionButtonBuilder buildRotateFloatingActionButtonBuilder(
       BuildContext context, Icon icon) {
     return RotateFloatingActionButtonBuilder(
-      heroTag: "f",
+      //heroTag: "f",
       child: icon,
       fabSize: ExpandableFabSize.regular,
       foregroundColor: context.appColors.floatingIconColor,
