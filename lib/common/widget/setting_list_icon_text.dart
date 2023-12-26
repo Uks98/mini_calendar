@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:today_my_calendar/common/common.dart';
 import 'package:today_my_calendar/common/constant/constant_widget.dart';
@@ -15,6 +16,7 @@ class SettingListWithIcon extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Card(
+        margin: EdgeInsets.only(left: normalWidth + 10,right: normalWidth + 10,bottom: 14.h),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(smallWidth),
         ),

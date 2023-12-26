@@ -100,6 +100,7 @@ class ShowDateLastPicker extends StatelessWidget with ScreenInit {
 
   DateTime get _selectedDate =>
       datePickerStateController.lastSelectedTime.value;
+  
   final DatePickerStateController datePickerStateController;
 
   @override
@@ -166,7 +167,7 @@ class ShowDateLastPicker extends StatelessWidget with ScreenInit {
   String formatTime(DateTime dateTime) {
     final DateFormat formatter = DateFormat('M월 dd일 HH시 mm분');
     //기존 시간보다 한시간 추가 됨
-    final String formatted = formatter.format(dateTime.add(Duration(hours: 1)));
+    final String formatted = formatter.format(dateTime);
     return formatted;
   }
 }

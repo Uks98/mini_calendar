@@ -26,10 +26,10 @@ class CalendarAddPage extends StatefulWidget {
 
   CalendarAddPage(
       {super.key,
-      this.scheduleForEdit,
-      required this.schedule,
-      required this.isShowMap,
-      required this.initShowDetail
+        this.scheduleForEdit,
+        required this.schedule,
+        required this.isShowMap,
+        required this.initShowDetail
       });
 
   @override
@@ -47,9 +47,9 @@ class _CalendarAddPageState extends State<CalendarAddPage>
 
   //controller
   DatePickerStateController datePickerStateController =
-      Get.put(DatePickerStateController());
+  Get.put(DatePickerStateController());
   AlarmSettingController alarmSettingController =
-      Get.put(AlarmSettingController());
+  Get.put(AlarmSettingController());
   AlarmSettingController alarmController = Get.put(AlarmSettingController());
   MapDataController mapDataController = Get.put(MapDataController());
   double? outPageGpsX = 0.0;
@@ -61,7 +61,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
   bool isShowDetail = false; //add page 더보기 버튼
   bool get isOnMap => outPageGpsX != 0.0 ? true : false;
   set isOnMap(bool value) {
-   value = widget.isShowMap;
+    value = widget.isShowMap;
   }
   RxBool get isShowStartPicker =>
       datePickerStateController.isShowStartDatePicker;
@@ -112,48 +112,48 @@ class _CalendarAddPageState extends State<CalendarAddPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        actions: [
-          IconButton(onPressed: (){
-            try {
-              final lastTime =
-                  datePickerStateController.lastSelectedTime.value;
-              alarmSet.getAlarmTime(
-                //id epoch 사용시 오류 발생
+        appBar: AppBar(
+          actions: [
+            IconButton(onPressed: (){
+              try {
+                final lastTime =
+                    datePickerStateController.lastSelectedTime.value;
+                alarmSet.getAlarmTime(
+                  //id epoch 사용시 오류 발생
                   id: _titleController.text + newId.toString(),
                   time: lastTime,
                   setTextTime: alarmSettingController.alarmTime.value,
                   context: context,
                   title: _titleController.text,
                   memo: memoText.toString(),
-              );
-              Navigator.of(context).pop(Schedule(
-                id: DateTime.now().microsecondsSinceEpoch,
-                title: _titleController.text,
-                memo: memoText.toString(),
-                from:
-                datePickerStateController.startSelectedTime.value,
-                to: datePickerStateController.lastSelectedTime.value,
-                myPlace: outPagePlace.toString(),
-                gpsX: outPageGpsY,
-                gpsY: outPageGpsX,
-                colorIndex: _colorIndex,
-                isShowMap: isOnMap,
-              ));
-              FocusScope.of(context).unfocus();
-              datePickerStateController.isShowStartDatePicker.value =
-              false;
-              datePickerStateController.isShowLastDatePicker.value =
-              false;
-              alarmController.alarmTime.value = "없음";
-              naverMapController?.dispose();
-              _deleteFocus();
-            } catch (E) {
-              print(E);
-            }
-          }, icon: const Icon(Icons.check))
-        ],
-      ),
+                );
+                Navigator.of(context).pop(Schedule(
+                  id: DateTime.now().microsecondsSinceEpoch,
+                  title: _titleController.text,
+                  memo: memoText.toString(),
+                  from:
+                  datePickerStateController.startSelectedTime.value,
+                  to: datePickerStateController.lastSelectedTime.value,
+                  myPlace: outPagePlace.toString(),
+                  gpsX: outPageGpsY,
+                  gpsY: outPageGpsX,
+                  colorIndex: _colorIndex,
+                  isShowMap: isOnMap,
+                ));
+                FocusScope.of(context).unfocus();
+                datePickerStateController.isShowStartDatePicker.value =
+                false;
+                datePickerStateController.isShowLastDatePicker.value =
+                false;
+                alarmController.alarmTime.value = "없음";
+                naverMapController?.dispose();
+                _deleteFocus();
+              } catch (E) {
+                print(E);
+              }
+            }, icon: const Icon(Icons.check))
+          ],
+        ),
         resizeToAvoidBottomInset: false,
         body: Container(
           color: context.backgroundColor,
@@ -189,12 +189,12 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                       onTap: () async {
                         final corIndex = await customBottomSheet
                             .showCustomBottomSheet(context,
-                                radius: 20.0.w, title: "테마");
+                            radius: 20.0.w, title: "테마");
                         _colorIndex = corIndex;
                         setState(() {});
                       },
                       child: Obx(
-                        () => Container(
+                            () => Container(
                           width: 20.w,
                           height: 20.h,
                           decoration: BoxDecoration(
@@ -235,56 +235,56 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                     child: IconButton(onPressed: ()=> setState(() {isShowDetail = true;}),icon: const Icon(Icons.arrow_drop_down),),
                   ),
                 if(isShowDetail == true)
-                Column(
-                  children: [
-                    const AlarmSettingTile(),
-                    Height(addPageHeight),
-                    ///위치 받아오기
-                    GestureDetector(
-                        onTap: () async {
-                          var gps = await Get.to<Schedule>(LocationSearchWidget());
-                          if (gps == null) {
-                            gps = Schedule(
-                              id: DateTime.now().microsecondsSinceEpoch,
-                              title: '',
-                              memo: '',
-                              from: DateTime.now(),
-                              to: DateTime.now(),
-                              myPlace: '',
-                              gpsX: 0.0,
-                              gpsY: 0.0,
-                              colorIndex: 0,
-                              isShowMap: isOnMap,
-                            );
-                          } else {
-                            outPageGpsX = gps.gpsX;
-                            outPageGpsY = gps.gpsY;
-                          }
-                          outPagePlace = gps.myPlace; //?.
-                          setState(() {});
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            "위치".text.size(normalFontSize).fontWeight(FontWeight.w300,).make().paddingOnly(left: 4.w),
-                            outPagePlace!.text
-                                .size(bigFontSize).fontWeight(FontWeight.w300,)
-                                .make()
-                                .pOnly(right: smallWidth + 2),
-                          ],
-                        )),
-                    Height(addPageHeight),
-                    ///네이버 맵
-                    showUserMap(),
-                    Height(addPageHeight),
-                    //메모
-                    //메모페이지로 이동
-                    "메모".text.size(normalFontSize).fontWeight(FontWeight.w300,).make().paddingOnly(right: 315.w),
-                    Height(normalHeight),
-                    moveToMemo(),
-                    Height(80.h),
-                  ],
-                )
+                  Column(
+                    children: [
+                      const AlarmSettingTile(),
+                      Height(addPageHeight),
+                      ///위치 받아오기
+                      GestureDetector(
+                          onTap: () async {
+                            var gps = await Get.to<Schedule>(LocationSearchWidget());
+                            if (gps == null) {
+                              gps = Schedule(
+                                id: DateTime.now().microsecondsSinceEpoch,
+                                title: '',
+                                memo: '',
+                                from: DateTime.now(),
+                                to: DateTime.now(),
+                                myPlace: '',
+                                gpsX: 0.0,
+                                gpsY: 0.0,
+                                colorIndex: 0,
+                                isShowMap: isOnMap,
+                              );
+                            } else {
+                              outPageGpsX = gps.gpsX;
+                              outPageGpsY = gps.gpsY;
+                            }
+                            outPagePlace = gps.myPlace; //?.
+                            setState(() {});
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              "위치".text.size(normalFontSize).fontWeight(FontWeight.w300,).make().paddingOnly(left: 4.w),
+                              outPagePlace!.text
+                                  .size(bigFontSize).fontWeight(FontWeight.w300,)
+                                  .make()
+                                  .pOnly(right: smallWidth + 2),
+                            ],
+                          )),
+                      Height(addPageHeight),
+                      ///네이버 맵
+                      showUserMap(),
+                      Height(addPageHeight),
+                      //메모
+                      //메모페이지로 이동
+                      "메모".text.size(normalFontSize).fontWeight(FontWeight.w300,).make().paddingOnly(right: 315.w),
+                      Height(normalHeight),
+                      moveToMemo(),
+                      Height(80.h),
+                    ],
+                  )
 
               ],
             ).pOnly(left: 10.w),
@@ -294,24 +294,24 @@ class _CalendarAddPageState extends State<CalendarAddPage>
 
   GestureDetector moveToMemo() {
     return GestureDetector(
-                    onTap: ()async{
-                      Schedule memos = await Get.to(MemoPage(memoText: Schedule(
-                        id: DateTime.now().microsecondsSinceEpoch,
-                        title: '',
-                        memo: memoText.toString(),
-                        from: DateTime.now(),
-                        to: DateTime.now(),
-                        myPlace: '',
-                        gpsX: 0.0,
-                        gpsY: 0.0,
-                        colorIndex: 0,
-                        isShowMap: isOnMap,
-                      ),),);
-                      memoText = memos.memo;
-                      setState(() {});
-                    },
-                     child: MemoContainer(memoText: memoText!,)
-                  );
+        onTap: ()async{
+          Schedule memos = await Get.to(MemoPage(memoText: Schedule(
+            id: DateTime.now().microsecondsSinceEpoch,
+            title: '',
+            memo: memoText.toString(),
+            from: DateTime.now(),
+            to: DateTime.now(),
+            myPlace: '',
+            gpsX: 0.0,
+            gpsY: 0.0,
+            colorIndex: 0,
+            isShowMap: isOnMap,
+          ),),);
+          memoText = memos.memo;
+          setState(() {});
+        },
+        child: MemoContainer(memoText: memoText!,)
+    );
   }
 
   Widget showUserMap() {
@@ -346,7 +346,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
         ),
       );
     }
-      return Container();
+    return Container();
   }
   void _deleteFocus(){
     FocusScopeNode currentFocus = FocusScope.of(context);

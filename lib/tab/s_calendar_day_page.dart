@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -10,6 +11,7 @@ import 'package:today_my_calendar/screen/setting/s_setting_page.dart';
 import '../common/constant/constant_widget.dart';
 import '../common/data/preference/prefs.dart';
 import '../common/theme/custom_theme.dart';
+import '../common/widget/w_util_floating_btn.dart';
 import '../screen/calendar/calendar_data/schecule_data_source.dart';
 
 class CalendarDayPage extends StatefulWidget {
@@ -24,11 +26,22 @@ class _CalendarDayPageState extends State<CalendarDayPage> with MonthControllerM
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButtonLocation: ExpandableFab.location,
+      floatingActionButton: UtilFloating(
+        buildContext: context,
+        distance: 55.w,
+        goToAddPage: () {
+              monthControl.addSchedule(context);
+        },
+        goToSetPage: () {
+          Get.to(SettingPage());
+        },
+      ).buildExpandableFab(context).pOnly(bottom: 10.h),
       body: Obx(() =>Column(
         children: [
           Expanded(
             child: SfCalendar(
-              appointmentTextStyle: TextStyle(fontSize: Prefs.appointmentTextSize.get()),
+              appointmentTextStyle: TextStyle(color: Colors.white,fontSize: Prefs.appointmentTextSize.get()),
               todayTextStyle: const TextStyle(color: Colors.white),
               scheduleViewSettings: const ScheduleViewSettings(
                 dayHeaderSettings: DayHeaderSettings(

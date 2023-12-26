@@ -8,7 +8,6 @@ import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart
 import 'package:image_picker/image_picker.dart';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_quill/flutter_quill.dart';
 import 'package:today_my_calendar/common/common.dart';
 import 'package:today_my_calendar/common/constant/constant_widget.dart';
 import 'package:today_my_calendar/screen/calendar/calendar_data/d_schedule_data.dart';
@@ -45,7 +44,6 @@ class _MemoPageState extends State<MemoPage> {
   //  _textEditingController.text = widget.memoText.memo;
   }
 
-  QuillController _controller = QuillController.basic();
   TextEditingController _textEditingController = TextEditingController();
 
   @override

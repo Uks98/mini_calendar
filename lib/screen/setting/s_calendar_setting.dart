@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:today_my_calendar/common/dart/extension/context_extension.dart';
 import 'package:today_my_calendar/screen/setting/w_switch.dart';
@@ -7,10 +8,11 @@ import 'package:today_my_calendar/screen/setting/w_switch.dart';
 import '../../common/constant/constant_widget.dart';
 import '../../common/data/preference/prefs.dart';
 import '../../common/theme/theme_util.dart';
+import '../../common/widget/mixin/init_screen_size_utill.dart';
 import '../../controller/setting_calendardata_controller.dart';
 
-class CalendarSettingPage extends StatelessWidget {
-  const CalendarSettingPage({super.key});
+class CalendarSettingPage extends StatelessWidget with ScreenInit{
+  CalendarSettingPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +60,7 @@ class CalendarSettingPage extends StatelessWidget {
           SizedBox(height: bigHeight,),
           Obx(
             () => Card(
+              margin: EdgeInsets.only(left: normalWidth,right: normalWidth,bottom: 14.h),
               color: context.appColors.settingListColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(smallWidth),

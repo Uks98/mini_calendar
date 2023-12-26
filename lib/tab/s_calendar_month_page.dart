@@ -32,7 +32,7 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
   final SettingCalendarController _settingCalendarController = Get.put(SettingCalendarController());
 
   final _floatingKey =
-      GlobalKey<ExpandableFabState>(); // floating action button global key
+  GlobalKey<ExpandableFabState>(); // floating action button global key
 
   Color get changeSmallFloatingColor => !isLightMode
       ? context.appColors.calendarMainColor
@@ -51,11 +51,12 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
 
   @override
   Widget build(BuildContext context) {
-   findDarkMode(context);
+    findDarkMode(context);
     screenInit(context);
     return Scaffold(
       key: GlobalKey<_CalendarMonthPageState>(),
       floatingActionButtonLocation: ExpandableFab.location,
+      // 리팩토링 키패드 오류 문제 해결중
       floatingActionButton: ExpandableFab(
         overlayStyle: ExpandableFabOverlayStyle(blur:  10.0),
         openButtonBuilder: buildRotateFloatingActionButtonBuilder(context, const Icon(Icons.add)),
@@ -85,7 +86,7 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
               color: changeSmallFloatingIconColor,
             ),
             onPressed: () {
-              Get.to(const SettingPage());
+              Get.to(SettingPage());
             },
           ),
         ],
@@ -93,7 +94,7 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
       body: Column(
         children: [
           Obx(
-            () => Expanded(
+                () => Expanded(
               child: SfCalendar(
                 showTodayButton: true,
                 weekNumberStyle: const WeekNumberStyle(textStyle: TextStyle(fontWeight: FontWeight.w300,fontSize: 11)),
@@ -124,7 +125,7 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
                 headerHeight: 50.h,
                 headerDateFormat: "MM",
                 dataSource:
-                    ScheduleDataSource(monthControl.monthDataList.value),
+                ScheduleDataSource(monthControl.monthDataList.value),
                 monthViewSettings: MonthViewSettings(
                     agendaItemHeight: 45.h,
                     //agenda 높이
@@ -172,7 +173,7 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
                     appointmentDisplayCount: 3,
                     showAgenda: true,
                     appointmentDisplayMode:
-                        MonthAppointmentDisplayMode.appointment),
+                    MonthAppointmentDisplayMode.appointment),
               ),
             ),
           ),

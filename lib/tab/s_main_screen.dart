@@ -1,8 +1,11 @@
-import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
+import 'package:today_my_calendar/common/widget/mixin/init_screen_size_utill.dart';
 import 'package:today_my_calendar/screen/widget/w_menu_drawer.dart';
 
 import '../../common/common.dart';
+import '../common/theme/color/mix_find_theme.dart';
+import '../controller/month_data_controller.dart';
 import 'tab_item.dart';
 import 'tab_navigator.dart';
 
@@ -13,7 +16,7 @@ class MainScreen extends StatefulWidget {
   State<MainScreen> createState() => MainScreenState();
 }
 
-class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMixin {
+class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMixin,ThemeDarkFind,MonthControllerMix,ScreenInit {
   TabItem _currentTab = TabItem.calendarMonth;
   //바텀 네이베이션 탭
   final tabs = [TabItem.calendarMonth,TabItem.calendarDay];
@@ -27,6 +30,17 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
 
   static double get bottomNavigationBarBorderRadius => 15.0;
 
+  final _floatingKey =
+  GlobalKey<ExpandableFabState>(); // floating action button global key
+
+  Color get changeSmallFloatingColor => !isLightMode
+      ? context.appColors.calendarMainColor
+      : context.appColors.floatingIconColor;
+
+  Color get changeSmallFloatingIconColor => isLightMode
+      ? context.appColors.calendarMainColor
+      : context.appColors.floatingIconColor;
+  String month = "";
   @override
   void initState() {
     super.initState();
@@ -157,4 +171,5 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
       navigatorKeys.add(GlobalKey<NavigatorState>());
     }
   }
+
 }

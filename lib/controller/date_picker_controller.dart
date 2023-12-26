@@ -11,7 +11,7 @@ class DatePickerStateController extends GetxController{
 
   RxInt addTime = 0.obs;
   var startSelectedTime = DateTime.now().obs;
-  var lastSelectedTime = DateTime.now().add(Duration(hours: 2)).obs;
+  var lastSelectedTime = DateTime.now().obs;
   void showStartPicker(){
     isShowStartDatePicker.value = !isShowStartDatePicker.value;
   }

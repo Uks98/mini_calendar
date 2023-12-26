@@ -70,6 +70,7 @@ dependencies:
   keyboard_utils_fork: ^0.0.4
   image_picker: ^1.0.2
   camera: ^0.10.5+3
+  url_launcher: ^6.2.2
 
   #network
   dio: ^5.0.0
@@ -92,8 +93,7 @@ dependencies:
   geolocator:
   #path
   path_provider:
-  #text editor
-  flutter_quill: ^9.0.1
+
   #google_ml
   google_mlkit_text_recognition: ^0.11.0
 
