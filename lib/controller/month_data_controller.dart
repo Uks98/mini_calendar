@@ -89,7 +89,7 @@ class MonthControl extends GetxController {
       schedule.memo = result.memo;
       schedule.to = result.to;
       schedule.from = result.from;
-      if(schedule.myPlace == '' || schedule.myPlace.isEmpty){
+      if(schedule.myPlace == '' || schedule.myPlace!.isEmpty){
         schedule.myPlace = "없음";
       }
       schedule.myPlace = result.myPlace;

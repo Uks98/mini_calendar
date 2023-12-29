@@ -10,7 +10,7 @@ import '../data/location_data.dart';
 //required String keyword, required int page,
 class MapApi{
   List<LocationData> locationData = [];
-  Future<List<LocationData>?> getMapList({required BuildContext context, String search = "무실동"}) async {
+  Future<List<LocationData>?> getMapList({required BuildContext context, required String search}) async {
     var url = "https://dapi.kakao.com/v2/local/search/keyword.json?query=$search";
     var response = await http.get(Uri.parse(url), headers: {"Authorization": "KakaoAK 5026bccd6af45144199ef3f70f4b7ec7"});
     if (response.statusCode == 200) {
@@ -26,6 +26,7 @@ class MapApi{
     }
     return locationData;
   }
+
   @override
   String toString() {
     // TODO: implement toString

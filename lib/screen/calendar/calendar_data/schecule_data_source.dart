@@ -19,21 +19,21 @@ class ScheduleDataSource extends CalendarDataSource {
 
   @override
   DateTime getStartTime(int index) {
-    return _getMeetingData(index).from;
+    return _getMeetingData(index).from!;
   }
 
   @override
   DateTime getEndTime(int index) {
-    return _getMeetingData(index).to;
+    return _getMeetingData(index).to!;
   }
   @override
   String getSubject(int index) {
-    return _getMeetingData(index).title;
+    return _getMeetingData(index).title!;
   }
 
   @override
   Color getColor(int cor) {
-    return colorController.colorList.keys.elementAt(monthController.monthDataList[cor].colorIndex);
+    return colorController.colorList.keys.elementAt(monthController.monthDataList[cor].colorIndex!);
   }
 
 

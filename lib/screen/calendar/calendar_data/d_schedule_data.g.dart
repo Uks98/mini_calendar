@@ -201,9 +201,24 @@ int _scheduleEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
-  bytesCount += 3 + object.memo.length * 3;
-  bytesCount += 3 + object.myPlace.length * 3;
-  bytesCount += 3 + object.title.length * 3;
+  {
+    final value = object.memo;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
+  {
+    final value = object.myPlace;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
+  {
+    final value = object.title;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
   return bytesCount;
 }
 
@@ -231,16 +246,16 @@ Schedule _scheduleDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = Schedule(
-    colorIndex: reader.readLong(offsets[0]),
-    from: reader.readDateTime(offsets[1]),
+    colorIndex: reader.readLongOrNull(offsets[0]),
+    from: reader.readDateTimeOrNull(offsets[1]),
     gpsX: reader.readDoubleOrNull(offsets[2]),
     gpsY: reader.readDoubleOrNull(offsets[3]),
     id: id,
-    isShowMap: reader.readBool(offsets[4]),
-    memo: reader.readString(offsets[5]),
-    myPlace: reader.readString(offsets[6]),
-    title: reader.readString(offsets[7]),
-    to: reader.readDateTime(offsets[8]),
+    isShowMap: reader.readBoolOrNull(offsets[4]),
+    memo: reader.readStringOrNull(offsets[5]),
+    myPlace: reader.readStringOrNull(offsets[6]),
+    title: reader.readStringOrNull(offsets[7]),
+    to: reader.readDateTimeOrNull(offsets[8]),
   );
   return object;
 }
@@ -253,23 +268,23 @@ P _scheduleDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readLong(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 1:
-      return (reader.readDateTime(offset)) as P;
+      return (reader.readDateTimeOrNull(offset)) as P;
     case 2:
       return (reader.readDoubleOrNull(offset)) as P;
     case 3:
       return (reader.readDoubleOrNull(offset)) as P;
     case 4:
-      return (reader.readBool(offset)) as P;
+      return (reader.readBoolOrNull(offset)) as P;
     case 5:
-      return (reader.readString(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 6:
-      return (reader.readString(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 7:
-      return (reader.readString(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 8:
-      return (reader.readDateTime(offset)) as P;
+      return (reader.readDateTimeOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -433,8 +448,28 @@ extension ScheduleQueryWhere on QueryBuilder<Schedule, Schedule, QWhereClause> {
     });
   }
 
+  QueryBuilder<Schedule, Schedule, QAfterWhereClause> titleIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'title',
+        value: [null],
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterWhereClause> titleIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'title',
+        lower: [null],
+        includeLower: false,
+        upper: [],
+      ));
+    });
+  }
+
   QueryBuilder<Schedule, Schedule, QAfterWhereClause> titleEqualTo(
-      String title) {
+      String? title) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
         indexName: r'title',
@@ -444,7 +479,7 @@ extension ScheduleQueryWhere on QueryBuilder<Schedule, Schedule, QWhereClause> {
   }
 
   QueryBuilder<Schedule, Schedule, QAfterWhereClause> titleNotEqualTo(
-      String title) {
+      String? title) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -479,7 +514,7 @@ extension ScheduleQueryWhere on QueryBuilder<Schedule, Schedule, QWhereClause> {
   }
 
   QueryBuilder<Schedule, Schedule, QAfterWhereClause> titleGreaterThan(
-    String title, {
+    String? title, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -493,7 +528,7 @@ extension ScheduleQueryWhere on QueryBuilder<Schedule, Schedule, QWhereClause> {
   }
 
   QueryBuilder<Schedule, Schedule, QAfterWhereClause> titleLessThan(
-    String title, {
+    String? title, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -507,8 +542,8 @@ extension ScheduleQueryWhere on QueryBuilder<Schedule, Schedule, QWhereClause> {
   }
 
   QueryBuilder<Schedule, Schedule, QAfterWhereClause> titleBetween(
-    String lowerTitle,
-    String upperTitle, {
+    String? lowerTitle,
+    String? upperTitle, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -569,7 +604,28 @@ extension ScheduleQueryWhere on QueryBuilder<Schedule, Schedule, QWhereClause> {
     });
   }
 
-  QueryBuilder<Schedule, Schedule, QAfterWhereClause> memoEqualTo(String memo) {
+  QueryBuilder<Schedule, Schedule, QAfterWhereClause> memoIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'memo',
+        value: [null],
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterWhereClause> memoIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'memo',
+        lower: [null],
+        includeLower: false,
+        upper: [],
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterWhereClause> memoEqualTo(
+      String? memo) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
         indexName: r'memo',
@@ -579,7 +635,7 @@ extension ScheduleQueryWhere on QueryBuilder<Schedule, Schedule, QWhereClause> {
   }
 
   QueryBuilder<Schedule, Schedule, QAfterWhereClause> memoNotEqualTo(
-      String memo) {
+      String? memo) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -614,7 +670,7 @@ extension ScheduleQueryWhere on QueryBuilder<Schedule, Schedule, QWhereClause> {
   }
 
   QueryBuilder<Schedule, Schedule, QAfterWhereClause> memoGreaterThan(
-    String memo, {
+    String? memo, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -628,7 +684,7 @@ extension ScheduleQueryWhere on QueryBuilder<Schedule, Schedule, QWhereClause> {
   }
 
   QueryBuilder<Schedule, Schedule, QAfterWhereClause> memoLessThan(
-    String memo, {
+    String? memo, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -642,8 +698,8 @@ extension ScheduleQueryWhere on QueryBuilder<Schedule, Schedule, QWhereClause> {
   }
 
   QueryBuilder<Schedule, Schedule, QAfterWhereClause> memoBetween(
-    String lowerMemo,
-    String upperMemo, {
+    String? lowerMemo,
+    String? upperMemo, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -704,8 +760,28 @@ extension ScheduleQueryWhere on QueryBuilder<Schedule, Schedule, QWhereClause> {
     });
   }
 
+  QueryBuilder<Schedule, Schedule, QAfterWhereClause> fromIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'from',
+        value: [null],
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterWhereClause> fromIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'from',
+        lower: [null],
+        includeLower: false,
+        upper: [],
+      ));
+    });
+  }
+
   QueryBuilder<Schedule, Schedule, QAfterWhereClause> fromEqualTo(
-      DateTime from) {
+      DateTime? from) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
         indexName: r'from',
@@ -715,7 +791,7 @@ extension ScheduleQueryWhere on QueryBuilder<Schedule, Schedule, QWhereClause> {
   }
 
   QueryBuilder<Schedule, Schedule, QAfterWhereClause> fromNotEqualTo(
-      DateTime from) {
+      DateTime? from) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -750,7 +826,7 @@ extension ScheduleQueryWhere on QueryBuilder<Schedule, Schedule, QWhereClause> {
   }
 
   QueryBuilder<Schedule, Schedule, QAfterWhereClause> fromGreaterThan(
-    DateTime from, {
+    DateTime? from, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -764,7 +840,7 @@ extension ScheduleQueryWhere on QueryBuilder<Schedule, Schedule, QWhereClause> {
   }
 
   QueryBuilder<Schedule, Schedule, QAfterWhereClause> fromLessThan(
-    DateTime from, {
+    DateTime? from, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -778,8 +854,8 @@ extension ScheduleQueryWhere on QueryBuilder<Schedule, Schedule, QWhereClause> {
   }
 
   QueryBuilder<Schedule, Schedule, QAfterWhereClause> fromBetween(
-    DateTime lowerFrom,
-    DateTime upperFrom, {
+    DateTime? lowerFrom,
+    DateTime? upperFrom, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -794,7 +870,27 @@ extension ScheduleQueryWhere on QueryBuilder<Schedule, Schedule, QWhereClause> {
     });
   }
 
-  QueryBuilder<Schedule, Schedule, QAfterWhereClause> toEqualTo(DateTime to) {
+  QueryBuilder<Schedule, Schedule, QAfterWhereClause> toIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'to',
+        value: [null],
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterWhereClause> toIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'to',
+        lower: [null],
+        includeLower: false,
+        upper: [],
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterWhereClause> toEqualTo(DateTime? to) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
         indexName: r'to',
@@ -804,7 +900,7 @@ extension ScheduleQueryWhere on QueryBuilder<Schedule, Schedule, QWhereClause> {
   }
 
   QueryBuilder<Schedule, Schedule, QAfterWhereClause> toNotEqualTo(
-      DateTime to) {
+      DateTime? to) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -839,7 +935,7 @@ extension ScheduleQueryWhere on QueryBuilder<Schedule, Schedule, QWhereClause> {
   }
 
   QueryBuilder<Schedule, Schedule, QAfterWhereClause> toGreaterThan(
-    DateTime to, {
+    DateTime? to, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -853,7 +949,7 @@ extension ScheduleQueryWhere on QueryBuilder<Schedule, Schedule, QWhereClause> {
   }
 
   QueryBuilder<Schedule, Schedule, QAfterWhereClause> toLessThan(
-    DateTime to, {
+    DateTime? to, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -867,8 +963,8 @@ extension ScheduleQueryWhere on QueryBuilder<Schedule, Schedule, QWhereClause> {
   }
 
   QueryBuilder<Schedule, Schedule, QAfterWhereClause> toBetween(
-    DateTime lowerTo,
-    DateTime upperTo, {
+    DateTime? lowerTo,
+    DateTime? upperTo, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -883,8 +979,28 @@ extension ScheduleQueryWhere on QueryBuilder<Schedule, Schedule, QWhereClause> {
     });
   }
 
+  QueryBuilder<Schedule, Schedule, QAfterWhereClause> myPlaceIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'myPlace',
+        value: [null],
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterWhereClause> myPlaceIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'myPlace',
+        lower: [null],
+        includeLower: false,
+        upper: [],
+      ));
+    });
+  }
+
   QueryBuilder<Schedule, Schedule, QAfterWhereClause> myPlaceEqualTo(
-      String myPlace) {
+      String? myPlace) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
         indexName: r'myPlace',
@@ -894,7 +1010,7 @@ extension ScheduleQueryWhere on QueryBuilder<Schedule, Schedule, QWhereClause> {
   }
 
   QueryBuilder<Schedule, Schedule, QAfterWhereClause> myPlaceNotEqualTo(
-      String myPlace) {
+      String? myPlace) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -929,7 +1045,7 @@ extension ScheduleQueryWhere on QueryBuilder<Schedule, Schedule, QWhereClause> {
   }
 
   QueryBuilder<Schedule, Schedule, QAfterWhereClause> myPlaceGreaterThan(
-    String myPlace, {
+    String? myPlace, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -943,7 +1059,7 @@ extension ScheduleQueryWhere on QueryBuilder<Schedule, Schedule, QWhereClause> {
   }
 
   QueryBuilder<Schedule, Schedule, QAfterWhereClause> myPlaceLessThan(
-    String myPlace, {
+    String? myPlace, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -957,8 +1073,8 @@ extension ScheduleQueryWhere on QueryBuilder<Schedule, Schedule, QWhereClause> {
   }
 
   QueryBuilder<Schedule, Schedule, QAfterWhereClause> myPlaceBetween(
-    String lowerMyPlace,
-    String upperMyPlace, {
+    String? lowerMyPlace,
+    String? upperMyPlace, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -1239,8 +1355,28 @@ extension ScheduleQueryWhere on QueryBuilder<Schedule, Schedule, QWhereClause> {
     });
   }
 
+  QueryBuilder<Schedule, Schedule, QAfterWhereClause> colorIndexIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'colorIndex',
+        value: [null],
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterWhereClause> colorIndexIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'colorIndex',
+        lower: [null],
+        includeLower: false,
+        upper: [],
+      ));
+    });
+  }
+
   QueryBuilder<Schedule, Schedule, QAfterWhereClause> colorIndexEqualTo(
-      int colorIndex) {
+      int? colorIndex) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
         indexName: r'colorIndex',
@@ -1250,7 +1386,7 @@ extension ScheduleQueryWhere on QueryBuilder<Schedule, Schedule, QWhereClause> {
   }
 
   QueryBuilder<Schedule, Schedule, QAfterWhereClause> colorIndexNotEqualTo(
-      int colorIndex) {
+      int? colorIndex) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -1285,7 +1421,7 @@ extension ScheduleQueryWhere on QueryBuilder<Schedule, Schedule, QWhereClause> {
   }
 
   QueryBuilder<Schedule, Schedule, QAfterWhereClause> colorIndexGreaterThan(
-    int colorIndex, {
+    int? colorIndex, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -1299,7 +1435,7 @@ extension ScheduleQueryWhere on QueryBuilder<Schedule, Schedule, QWhereClause> {
   }
 
   QueryBuilder<Schedule, Schedule, QAfterWhereClause> colorIndexLessThan(
-    int colorIndex, {
+    int? colorIndex, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -1313,8 +1449,8 @@ extension ScheduleQueryWhere on QueryBuilder<Schedule, Schedule, QWhereClause> {
   }
 
   QueryBuilder<Schedule, Schedule, QAfterWhereClause> colorIndexBetween(
-    int lowerColorIndex,
-    int upperColorIndex, {
+    int? lowerColorIndex,
+    int? upperColorIndex, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -1329,8 +1465,28 @@ extension ScheduleQueryWhere on QueryBuilder<Schedule, Schedule, QWhereClause> {
     });
   }
 
+  QueryBuilder<Schedule, Schedule, QAfterWhereClause> isShowMapIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'isShowMap',
+        value: [null],
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterWhereClause> isShowMapIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'isShowMap',
+        lower: [null],
+        includeLower: false,
+        upper: [],
+      ));
+    });
+  }
+
   QueryBuilder<Schedule, Schedule, QAfterWhereClause> isShowMapEqualTo(
-      bool isShowMap) {
+      bool? isShowMap) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
         indexName: r'isShowMap',
@@ -1340,7 +1496,7 @@ extension ScheduleQueryWhere on QueryBuilder<Schedule, Schedule, QWhereClause> {
   }
 
   QueryBuilder<Schedule, Schedule, QAfterWhereClause> isShowMapNotEqualTo(
-      bool isShowMap) {
+      bool? isShowMap) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -1377,8 +1533,25 @@ extension ScheduleQueryWhere on QueryBuilder<Schedule, Schedule, QWhereClause> {
 
 extension ScheduleQueryFilter
     on QueryBuilder<Schedule, Schedule, QFilterCondition> {
+  QueryBuilder<Schedule, Schedule, QAfterFilterCondition> colorIndexIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'colorIndex',
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterFilterCondition>
+      colorIndexIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'colorIndex',
+      ));
+    });
+  }
+
   QueryBuilder<Schedule, Schedule, QAfterFilterCondition> colorIndexEqualTo(
-      int value) {
+      int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'colorIndex',
@@ -1388,7 +1561,7 @@ extension ScheduleQueryFilter
   }
 
   QueryBuilder<Schedule, Schedule, QAfterFilterCondition> colorIndexGreaterThan(
-    int value, {
+    int? value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -1401,7 +1574,7 @@ extension ScheduleQueryFilter
   }
 
   QueryBuilder<Schedule, Schedule, QAfterFilterCondition> colorIndexLessThan(
-    int value, {
+    int? value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -1414,8 +1587,8 @@ extension ScheduleQueryFilter
   }
 
   QueryBuilder<Schedule, Schedule, QAfterFilterCondition> colorIndexBetween(
-    int lower,
-    int upper, {
+    int? lower,
+    int? upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -1430,8 +1603,24 @@ extension ScheduleQueryFilter
     });
   }
 
+  QueryBuilder<Schedule, Schedule, QAfterFilterCondition> fromIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'from',
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterFilterCondition> fromIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'from',
+      ));
+    });
+  }
+
   QueryBuilder<Schedule, Schedule, QAfterFilterCondition> fromEqualTo(
-      DateTime value) {
+      DateTime? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'from',
@@ -1441,7 +1630,7 @@ extension ScheduleQueryFilter
   }
 
   QueryBuilder<Schedule, Schedule, QAfterFilterCondition> fromGreaterThan(
-    DateTime value, {
+    DateTime? value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -1454,7 +1643,7 @@ extension ScheduleQueryFilter
   }
 
   QueryBuilder<Schedule, Schedule, QAfterFilterCondition> fromLessThan(
-    DateTime value, {
+    DateTime? value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -1467,8 +1656,8 @@ extension ScheduleQueryFilter
   }
 
   QueryBuilder<Schedule, Schedule, QAfterFilterCondition> fromBetween(
-    DateTime lower,
-    DateTime upper, {
+    DateTime? lower,
+    DateTime? upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -1691,8 +1880,24 @@ extension ScheduleQueryFilter
     });
   }
 
+  QueryBuilder<Schedule, Schedule, QAfterFilterCondition> isShowMapIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'isShowMap',
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterFilterCondition> isShowMapIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'isShowMap',
+      ));
+    });
+  }
+
   QueryBuilder<Schedule, Schedule, QAfterFilterCondition> isShowMapEqualTo(
-      bool value) {
+      bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'isShowMap',
@@ -1701,8 +1906,24 @@ extension ScheduleQueryFilter
     });
   }
 
+  QueryBuilder<Schedule, Schedule, QAfterFilterCondition> memoIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'memo',
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterFilterCondition> memoIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'memo',
+      ));
+    });
+  }
+
   QueryBuilder<Schedule, Schedule, QAfterFilterCondition> memoEqualTo(
-    String value, {
+    String? value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -1715,7 +1936,7 @@ extension ScheduleQueryFilter
   }
 
   QueryBuilder<Schedule, Schedule, QAfterFilterCondition> memoGreaterThan(
-    String value, {
+    String? value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -1730,7 +1951,7 @@ extension ScheduleQueryFilter
   }
 
   QueryBuilder<Schedule, Schedule, QAfterFilterCondition> memoLessThan(
-    String value, {
+    String? value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -1745,8 +1966,8 @@ extension ScheduleQueryFilter
   }
 
   QueryBuilder<Schedule, Schedule, QAfterFilterCondition> memoBetween(
-    String lower,
-    String upper, {
+    String? lower,
+    String? upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
@@ -1831,8 +2052,24 @@ extension ScheduleQueryFilter
     });
   }
 
+  QueryBuilder<Schedule, Schedule, QAfterFilterCondition> myPlaceIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'myPlace',
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterFilterCondition> myPlaceIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'myPlace',
+      ));
+    });
+  }
+
   QueryBuilder<Schedule, Schedule, QAfterFilterCondition> myPlaceEqualTo(
-    String value, {
+    String? value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -1845,7 +2082,7 @@ extension ScheduleQueryFilter
   }
 
   QueryBuilder<Schedule, Schedule, QAfterFilterCondition> myPlaceGreaterThan(
-    String value, {
+    String? value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -1860,7 +2097,7 @@ extension ScheduleQueryFilter
   }
 
   QueryBuilder<Schedule, Schedule, QAfterFilterCondition> myPlaceLessThan(
-    String value, {
+    String? value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -1875,8 +2112,8 @@ extension ScheduleQueryFilter
   }
 
   QueryBuilder<Schedule, Schedule, QAfterFilterCondition> myPlaceBetween(
-    String lower,
-    String upper, {
+    String? lower,
+    String? upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
@@ -1961,8 +2198,24 @@ extension ScheduleQueryFilter
     });
   }
 
+  QueryBuilder<Schedule, Schedule, QAfterFilterCondition> titleIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'title',
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterFilterCondition> titleIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'title',
+      ));
+    });
+  }
+
   QueryBuilder<Schedule, Schedule, QAfterFilterCondition> titleEqualTo(
-    String value, {
+    String? value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -1975,7 +2228,7 @@ extension ScheduleQueryFilter
   }
 
   QueryBuilder<Schedule, Schedule, QAfterFilterCondition> titleGreaterThan(
-    String value, {
+    String? value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -1990,7 +2243,7 @@ extension ScheduleQueryFilter
   }
 
   QueryBuilder<Schedule, Schedule, QAfterFilterCondition> titleLessThan(
-    String value, {
+    String? value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -2005,8 +2258,8 @@ extension ScheduleQueryFilter
   }
 
   QueryBuilder<Schedule, Schedule, QAfterFilterCondition> titleBetween(
-    String lower,
-    String upper, {
+    String? lower,
+    String? upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
@@ -2091,8 +2344,24 @@ extension ScheduleQueryFilter
     });
   }
 
+  QueryBuilder<Schedule, Schedule, QAfterFilterCondition> toIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'to',
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterFilterCondition> toIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'to',
+      ));
+    });
+  }
+
   QueryBuilder<Schedule, Schedule, QAfterFilterCondition> toEqualTo(
-      DateTime value) {
+      DateTime? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'to',
@@ -2102,7 +2371,7 @@ extension ScheduleQueryFilter
   }
 
   QueryBuilder<Schedule, Schedule, QAfterFilterCondition> toGreaterThan(
-    DateTime value, {
+    DateTime? value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -2115,7 +2384,7 @@ extension ScheduleQueryFilter
   }
 
   QueryBuilder<Schedule, Schedule, QAfterFilterCondition> toLessThan(
-    DateTime value, {
+    DateTime? value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -2128,8 +2397,8 @@ extension ScheduleQueryFilter
   }
 
   QueryBuilder<Schedule, Schedule, QAfterFilterCondition> toBetween(
-    DateTime lower,
-    DateTime upper, {
+    DateTime? lower,
+    DateTime? upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -2452,13 +2721,13 @@ extension ScheduleQueryProperty
     });
   }
 
-  QueryBuilder<Schedule, int, QQueryOperations> colorIndexProperty() {
+  QueryBuilder<Schedule, int?, QQueryOperations> colorIndexProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'colorIndex');
     });
   }
 
-  QueryBuilder<Schedule, DateTime, QQueryOperations> fromProperty() {
+  QueryBuilder<Schedule, DateTime?, QQueryOperations> fromProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'from');
     });
@@ -2476,31 +2745,31 @@ extension ScheduleQueryProperty
     });
   }
 
-  QueryBuilder<Schedule, bool, QQueryOperations> isShowMapProperty() {
+  QueryBuilder<Schedule, bool?, QQueryOperations> isShowMapProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'isShowMap');
     });
   }
 
-  QueryBuilder<Schedule, String, QQueryOperations> memoProperty() {
+  QueryBuilder<Schedule, String?, QQueryOperations> memoProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'memo');
     });
   }
 
-  QueryBuilder<Schedule, String, QQueryOperations> myPlaceProperty() {
+  QueryBuilder<Schedule, String?, QQueryOperations> myPlaceProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'myPlace');
     });
   }
 
-  QueryBuilder<Schedule, String, QQueryOperations> titleProperty() {
+  QueryBuilder<Schedule, String?, QQueryOperations> titleProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'title');
     });
   }
 
-  QueryBuilder<Schedule, DateTime, QQueryOperations> toProperty() {
+  QueryBuilder<Schedule, DateTime?, QQueryOperations> toProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'to');
     });

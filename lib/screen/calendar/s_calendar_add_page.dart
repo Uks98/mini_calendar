@@ -76,12 +76,12 @@ class _CalendarAddPageState extends State<CalendarAddPage>
     super.initState();
     _titleController.text = widget.schedule.title.toString();
     memoText = widget.schedule.memo.toString();
-    datePickerStateController.startSelectedTime.value = widget.schedule.from;
-    datePickerStateController.lastSelectedTime.value = widget.schedule.to;
+    datePickerStateController.startSelectedTime.value = widget.schedule.from!;
+    datePickerStateController.lastSelectedTime.value = widget.schedule.to!;
     outPageGpsX = widget.schedule.gpsY!;
     outPageGpsY = widget.schedule.gpsX!;
     outPagePlace = widget.schedule.myPlace;
-    _colorIndex = widget.schedule.colorIndex;
+    _colorIndex = widget.schedule.colorIndex!;
     isOnMap = widget.isShowMap;
     isShowDetail = widget.initShowDetail;
     _updateCameraPosition();
@@ -246,14 +246,8 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                             if (gps == null) {
                               gps = Schedule(
                                 id: DateTime.now().microsecondsSinceEpoch,
-                                title: '',
-                                memo: '',
-                                from: DateTime.now(),
-                                to: DateTime.now(),
-                                myPlace: '',
                                 gpsX: 0.0,
                                 gpsY: 0.0,
-                                colorIndex: 0,
                                 isShowMap: isOnMap,
                               );
                             } else {
@@ -297,15 +291,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
         onTap: ()async{
           Schedule memos = await Get.to(MemoPage(memoText: Schedule(
             id: DateTime.now().microsecondsSinceEpoch,
-            title: '',
             memo: memoText.toString(),
-            from: DateTime.now(),
-            to: DateTime.now(),
-            myPlace: '',
-            gpsX: 0.0,
-            gpsY: 0.0,
-            colorIndex: 0,
-            isShowMap: isOnMap,
           ),),);
           memoText = memos.memo;
           setState(() {});

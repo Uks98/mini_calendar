@@ -7,33 +7,33 @@ part 'd_schedule_data.g.dart';
 class Schedule {
   Schedule(
       {required this.id,
-        required this.title,
-        required this.memo,
-        required this.from,
-        required this.to,
-        required this.myPlace,
-        required this.gpsX,
-        required this.gpsY,
-        required this.colorIndex,
-        required this.isShowMap
+        this.title,
+        this.memo,
+        this.from,
+        this.to,
+        this.myPlace,
+        this.gpsX,
+        this.gpsY,
+        this.colorIndex,
+        this.isShowMap
        // required this.eventColor,
         });
  @Index(type: IndexType.value)
  Id id;
  @Index(type: IndexType.value)
- String title;
+ String? title;
   ///간단한 메모
  @Index(type: IndexType.value)
- String memo;
+ String? memo;
   ///시작시간
  @Index(type: IndexType.value)
- DateTime from;
+ DateTime? from;
   ///끝나는 시간
  @Index(type: IndexType.value)
- DateTime to;
+ DateTime? to;
   ///위치 선택시 내 위치
  @Index(type: IndexType.value)
- String myPlace;
+ String? myPlace;
  ///gps x
  @Index(type: IndexType.value)
  double? gpsX;
@@ -42,7 +42,7 @@ class Schedule {
  double? gpsY;
 
  @Index(type: IndexType.value)
- int colorIndex = 0;
+ int? colorIndex = 0;
  @Index(type: IndexType.value)
-  bool isShowMap = false;
+  bool? isShowMap = false;
 }

@@ -17,6 +17,7 @@ class MapDataController extends GetxController{
   RxBool isShowMap = false.obs;
   RxBool isMapLoading = true.obs;
   MapApi mapApi = MapApi();
+
   void searchLocation({required String keyword,required BuildContext context}){
     if(keyword.isEmpty){
       autoCompleteList.clear();
@@ -30,6 +31,8 @@ class MapDataController extends GetxController{
   void getMapData(BuildContext context,String search) async {
       mapList.value = (await mapApi.getMapList(context: context,search:search))!;
   }
+
+
   ///맵 로딩 처리 함수
   void startLoading() {
     isMapLoading.value = true;
