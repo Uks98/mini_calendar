@@ -15,7 +15,8 @@ import 'package:today_my_calendar/tab/s_calendar_month_page.dart';
 import '../../controller/map_data_controller.dart';
 
 class LocationSearchWidget extends StatefulWidget {
-  LocationSearchWidget({super.key});
+  Schedule schedule;
+  LocationSearchWidget({super.key,required this.schedule});
 
   @override
   State<LocationSearchWidget> createState() => _LocationSearchWidgetState();
@@ -46,6 +47,7 @@ class _LocationSearchWidgetState extends State<LocationSearchWidget> {
 
   @override
   void initState() {
+    print(widget.schedule.gpsY);
     mapDataController.searchLocation(
         context: context, keyword: _locationController.text);
 
@@ -60,14 +62,19 @@ class _LocationSearchWidgetState extends State<LocationSearchWidget> {
   }
 
   Widget build(BuildContext context) {
-    const containerHeight = 300.0;
     return Scaffold(
       appBar: AppBar(
         title: "위치".text.size(bigFontSize).make(),
         leading: IconButton(
           icon: const Icon(Icons.close),
           onPressed: () =>
-            Navigator.of(context).pop(),
+              Navigator.of(context).pop(Schedule(
+                  id: DateTime.now().microsecondsSinceEpoch,
+                  myPlace: searchPlace,
+                  gpsX: searchGpsY,
+                  gpsY: searchGpsX,
+                  isShowMap: false)
+              )
         ),
         centerTitle: true,
       ),
@@ -137,7 +144,8 @@ class _LocationSearchWidgetState extends State<LocationSearchWidget> {
                               myPlace: searchPlace,
                               gpsX: searchGpsY,
                               gpsY: searchGpsX,
-                              isShowMap: false));
+                              isShowMap: false)
+                          );
                         },
                         child: Card(
                           elevation: 1,

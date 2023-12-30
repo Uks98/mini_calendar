@@ -67,7 +67,7 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
         key: _floatingKey,
         children: [
           FloatingActionButton.small(
-            heroTag: "b",
+            heroTag: "ts",
             backgroundColor: changeSmallFloatingColor,
             child: Icon(
               Icons.edit,
@@ -94,7 +94,8 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
       ).pOnly(bottom: 10.h),
       body: Column(
         children: [
-          Obx(() => Expanded(
+          Obx(() => Flexible(
+            key: GlobalKey(),
               child: SfCalendar(
                 showTodayButton: true,
                 weekNumberStyle: const WeekNumberStyle(textStyle: TextStyle(fontWeight: FontWeight.w300,fontSize: 11)),

@@ -41,16 +41,16 @@ class MapDataController extends GetxController{
   void stopLoading() {
     isMapLoading.value = false;
   }
-  void showBottomSheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return Container(
-          height: 600,
-          width: MediaQuery.of(context).size.width,
-          child: LocationSearchWidget()
-        );
-      },
-    );
-  }
+  // void showBottomSheet(BuildContext context) {
+  //   showModalBottomSheet(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return Container(
+  //         height: 600,
+  //         width: MediaQuery.of(context).size.width,
+  //         child: LocationSearchWidget(schedule: null,)
+  //       );
+  //     },
+  //   );
+  // }
 }

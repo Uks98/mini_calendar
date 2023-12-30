@@ -11,9 +11,13 @@ import '../main.dart';
 
 class AlarmSettingController extends GetxController{
   RxString alarmTime = "없음".obs;
+
   int get newId => DateTime.now().microsecond;
+
     static final notification = flutterLocalNotificationsPlugin;
+
     final alarmList = [];
+
   void getAlarmTime({required String id,required DateTime time, required String setTextTime,required BuildContext context,required String title,required String memo})async{
     final now = tz.TZDateTime.now(tz.local);
     final dateNow = DateTime.parse(now.toString());

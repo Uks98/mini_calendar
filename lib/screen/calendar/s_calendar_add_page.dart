@@ -167,7 +167,6 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                 Row(
                   children: [
                     TextField(
-                      autofocus: true,
                       style: TextStyle(fontSize: bigFontSize,fontWeight: FontWeight.w300), // 폰트 크기를 20으로 설정
                       decoration: const InputDecoration(
                         border: InputBorder.none, // 하단 밑줄 없애기
@@ -245,7 +244,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                       ///위치 받아오기
                       GestureDetector(
                           onTap: () async {
-                            var gps = await Get.to<Schedule>(LocationSearchWidget());
+                            var gps = await Get.to<Schedule>(LocationSearchWidget(schedule: Schedule(id: 0,gpsY: outPageGpsX,gpsX:outPageGpsY ),),);
                             if (gps == null) {
                               gps = Schedule(
                                 id: DateTime.now().microsecondsSinceEpoch,
@@ -254,8 +253,8 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                                 isShowMap: isOnMap,
                               );
                             } else {
-                              outPageGpsX = gps.gpsX;
-                              outPageGpsY = gps.gpsY;
+                              outPageGpsX = gps.gpsX!;
+                              outPageGpsY = gps.gpsY!;
                             }
                             outPagePlace = gps.myPlace; //?.
                             setState(() {});
@@ -297,6 +296,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
             memo: memoText.toString(),
           ),),);
           memoText = memos.memo;
+          //naverMapController?.dispose();
           setState(() {});
         },
         child: MemoContainer(memoText: memoText!,)
@@ -329,7 +329,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
               marker.openInfoWindow(onMarkerInfoWindow);
               // print(mapDataController.isShowMap.value);
               _updateCameraPosition();
-              //setState(() {});
+              setState(() {});
             },
           ),
         ),

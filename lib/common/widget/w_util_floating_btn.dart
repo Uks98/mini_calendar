@@ -50,7 +50,7 @@ class UtilFloating with ThemeDarkFind,MonthControllerMix{
           onPressed: goToAddPage,
         ),
         FloatingActionButton.small(
-          heroTag: "c",
+          heroTag: "cs",
           backgroundColor: changeSmallFloatingColor,
           child: Icon(
             Icons.settings,
