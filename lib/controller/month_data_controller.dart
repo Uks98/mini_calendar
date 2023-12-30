@@ -11,6 +11,7 @@ import '../screen/widget/d_message.dart';
 class MonthControl extends GetxController {
   LocalDB localDB = LocalDB.instance;
   RxList<Schedule> monthDataList = <Schedule>[].obs;
+  RxInt calendarSameDay = DateTime.now().day.obs;
   //RxBool isDarkMode = false.obs;
   @override
   void onInit() {
@@ -18,14 +19,17 @@ class MonthControl extends GetxController {
     super.onInit();
     getToInitList();
   }
+
   //id
   int get newId {
     return DateTime.now().microsecondsSinceEpoch;
   }
+
   void getToInitList()async{
     final getMeetingList = await localDB.getTodoList();
     monthDataList.addAll(getMeetingList);
   }
+
   ///스케쥴 추가
   void addSchedule(BuildContext context) async {
     final result = await Get.to<Schedule>(
@@ -55,6 +59,7 @@ class MonthControl extends GetxController {
     }
       monthDataList.refresh();
   }
+
   ///캘린더를 탭했을 때 생기는 이벤트 함수
   void calendarTapped(
       BuildContext context, CalendarTapDetails calendarTapDetails) {
@@ -110,6 +115,8 @@ class MonthControl extends GetxController {
     });
   }
 }
+
+
 void showMessageDialog(BuildContext context,CalendarLongPressDetails calendarLongPressDetails) {
   showDialog(
     context: context,
@@ -126,6 +133,7 @@ void showMessageDialog(BuildContext context,CalendarLongPressDetails calendarLon
     },
   );
 }
+
 mixin class MonthControllerMix {
   late MonthControl monthControl = Get.put(MonthControl());
 }

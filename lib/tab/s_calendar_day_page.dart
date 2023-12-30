@@ -22,7 +22,7 @@ class CalendarDayPage extends StatefulWidget {
 }
 
 class _CalendarDayPageState extends State<CalendarDayPage> with MonthControllerMix {
-
+  bool get isSameDayFontGrey => DateTime.now().day != monthControl.calendarSameDay.value;
   @override
   Widget build(BuildContext context) {
     return Scaffold(

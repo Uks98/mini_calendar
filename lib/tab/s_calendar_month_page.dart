@@ -43,6 +43,7 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
       : context.appColors.floatingIconColor;
   String month = "";
 
+ bool get isSameDayFontGrey => DateTime.now().day != monthControl.calendarSameDay.value;
 
   @override
   void initState() {
@@ -93,8 +94,7 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
       ).pOnly(bottom: 10.h),
       body: Column(
         children: [
-          Obx(
-                () => Expanded(
+          Obx(() => Expanded(
               child: SfCalendar(
                 showTodayButton: true,
                 weekNumberStyle: const WeekNumberStyle(textStyle: TextStyle(fontWeight: FontWeight.w300,fontSize: 11)),
@@ -116,6 +116,7 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
                   textStyle: TextStyle(fontSize: bigFontSize + 5),
                 ),
                 onTap: (cp) {
+                    monthControl.calendarSameDay.value = cp.date!.day;
                   monthControl.calendarTapped(context, cp);
                 },
                 onLongPress: (cpo) {
@@ -155,7 +156,7 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
                           color: context.appColors.text,
                         ),
                         appointmentTextStyle: TextStyle(
-                          color: Colors.white,
+                          color: Prefs.isLateDayFontGrey.get() && isSameDayFontGrey ? const Color(0xffA9A9A9) : Colors.white,
                           //일정 폰트!!
                           fontSize:  Prefs.appointmentTextSize.get(),
                         ),

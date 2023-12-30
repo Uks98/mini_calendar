@@ -69,11 +69,8 @@ class _CalendarAddPageState extends State<CalendarAddPage>
   RxBool get isShowLastPicker => datePickerStateController.isShowLastDatePicker;
   final alarmSet = Get.put(AlarmSettingController());
   NaverMapController? naverMapController;
-  final GlobalKey<FormState> _formKey1 = GlobalKey<FormState>();
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
+
+  void initDataForEdit(){
     _titleController.text = widget.schedule.title.toString();
     memoText = widget.schedule.memo.toString();
     datePickerStateController.startSelectedTime.value = widget.schedule.from!;
@@ -84,8 +81,14 @@ class _CalendarAddPageState extends State<CalendarAddPage>
     _colorIndex = widget.schedule.colorIndex!;
     isOnMap = widget.isShowMap;
     isShowDetail = widget.initShowDetail;
-    _updateCameraPosition();
+  }
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    initDataForEdit();
+    _updateCameraPosition();
   }
 
   @override
@@ -143,13 +146,14 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                 FocusScope.of(context).unfocus();
                 datePickerStateController.isShowStartDatePicker.value =
                 false;
+
                 datePickerStateController.isShowLastDatePicker.value =
                 false;
+
                 alarmController.alarmTime.value = "없음";
                 naverMapController?.dispose();
-                _deleteFocus();
-              } catch (E) {
-                print(E);
+              } catch (e) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: "일정을 작성하는데 잠시 문제가 발생했습니다.".text.size(bigFontSize).make()));
               }
             }, icon: const Icon(Icons.check))
           ],
@@ -163,8 +167,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                 Row(
                   children: [
                     TextField(
-                      key: Key("sadnasdnsakdsadsadsad"),
-                      autocorrect: false,
+                      autofocus: true,
                       style: TextStyle(fontSize: bigFontSize,fontWeight: FontWeight.w300), // 폰트 크기를 20으로 설정
                       decoration: const InputDecoration(
                         border: InputBorder.none, // 하단 밑줄 없애기
@@ -306,7 +309,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
         isOnMap == true) {
       return ClipRRect(
         borderRadius: BorderRadius.circular(normalWidth),
-        child: Container(
+        child: SizedBox(
           height: 200.h,
           width: MediaQuery
               .of(context)
@@ -321,23 +324,17 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                   id: mapDataController.myPlace.value,
                   position: NLatLng(outPageGpsY!, outPageGpsX!));
               final onMarkerInfoWindow =
-              NInfoWindow.onMarker(id: "", text: outPagePlace.toString());
+              NInfoWindow.onMarker(id: "1", text: outPagePlace.toString());
               controller.addOverlay(marker);
               marker.openInfoWindow(onMarkerInfoWindow);
               // print(mapDataController.isShowMap.value);
               _updateCameraPosition();
-              setState(() {});
+              //setState(() {});
             },
           ),
         ),
       );
     }
     return Container();
-  }
-  void _deleteFocus(){
-    FocusScopeNode currentFocus = FocusScope.of(context);
-    if (!currentFocus.hasPrimaryFocus) {
-      currentFocus.unfocus();
-    }
   }
 }

@@ -20,7 +20,7 @@ class CalendarSettingPage extends StatelessWidget with ScreenInit{
         Get.put(SettingCalendarController());
     return Scaffold(
       appBar: AppBar(
-        title: const Text("캘린더 설정"),
+        title:  Text("캘린더 설정",style: TextStyle(fontSize: normalFontSize),),
         centerTitle: true,
       ),
       body: ListView(
@@ -106,6 +106,13 @@ class CalendarSettingPage extends StatelessWidget with ScreenInit{
               ).paddingAll(smallHeight),
             ),
           ),
+          Obx(() => SettingSwitch(
+            settingName: "지난 이벤트 흐리게 표시",
+            isOn: Prefs.isLateDayFontGrey.get(),
+            onChanged: (value) {
+              Prefs.isLateDayFontGrey.set(value);
+            },
+          )),
         ],
       ),
     );

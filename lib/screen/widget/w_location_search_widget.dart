@@ -35,19 +35,12 @@ class _LocationSearchWidgetState extends State<LocationSearchWidget> {
     // Start animation after (default zero)
     delay: Duration(seconds: 3),
 
-    // Show each item through (default 250)
     showItemInterval: Duration(seconds: 3),
 
-    // Animation duration (default 250)
     showItemDuration: Duration(seconds: 3),
 
-    // Animations starts at 0.05 visible
-    // item fraction in sight (default 0.025)
     visibleFraction: 0.05,
 
-    // Repeat the animation of the appearance
-    // when scrolling in the opposite direction (default false)
-    // To get the effect as in a showcase for ListView, set true
     reAnimateOnVisibility: false,
   );
 
@@ -55,8 +48,8 @@ class _LocationSearchWidgetState extends State<LocationSearchWidget> {
   void initState() {
     mapDataController.searchLocation(
         context: context, keyword: _locationController.text);
-    mapDataController.getMapData(context, _locationController.text);
 
+    mapDataController.getMapData(context, _locationController.text);
     super.initState();
   }
 
@@ -73,9 +66,8 @@ class _LocationSearchWidgetState extends State<LocationSearchWidget> {
         title: "위치".text.size(bigFontSize).make(),
         leading: IconButton(
           icon: const Icon(Icons.close),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
+          onPressed: () =>
+            Navigator.of(context).pop(),
         ),
         centerTitle: true,
       ),
@@ -145,13 +137,7 @@ class _LocationSearchWidgetState extends State<LocationSearchWidget> {
                               myPlace: searchPlace,
                               gpsX: searchGpsY,
                               gpsY: searchGpsX,
-                              title: '',
-                              memo: '',
-                              from: DateTime.now(),
-                              to: DateTime.now(),
-                              colorIndex: 0,
                               isShowMap: false));
-                          print(searchPlace);
                         },
                         child: Card(
                           elevation: 1,
