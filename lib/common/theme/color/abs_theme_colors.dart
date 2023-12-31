@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
 import '../../constant/app_colors.dart';
+import 'mix_find_theme.dart';
 
 
 typedef ColorProvider = Color Function();
 
-abstract class AbstractThemeColors {
+abstract class AbstractThemeColors{
   const AbstractThemeColors();
 
   Color get seedColor => const Color(0xfff6f6f6);
@@ -55,7 +56,8 @@ abstract class AbstractThemeColors {
   Color get calendarMainColor => const Color(0xff0F0F0F);
 
   Color get todaySelectedColor => const Color(0xff4E4FEB);
-  Color get settingListColor => const Color(0xffF3F3F3);
+
+  Color get settingListColor => const Color(0xffEEF5FF);
 
 
 
