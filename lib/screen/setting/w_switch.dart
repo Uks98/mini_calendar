@@ -26,7 +26,7 @@ class SettingSwitch extends StatelessWidget with ScreenInit{
       child: Row(
         children: [
           Width(normalWidth),
-          settingName.text.size(bigFontSize).color(Colors.black).fontWeight(FontWeight.w300).make(),
+          settingName.text.size(normalFontSize).color(Colors.black).fontWeight(FontWeight.w300).make(),
           const Spacer(),
           CupertinoSwitch(value: isOn, onChanged: onChanged),
         ],).paddingAll(smallHeight),

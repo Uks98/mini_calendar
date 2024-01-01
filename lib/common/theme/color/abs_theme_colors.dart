@@ -57,7 +57,7 @@ abstract class AbstractThemeColors{
 
   Color get todaySelectedColor => const Color(0xff4E4FEB);
 
-  Color get settingListColor => const Color(0xffEEF5FF);
+  Color get settingListColor => const Color(0xffF2F1EB);
 
 
 

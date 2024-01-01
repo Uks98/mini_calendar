@@ -40,7 +40,7 @@ class ShowDateStartPicker extends StatelessWidget with ScreenInit {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      "${startText}"
+                      startText
                           .text
                           .size(normalFontSize)
                           .fontWeight(
@@ -65,7 +65,7 @@ class ShowDateStartPicker extends StatelessWidget with ScreenInit {
                         dateOrder: DatePickerDateOrder.ymd,
                         minimumYear: 2010,
                         maximumYear: DateTime.now().year,
-                        initialDateTime: DateTime.now(),
+                        initialDateTime: _selectedDate,
                         onDateTimeChanged: (date) =>
                             datePickerStateController.startTimeChanged(date),
                         mode: CupertinoDatePickerMode.dateAndTime,

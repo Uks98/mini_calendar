@@ -9,6 +9,7 @@ import 'package:today_my_calendar/common/constant/app_colors.dart';
 import 'package:today_my_calendar/common/constant/constant_widget.dart';
 import 'package:today_my_calendar/common/theme/color/mix_find_theme.dart';
 import 'package:today_my_calendar/common/widget/mixin/init_screen_size_utill.dart';
+import 'package:today_my_calendar/controller/date_picker_controller.dart';
 import 'package:today_my_calendar/controller/setting_calendardata_controller.dart';
 import 'package:today_my_calendar/screen/setting/s_setting_page.dart';
 import '../common/data/preference/prefs.dart';
@@ -29,7 +30,7 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
     with ScreenInit, MonthControllerMix,ThemeDarkFind {
   final CalendarController _calendarController = CalendarController();
   final AlarmSettingController alarmController = Get.put(AlarmSettingController());
-  final SettingCalendarController _settingCalendarController = Get.put(SettingCalendarController());
+  final DatePickerStateController _datePickerStateController = Get.put(DatePickerStateController());
 
   final _floatingKey =
   GlobalKey<ExpandableFabState>(); // floating action button global key
@@ -73,11 +74,8 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
               Icons.edit,
               color: changeSmallFloatingIconColor,
             ),
-            onPressed: () {
-              setState(() {
-                monthControl.addSchedule(context);
-              });
-            },
+            onPressed: () =>
+                monthControl.addSchedule(context,_datePickerStateController.startSelectedTime.value,_datePickerStateController.lastSelectedTime.value),
           ),
           FloatingActionButton.small(
             heroTag: "c",
@@ -117,8 +115,10 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
                   textStyle: TextStyle(fontSize: bigFontSize + 5),
                 ),
                 onTap: (cp) {
+                    _datePickerStateController.startSelectedTime.value = cp.date!;
+                    _datePickerStateController.lastSelectedTime.value = cp.date!;
                     monthControl.calendarSameDay.value = cp.date!.day;
-                  monthControl.calendarTapped(context, cp);
+                    monthControl.calendarTapped(context, cp);
                 },
                 onLongPress: (cpo) {
                   showMessageDialog(context, cpo);

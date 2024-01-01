@@ -12,6 +12,8 @@ class MonthControl extends GetxController {
   LocalDB localDB = LocalDB.instance;
   RxList<Schedule> monthDataList = <Schedule>[].obs;
   RxInt calendarSameDay = DateTime.now().day.obs;
+  DateTime startDateTime = DateTime.now();
+  DateTime endDateTime = DateTime.now();
   //RxBool isDarkMode = false.obs;
   @override
   void onInit() {
@@ -31,14 +33,14 @@ class MonthControl extends GetxController {
   }
 
   ///스케쥴 추가
-  void addSchedule(BuildContext context) async {
+  void addSchedule(BuildContext context,DateTime startDate,DateTime endDate) async {
     final result = await Get.to<Schedule>(
       CalendarAddPage(
         schedule: Schedule(
           id : newId,
           title: '',
-          to: DateTime.now(),
-          from: DateTime.now(),
+          to: startDate,
+          from: endDate,
           gpsX: 0.0,
           gpsY: 0.0,
           memo: '',

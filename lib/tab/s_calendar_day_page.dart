@@ -30,9 +30,8 @@ class _CalendarDayPageState extends State<CalendarDayPage> with MonthControllerM
       floatingActionButton: UtilFloating(
         buildContext: context,
         distance: 55.w,
-        goToAddPage: () {
-              monthControl.addSchedule(context);
-        },
+        goToAddPage: () =>
+          monthControl.addSchedule(context,monthControl.startDateTime,monthControl.endDateTime),
         goToSetPage: () {
           Get.to(SettingPage());
         },
@@ -56,6 +55,8 @@ class _CalendarDayPageState extends State<CalendarDayPage> with MonthControllerM
                 CalendarView.timelineDay,
               ],
               onTap: (cp) {
+                monthControl.startDateTime = cp.date!;
+                monthControl.endDateTime = cp.date!;
                 monthControl.calendarTapped(context, cp);
               },
               onLongPress: (cpo){
