@@ -8,13 +8,17 @@ import 'package:get/instance_manager.dart';
 import 'package:today_my_calendar/common/common.dart';
 import 'package:today_my_calendar/common/constant/app_colors.dart';
 import 'package:today_my_calendar/common/constant/constant_widget.dart';
+import 'package:today_my_calendar/common/theme/color/mix_find_theme.dart';
 import 'package:today_my_calendar/controller/color_select_controller.dart';
 import 'package:today_my_calendar/screen/calendar/calendar_data/d_schedule_data.dart';
 import 'package:today_my_calendar/screen/calendar/s_calendar_add_page.dart';
 import 'package:today_my_calendar/tab/s_calendar_month_page.dart';
 
 import '../../controller/map_data_controller.dart';
+import '../common/data/preference/prefs.dart';
+import '../common/theme/theme_util.dart';
 import '../controller/month_data_controller.dart';
+import '../screen/setting/w_switch.dart';
 
 class CalendarSearchPage extends StatefulWidget {
   CalendarSearchPage({
@@ -26,29 +30,24 @@ class CalendarSearchPage extends StatefulWidget {
 }
 
 class _CalendarSearchPageState extends State<CalendarSearchPage>
-    with MonthControllerMix {
-  final GlobalKey _otherKey = GlobalKey(); // Define a new GlobalKey.
+    with MonthControllerMix,ThemeDarkFind{
+
+  ///검색 기능 중 월,일이 시작 일정과 동일할 경우 가독성을 위해 불필요한 텍스트를 줄이는 함수
+  String returnToMonDay(int fromMonth,int toMonth,int fromDay,int toDay ,int hour,int minute){
+    if(fromMonth == toMonth && fromDay == toDay){
+      return "${hour < 12 ? "오전" : "오후"} $hour시 $minute분";
+    }
+    return "$toMonth월 $toDay일 ${hour < 12 ? "오전" : "오후"} $hour시 $minute분";
+  }
+
   MapDataController mapDataController = Get.put(MapDataController());
   ColorSelectController _colorBox = Get.put(ColorSelectController());
-  double searchGpsX = 0.0;
-  double searchGpsY = 0.0;
   double textFieldLeftPadding = 20.0;
   Schedule? schedule;
+  bool get isLightModes =>  Prefs.isLightModes.get();
   final TextEditingController _searchController = TextEditingController();
 
   String searchPlace = "";
-  final options = const LiveOptions(
-    // Start animation after (default zero)
-    delay: Duration(seconds: 3),
-
-    showItemInterval: Duration(seconds: 3),
-
-    showItemDuration: Duration(seconds: 3),
-
-    visibleFraction: 0.05,
-
-    reAnimateOnVisibility: false,
-  );
 
   @override
   void initState() {
@@ -65,7 +64,7 @@ class _CalendarSearchPageState extends State<CalendarSearchPage>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: "제목,위치,메모".text.size(bigFontSize).make(),
+        title: "검색".text.size(bigFontSize).make(),
         leading: IconButton(
             icon: const Icon(Icons.close),
             onPressed: () => Navigator.of(context).pop()),
@@ -82,11 +81,6 @@ class _CalendarSearchPageState extends State<CalendarSearchPage>
                   width: 200.w,
                   child: TextField(
                     autofocus: false,
-                    onTap: () {
-                      if(_searchController.text.isEmpty){
-                          monthControl.monthSearchList.clear();
-                      }
-                    },
                     onChanged: (value) => monthControl.searchCalList(
                         keyword: value, context: context),
                     style: TextStyle(
@@ -108,15 +102,13 @@ class _CalendarSearchPageState extends State<CalendarSearchPage>
             ).pOnly(left: textFieldLeftPadding),
             Obx(() => monthControl.monthSearchList.isNotEmpty
                 ? SingleChildScrollView(
-                    child: LiveList.options(
-                    options: options,
+                    child: ListView.separated(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     separatorBuilder: (context, index) {
-                      return Height(smallHeight);
+                      return Height(2);
                     },
-                    itemBuilder: (BuildContext context, int index,
-                        Animation<double> animation) {
+                    itemBuilder: (BuildContext context, int index,) {
                       final search = monthControl.monthSearchList[index];
                       return GestureDetector(
                         onTap: () {
@@ -135,30 +127,39 @@ class _CalendarSearchPageState extends State<CalendarSearchPage>
                               context);
                         },
                         child: Container(
-                          width: 200,
-                          color: Colors.grey,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                          decoration: BoxDecoration(
+                          color: isLightModes ? AppColors.darkGrey :context.appColors.settingListColor,
+                              borderRadius: BorderRadius.circular(smallWidth)),
+                          child: Row(
                             children: [
-                              "search.title!.textssssssssssaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaasssssssss".text
-                                  .size(normalFontSize)
-                                  .color(AppColors.brightGrey)
-                                  .fontWeight(FontWeight.w300)
-                                  .make(),
-                              search.myPlace != null? search.myPlace!.text
-                                  .size(smallFontSize)
-                                  .color(AppColors.brightGrey)
-                                  .fontWeight(FontWeight.w300)
-                                  .make() : Container(),
-                              search.myPlace != null? search.myPlace!.text
-                                  .size(smallFontSize)
-                                  .color(AppColors.brightGrey)
-                                  .fontWeight(FontWeight.w300)
-                                  .make() : Container(),
+                              Width(smallWidth),
+                              VxBox()
+                              .width(smallWidth)
+                              .height(50.h).withRounded(value: 2.w)
+                              .color(_colorBox.colorList.keys.elementAt(search.colorIndex!))
+                              .make(),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  search.title!.text
+                                      .size(bigFontSize).fontWeight(FontWeight.w300)
+                                      .color(isLightMode ? Colors.white :context.appColors.text)
+                                      .make(),
+                                  " ${search.to!.year}년 ${search.from!.month}월 ${search.from!.day}일 ${search.to!.hour < 12 ? "오전" : "오후"} ${search.from!.hour}시 ${search.from!.minute}분  ~ "
+                                  " ${returnToMonDay(search.from!.month,search.to!.month,search.from!.day,search.to!.day,search.to!.hour,search.to!.minute)}".text.size(smallFontSize).color(isLightModes ? Colors.white : Colors.black).make(),
 
+
+                                  search.myPlace != null? search.myPlace!.text
+                                      .size(smallFontSize)
+                                      .color(isLightModes ? Colors.white : Colors.black)
+                                      .fontWeight(FontWeight.w300)
+                                      .make() : Container(),
+
+                                ],
+                              ).paddingAll(smallHeight.h),
                             ],
-                          ).paddingAll(smallHeight + 2.h),
-                        ),
+                          ).marginAll(2.w),
+                        ).paddingAll(normalWidth),
                       );
                     },
                     itemCount: monthControl.monthSearchList.length,
