@@ -52,10 +52,9 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
     return WillPopScope(
       onWillPop: _handleBackPressed,
       child: Scaffold(
+        key: Key("abxsw"),
         extendBody: extendBody, //bottomNavigationBar 아래 영역 까지 그림
-        drawer: const MenuDrawer(),
-        body:
-   Container(
+        body: Container(
           color: context.appColors.seedColor.getMaterialColorValues[200],
           padding: EdgeInsets.only(bottom: extendBody ? 60 - bottomNavigationBarBorderRadius : 0),
           child: SafeArea(

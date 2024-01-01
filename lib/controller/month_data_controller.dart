@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,9 +13,8 @@ import '../screen/widget/d_message.dart';
 class MonthControl extends GetxController {
   LocalDB localDB = LocalDB.instance;
   RxList<Schedule> monthDataList = <Schedule>[].obs;
+  RxList<Schedule> monthSearchList = <Schedule>[].obs;
   RxInt calendarSameDay = DateTime.now().day.obs;
-  DateTime startDateTime = DateTime.now();
-  DateTime endDateTime = DateTime.now();
   //RxBool isDarkMode = false.obs;
   @override
   void onInit() {
@@ -29,8 +30,12 @@ class MonthControl extends GetxController {
 
   void getToInitList()async{
     final getMeetingList = await localDB.getTodoList();
+
     monthDataList.addAll(getMeetingList);
+
+
   }
+
 
   ///스케쥴 추가
   void addSchedule(BuildContext context,DateTime startDate,DateTime endDate) async {
@@ -52,7 +57,7 @@ class MonthControl extends GetxController {
         initShowDetail: false,
       ),
     transition: Transition.downToUp,
-      duration: const Duration(milliseconds: 300)
+      duration: const Duration(milliseconds: 200)
       );
     if (result != null) {
       ///리스트 추가 및 갱신 함수
@@ -60,6 +65,7 @@ class MonthControl extends GetxController {
       localDB.addDBSchedule(result);
     }
       monthDataList.refresh();
+
   }
 
   ///캘린더를 탭했을 때 생기는 이벤트 함수
@@ -74,7 +80,6 @@ class MonthControl extends GetxController {
   ///캘린더를 롱 탭 했을 때 생기는 이벤트 함수
   void calendarLongTapped(
       BuildContext context, CalendarLongPressDetails calendarLongPressDetails){
-
     if (calendarLongPressDetails.targetElement == CalendarElement.appointment) {
       Schedule event = calendarLongPressDetails.appointments![0];
       deleteSchedule(event);
@@ -84,7 +89,7 @@ class MonthControl extends GetxController {
   void editSchedule(Schedule schedule, BuildContext context) async {
     final result = await Get.to(
       transition: Transition.downToUp,
-      duration: const Duration(milliseconds: 250),
+      duration: const Duration(milliseconds: 200),
       CalendarAddPage(
                 schedule: schedule,
             isShowMap: true,
@@ -106,18 +111,27 @@ class MonthControl extends GetxController {
       ///리스트 추가 및 갱신 함수
       localDB.updateDBSchedule(schedule);
     }
-
     monthDataList.refresh();
   }
-  //스케쥴 삭제
+  ///스케쥴 삭제
   Future<void> deleteSchedule(Schedule schedule)async{
     monthDataList.remove(schedule);
     await LocalDB.isar.writeTxn(()async{
       await LocalDB.isar.schedules.delete(schedule.id);
     });
   }
-}
+  ///캘린더 검색 함수
+  void searchCalList({required String keyword,required BuildContext context}){
+    if(keyword.isEmpty){
+      monthSearchList.clear();
+    }
+    monthSearchList.value = monthDataList.where((element) => element.title!.contains(keyword) || element.myPlace!.contains(keyword) || element.memo!.contains(keyword)).toList();
+    //getMapData(context, keyword);
+    //print(autoCompleteList.toString());
+  }
 
+}
+///일정 검색
 
 void showMessageDialog(BuildContext context,CalendarLongPressDetails calendarLongPressDetails) {
   showDialog(

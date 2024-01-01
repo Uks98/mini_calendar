@@ -32,4 +32,9 @@ class DatePickerStateController extends GetxController{
     // TODO: implement onInit
     super.onInit();
   }
+
+
+}
+mixin class DatePickerSetMix {
+  late DatePickerStateController pickerSetController = Get.put(DatePickerStateController());
 }

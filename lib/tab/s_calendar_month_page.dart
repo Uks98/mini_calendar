@@ -12,8 +12,10 @@ import 'package:today_my_calendar/common/widget/mixin/init_screen_size_utill.dar
 import 'package:today_my_calendar/controller/date_picker_controller.dart';
 import 'package:today_my_calendar/controller/setting_calendardata_controller.dart';
 import 'package:today_my_calendar/screen/setting/s_setting_page.dart';
+import 'package:today_my_calendar/tab/s_calendar_search_page.dart';
 import '../common/data/preference/prefs.dart';
 import '../controller/alarm_setting_controller.dart';
+import '../controller/date_picker_controller.dart';
 import '../controller/month_data_controller.dart';
 import '../screen/calendar/calendar_data/schecule_data_source.dart';
 
@@ -27,7 +29,7 @@ class CalendarMonthPage extends StatefulWidget {
 }
 
 class _CalendarMonthPageState extends State<CalendarMonthPage>
-    with ScreenInit, MonthControllerMix,ThemeDarkFind {
+    with ScreenInit, MonthControllerMix,ThemeDarkFind,DatePickerSetMix {
   final CalendarController _calendarController = CalendarController();
   final AlarmSettingController alarmController = Get.put(AlarmSettingController());
   final DatePickerStateController _datePickerStateController = Get.put(DatePickerStateController());
@@ -68,14 +70,13 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
         key: _floatingKey,
         children: [
           FloatingActionButton.small(
-            heroTag: "ts",
+            heroTag: "tsss",
             backgroundColor: changeSmallFloatingColor,
             child: Icon(
               Icons.edit,
               color: changeSmallFloatingIconColor,
             ),
-            onPressed: () =>
-                monthControl.addSchedule(context,_datePickerStateController.startSelectedTime.value,_datePickerStateController.lastSelectedTime.value),
+            onPressed: () => monthControl.addSchedule(context,pickerSetController.startSelectedTime.value,pickerSetController.lastSelectedTime.value),
           ),
           FloatingActionButton.small(
             heroTag: "c",
@@ -88,6 +89,7 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
               Get.to(SettingPage());
             },
           ),
+
         ],
       ).pOnly(bottom: 10.h),
       body: Column(
@@ -96,11 +98,12 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
             key: GlobalKey(),
               child: SfCalendar(
                 showTodayButton: true,
-                weekNumberStyle: const WeekNumberStyle(textStyle: TextStyle(fontWeight: FontWeight.w300,fontSize: 11)),
+                weekNumberStyle: WeekNumberStyle(textStyle: TextStyle(fontWeight: FontWeight.w300,fontSize: smallFontSize +1,)),
                 showWeekNumber: Prefs.isWeekNum.get(), //주번호
                 viewHeaderHeight: 63.h,
                 todayTextStyle: const TextStyle(color: Colors.white),
                 view: CalendarView.month,
+                //border
                 selectionDecoration: BoxDecoration(
                   color: Colors.grey.withOpacity(0.3),
                   border: Border.all(color: Colors.transparent, width: 2),
@@ -115,8 +118,8 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
                   textStyle: TextStyle(fontSize: bigFontSize + 5),
                 ),
                 onTap: (cp) {
-                    _datePickerStateController.startSelectedTime.value = cp.date!;
-                    _datePickerStateController.lastSelectedTime.value = cp.date!;
+                  pickerSetController.startSelectedTime.value = cp.date!;
+                  pickerSetController.lastSelectedTime.value = cp.date!;
                     monthControl.calendarSameDay.value = cp.date!.day;
                     monthControl.calendarTapped(context, cp);
                 },
@@ -124,11 +127,13 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
                   showMessageDialog(context, cpo);
                 },
                 controller: _calendarController,
+                //header
+                headerDateFormat: "MMMM",
                 headerHeight: 50.h,
-                headerDateFormat: "MM",
-                dataSource:
-                ScheduleDataSource(monthControl.monthDataList.value),
+                ///일정 데이터
+                dataSource: ScheduleDataSource(monthControl.monthDataList.value),
                 monthViewSettings: MonthViewSettings(
+
                     agendaItemHeight: 45.h,
                     //agenda 높이
                     numberOfWeeksInView: 4,
@@ -171,7 +176,7 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
                             color: AppColors.grey,
                             fontSize: bigFontSize,
                             fontWeight: FontWeight.bold,
-                            fontStyle: FontStyle.normal)),
+                            fontStyle: FontStyle.normal),),
                     appointmentDisplayCount: 3,
                     showAgenda: true,
                     appointmentDisplayMode:

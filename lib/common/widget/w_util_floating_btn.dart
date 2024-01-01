@@ -2,10 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
+import 'package:get/get.dart';
 import 'package:today_my_calendar/common/common.dart';
 import 'package:today_my_calendar/common/constant/constant_widget.dart';
 
 import '../../controller/month_data_controller.dart';
+import '../../tab/s_calendar_search_page.dart';
 import '../theme/color/mix_find_theme.dart';
 
 class UtilFloating with ThemeDarkFind,MonthControllerMix{
@@ -57,6 +59,15 @@ class UtilFloating with ThemeDarkFind,MonthControllerMix{
             color: changeSmallFloatingIconColor,
           ),
           onPressed: goToSetPage,
+        ),
+        FloatingActionButton.small(
+          heroTag: "ts",
+          backgroundColor: changeSmallFloatingColor,
+          child: Icon(
+            Icons.search_outlined,
+            color: changeSmallFloatingIconColor,
+          ),
+          onPressed: () => Get.to(CalendarSearchPage()),
         ),
       ],
     );

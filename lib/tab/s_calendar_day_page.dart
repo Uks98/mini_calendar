@@ -31,7 +31,7 @@ class _CalendarDayPageState extends State<CalendarDayPage> with MonthControllerM
         buildContext: context,
         distance: 55.w,
         goToAddPage: () =>
-          monthControl.addSchedule(context,monthControl.startDateTime,monthControl.endDateTime),
+          monthControl.addSchedule(context,DateTime.now(),DateTime.now()),
         goToSetPage: () {
           Get.to(SettingPage());
         },
@@ -55,8 +55,6 @@ class _CalendarDayPageState extends State<CalendarDayPage> with MonthControllerM
                 CalendarView.timelineDay,
               ],
               onTap: (cp) {
-                monthControl.startDateTime = cp.date!;
-                monthControl.endDateTime = cp.date!;
                 monthControl.calendarTapped(context, cp);
               },
               onLongPress: (cpo){
@@ -65,7 +63,7 @@ class _CalendarDayPageState extends State<CalendarDayPage> with MonthControllerM
               viewHeaderHeight: bigHeight + 60,
               todayHighlightColor: context.appColors.calendarMainColor, //당일 색상
               showTodayButton: true,
-              headerDateFormat: "MM",
+              headerDateFormat: "MMM",
                 headerStyle: CalendarHeaderStyle(
                   textStyle: TextStyle(fontSize:bigFontSize + 5),
                 ),
