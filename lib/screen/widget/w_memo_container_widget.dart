@@ -26,18 +26,6 @@ class MemoContainer extends StatelessWidget with ScreenInit {
               borderRadius: BorderRadius.circular(10),
             ),
             child: memoText.text.color(Colors.black).fontWeight(FontWeight.w300).make(),
-            // child: TextField(
-            //
-            //   style: const TextStyle(color: AppColors.darkGrey,fontWeight: FontWeight.w300),
-            //   maxLines: 6,
-            //   controller: textEditingController,
-            //   decoration: const InputDecoration(
-            //     hintText: '노트',
-            //     hintStyle: TextStyle(fontWeight: FontWeight.w300),
-            //     border: InputBorder.none,
-            //     contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            //   ),
-            // ),
           ),
         ),
       ],

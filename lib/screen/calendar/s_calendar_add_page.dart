@@ -271,10 +271,11 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                           )),
                       Height(addPageHeight),
                       ///네이버 맵
-                      showUserMap(),
                       Height(addPageHeight),
+                      showUserMap(),
                       //메모
                       //메모페이지로 이동
+                      Height(bigHeight),
                       "메모".text.size(normalFontSize).fontWeight(FontWeight.w300,).make().paddingOnly(right: 315.w),
                       Height(normalHeight),
                       moveToMemo(),
@@ -294,7 +295,8 @@ class _CalendarAddPageState extends State<CalendarAddPage>
           Schedule memos = await Get.to(MemoPage(memoText: Schedule(
             id: DateTime.now().microsecondsSinceEpoch,
             memo: memoText.toString(),
-          ),),);
+          ),
+          ),);
           memoText = memos.memo;
           //naverMapController?.dispose();
           setState(() {});
@@ -325,11 +327,10 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                   position: NLatLng(outPageGpsY!, outPageGpsX!));
               final onMarkerInfoWindow =
               NInfoWindow.onMarker(id: "1", text: outPagePlace.toString());
-              controller.addOverlay(marker);
+              naverMapController!.addOverlay(marker);
               marker.openInfoWindow(onMarkerInfoWindow);
               // print(mapDataController.isShowMap.value);
               _updateCameraPosition();
-              setState(() {});
             },
           ),
         ),

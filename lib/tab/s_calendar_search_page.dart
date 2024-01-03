@@ -91,7 +91,7 @@ class _CalendarSearchPageState extends State<CalendarSearchPage>
                         contentPadding:
                             EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                         border: InputBorder.none, // 하단 밑줄 없애기
-                        hintText: '제목,내용을 입력하세요.',
+                        hintText: '제목,위치 및 메모',
                         hintStyle: TextStyle(fontWeight: FontWeight.w300)
                         //hintStyle: TextStyle(color: )
                         ),

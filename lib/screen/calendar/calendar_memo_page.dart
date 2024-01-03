@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:get/get.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:image_picker/image_picker.dart';
@@ -15,7 +16,7 @@ import 'package:today_my_calendar/screen/calendar/calendar_data/d_schedule_data.
 class MemoPage extends StatefulWidget {
   Schedule memoText;
 
-  MemoPage({super.key, required this.memoText});
+  MemoPage({super.key, required this.memoText,});
 
   @override
   State<MemoPage> createState() => _MemoPageState();
@@ -63,15 +64,9 @@ class _MemoPageState extends State<MemoPage> {
             onPressed: () {
               Navigator.of(context).pop(Schedule(
                 id: DateTime.now().microsecondsSinceEpoch,
-                title: '',
                 memo: _textEditingController.text,
-                from: DateTime.now(),
-                to: DateTime.now(),
-                myPlace: '',
-                gpsX: 0.0,
-                gpsY: 0.0,
                 colorIndex: 0,
-                isShowMap: false,
+                isShowMap: true,
               ));
             },
             child: "완료".text.fontWeight(FontWeight.w300).make(),
@@ -84,8 +79,8 @@ class _MemoPageState extends State<MemoPage> {
         children: [
           Expanded(
             child: TextField(
+
               maxLines: 20,
-              autofocus: true,
               cursorColor: Colors.black,
               controller: _textEditingController,
               decoration: const InputDecoration(
@@ -95,7 +90,6 @@ class _MemoPageState extends State<MemoPage> {
               style: TextStyle(fontSize: normalFontSize,fontWeight: FontWeight.w300),
             ).paddingAll(bigHeight),
           )
-
           //Expanded(child: TextField())
         ],
       ),
