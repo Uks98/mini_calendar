@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/instance_manager.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:today_my_calendar/common/common.dart';
 import 'package:today_my_calendar/common/constant/app_colors.dart';
@@ -10,12 +9,9 @@ import 'package:today_my_calendar/common/constant/constant_widget.dart';
 import 'package:today_my_calendar/common/theme/color/mix_find_theme.dart';
 import 'package:today_my_calendar/common/widget/mixin/init_screen_size_utill.dart';
 import 'package:today_my_calendar/controller/date_picker_controller.dart';
-import 'package:today_my_calendar/controller/setting_calendardata_controller.dart';
 import 'package:today_my_calendar/screen/setting/s_setting_page.dart';
-import 'package:today_my_calendar/tab/s_calendar_search_page.dart';
 import '../common/data/preference/prefs.dart';
 import '../controller/alarm_setting_controller.dart';
-import '../controller/date_picker_controller.dart';
 import '../controller/month_data_controller.dart';
 import '../screen/calendar/calendar_data/schecule_data_source.dart';
 
@@ -32,7 +28,6 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
     with ScreenInit, MonthControllerMix,ThemeDarkFind,DatePickerSetMix {
   final CalendarController _calendarController = CalendarController();
   final AlarmSettingController alarmController = Get.put(AlarmSettingController());
-  final DatePickerStateController _datePickerStateController = Get.put(DatePickerStateController());
 
   final _floatingKey =
   GlobalKey<ExpandableFabState>(); // floating action button global key
@@ -86,7 +81,7 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
               color: changeSmallFloatingIconColor,
             ),
             onPressed: () {
-              Get.to(SettingPage());
+              Get.to(const SettingPage());
             },
           ),
 

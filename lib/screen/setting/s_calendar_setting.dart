@@ -16,7 +16,7 @@ class CalendarSettingPage extends StatelessWidget with ScreenInit{
   bool get isLightModes =>  Prefs.isLightModes.get();
   @override
   Widget build(BuildContext context) {
-    final SettingCalendarController _settingCalendarController =
+    final SettingCalendarController settingCalendarController =
     Get.put(SettingCalendarController());
     return Scaffold(
       appBar: AppBar(
@@ -77,13 +77,13 @@ class CalendarSettingPage extends StatelessWidget with ScreenInit{
                   IconButton(
                     icon: const Icon(Icons.remove,color: Colors.black),
                     onPressed:
-                    _settingCalendarController.appointmentTextSize.value >
+                    settingCalendarController.appointmentTextSize.value >
                         11
                         ? () {
-                      _settingCalendarController
+                      settingCalendarController
                           .appointmentTextSize.value--;
                       Prefs.appointmentTextSize.set(
-                          _settingCalendarController
+                          settingCalendarController
                               .appointmentTextSize.value);
                     }
                         : null,
@@ -91,13 +91,13 @@ class CalendarSettingPage extends StatelessWidget with ScreenInit{
                   IconButton(
                     icon: const Icon(Icons.add,color: Colors.black),
                     onPressed:
-                    _settingCalendarController.appointmentTextSize.value <
+                    settingCalendarController.appointmentTextSize.value <
                         18
                         ? () {
-                      _settingCalendarController
+                      settingCalendarController
                           .appointmentTextSize.value++;
                       Prefs.appointmentTextSize.set(
-                          _settingCalendarController
+                          settingCalendarController
                               .appointmentTextSize.value);
                     }
                         : null,

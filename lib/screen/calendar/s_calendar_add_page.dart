@@ -39,7 +39,6 @@ class CalendarAddPage extends StatefulWidget {
 class _CalendarAddPageState extends State<CalendarAddPage>
     with AfterLayoutMixin, ScreenInit {
   final double _textFieldWidth = 350;
-  final double _textFieldHeight = 350;
   final double _quickWidgetLeftPadding = 290;
   final _titleController = TextEditingController();
   //final _memoController = TextEditingController();

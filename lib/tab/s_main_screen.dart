@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:today_my_calendar/common/widget/mixin/init_screen_size_utill.dart';
-import 'package:today_my_calendar/screen/widget/w_menu_drawer.dart';
 
 import '../../common/common.dart';
 import '../common/theme/color/mix_find_theme.dart';
@@ -30,9 +28,6 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
 
   static double get bottomNavigationBarBorderRadius => 15.0;
 
-  final _floatingKey =
-  GlobalKey<ExpandableFabState>(); // floating action button global key
-
   Color get changeSmallFloatingColor => !isLightMode
       ? context.appColors.calendarMainColor
       : context.appColors.floatingIconColor;
@@ -52,7 +47,7 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
     return WillPopScope(
       onWillPop: _handleBackPressed,
       child: Scaffold(
-        key: Key("abxsw"),
+        key: const Key("abxsw"),
         extendBody: extendBody, //bottomNavigationBar 아래 영역 까지 그림
         body: Container(
           color: context.appColors.seedColor.getMaterialColorValues[200],

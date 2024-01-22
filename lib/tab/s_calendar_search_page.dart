@@ -1,5 +1,3 @@
-import 'package:auto_animated/auto_animated.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
@@ -11,17 +9,13 @@ import 'package:today_my_calendar/common/constant/constant_widget.dart';
 import 'package:today_my_calendar/common/theme/color/mix_find_theme.dart';
 import 'package:today_my_calendar/controller/color_select_controller.dart';
 import 'package:today_my_calendar/screen/calendar/calendar_data/d_schedule_data.dart';
-import 'package:today_my_calendar/screen/calendar/s_calendar_add_page.dart';
-import 'package:today_my_calendar/tab/s_calendar_month_page.dart';
 
 import '../../controller/map_data_controller.dart';
 import '../common/data/preference/prefs.dart';
-import '../common/theme/theme_util.dart';
 import '../controller/month_data_controller.dart';
-import '../screen/setting/w_switch.dart';
 
 class CalendarSearchPage extends StatefulWidget {
-  CalendarSearchPage({
+  const CalendarSearchPage({
     super.key,
   });
 
@@ -41,7 +35,7 @@ class _CalendarSearchPageState extends State<CalendarSearchPage>
   }
 
   MapDataController mapDataController = Get.put(MapDataController());
-  ColorSelectController _colorBox = Get.put(ColorSelectController());
+  final ColorSelectController _colorBox = Get.put(ColorSelectController());
   double textFieldLeftPadding = 20.0;
   Schedule? schedule;
   bool get isLightModes =>  Prefs.isLightModes.get();
@@ -61,6 +55,7 @@ class _CalendarSearchPageState extends State<CalendarSearchPage>
     _searchController.dispose();
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -106,7 +101,7 @@ class _CalendarSearchPageState extends State<CalendarSearchPage>
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     separatorBuilder: (context, index) {
-                      return Height(2);
+                      return const Height(2);
                     },
                     itemBuilder: (BuildContext context, int index,) {
                       final search = monthControl.monthSearchList[index];

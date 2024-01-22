@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:today_my_calendar/common/constant/constant_widget.dart';
@@ -33,7 +32,7 @@ class SettingPage extends StatelessWidget {
               icon: Icons.chat_outlined,
               title: '피드백',
               onTap: () {
-                sendEmail();
+                _sendEmail();
               }
             ),
 
@@ -42,7 +41,7 @@ class SettingPage extends StatelessWidget {
         );
   }
 
-  void sendEmail() {
+  void _sendEmail() {
     String encodeQueryParameters(Map<String, String> params) {
       return params.entries
           .map((e) =>

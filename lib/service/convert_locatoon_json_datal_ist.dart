@@ -1,8 +1,6 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 
 import '../data/location_data.dart';
@@ -36,7 +34,7 @@ class MapApi{
     showDialog(
         context: context,
         builder: (context){
-          return AlertDialog(
+          return const AlertDialog(
             title: Text("🚨알림🚨"),
             content: Text("마지막 정보에요 😭"),
           );

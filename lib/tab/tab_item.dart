@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:today_my_calendar/common/common.dart';
 import 'package:today_my_calendar/tab/s_calendar_day_page.dart';
 import 'package:today_my_calendar/tab/s_calendar_month_page.dart';
-import 'package:today_my_calendar/screen/setting/s_setting_page.dart';
 
 
 

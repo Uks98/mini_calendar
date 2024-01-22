@@ -3,12 +3,10 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:get/get.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:image_picker/image_picker.dart';
 
-import 'package:flutter/cupertino.dart';
 import 'package:today_my_calendar/common/common.dart';
 import 'package:today_my_calendar/common/constant/constant_widget.dart';
 import 'package:today_my_calendar/screen/calendar/calendar_data/d_schedule_data.dart';
@@ -24,7 +22,7 @@ class MemoPage extends StatefulWidget {
 
 class _MemoPageState extends State<MemoPage> {
   File? _image;
-  bool _canProcess = true;
+  final bool _canProcess = true;
   bool _isBusy = false;
   CustomPaint? _customPaint;
   final _cameraLensDirection = CameraLensDirection.back;
@@ -34,7 +32,7 @@ class _MemoPageState extends State<MemoPage> {
   TextRecognizer textRecognizer =
   TextRecognizer(script: TextRecognitionScript.korean);
 
-  ImagePicker _imagePicker = ImagePicker();
+  final ImagePicker _imagePicker = ImagePicker();
 
   @override
   void initState() {
@@ -126,7 +124,6 @@ class _MemoPageState extends State<MemoPage> {
     } else {
       _textEditingController.text = "${recognizedText.text}\n";
       _customPaint = null;
-      print(recognizedText.text);
     }
     _isBusy = false;
     if (mounted) {

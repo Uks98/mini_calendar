@@ -10,7 +10,6 @@ import 'package:today_my_calendar/screen/setting/s_setting_page.dart';
 
 import '../common/constant/constant_widget.dart';
 import '../common/data/preference/prefs.dart';
-import '../common/theme/custom_theme.dart';
 import '../common/widget/w_util_floating_btn.dart';
 import '../screen/calendar/calendar_data/schecule_data_source.dart';
 
@@ -33,7 +32,7 @@ class _CalendarDayPageState extends State<CalendarDayPage> with MonthControllerM
         goToAddPage: () =>
           monthControl.addSchedule(context,DateTime.now(),DateTime.now()),
         goToSetPage: () {
-          Get.to(SettingPage());
+          Get.to(const SettingPage());
         },
       ).buildExpandableFab(context).pOnly(bottom: 10.h),
       body: Obx(() =>Column(
