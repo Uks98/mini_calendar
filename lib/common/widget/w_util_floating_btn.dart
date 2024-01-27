@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:today_my_calendar/common/common.dart';
 import 'package:today_my_calendar/common/constant/constant_widget.dart';
@@ -33,7 +34,7 @@ class UtilFloating with ThemeDarkFind,MonthControllerMix{
 
   final _floatingKey =
   GlobalKey<ExpandableFabState>();
-  ExpandableFab buildExpandableFab(BuildContext context) {
+  Padding buildExpandableFab(BuildContext context) {
     return ExpandableFab(
       overlayStyle: ExpandableFabOverlayStyle(blur:  10.0),
       openButtonBuilder: buildRotateFloatingActionButtonBuilder(context, const Icon(Icons.add)),
@@ -45,20 +46,20 @@ class UtilFloating with ThemeDarkFind,MonthControllerMix{
         FloatingActionButton.small(
           heroTag: "b",
           backgroundColor: changeSmallFloatingColor,
+          onPressed: goToAddPage,
           child: Icon(
             Icons.edit,
             color: changeSmallFloatingIconColor,
           ),
-          onPressed: goToAddPage,
         ),
         FloatingActionButton.small(
           heroTag: "cs",
           backgroundColor: changeSmallFloatingColor,
+          onPressed: goToSetPage,
           child: Icon(
             Icons.settings,
             color: changeSmallFloatingIconColor,
           ),
-          onPressed: goToSetPage,
         ),
         FloatingActionButton.small(
           heroTag: "ts",
@@ -67,10 +68,10 @@ class UtilFloating with ThemeDarkFind,MonthControllerMix{
             Icons.search_outlined,
             color: changeSmallFloatingIconColor,
           ),
-          onPressed: () => Get.to(CalendarSearchPage()),
+          onPressed: () => Get.to(const CalendarSearchPage()),
         ),
       ],
-    );
+    ).pOnly(bottom: 20.h);
   }
   RotateFloatingActionButtonBuilder buildRotateFloatingActionButtonBuilder(
       BuildContext context, Icon icon) {

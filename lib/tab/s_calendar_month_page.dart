@@ -1,3 +1,4 @@
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -58,8 +59,8 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
       // 리팩토링 키패드 오류 문제 해결중
       floatingActionButton: ExpandableFab(
         overlayStyle: ExpandableFabOverlayStyle(blur:  10.0),
-        openButtonBuilder: buildRotateFloatingActionButtonBuilder(context, const Icon(Icons.add)),
-        closeButtonBuilder: buildRotateFloatingActionButtonBuilder(context, const Icon(Icons.close)),
+        openButtonBuilder: buildRotateFloatingActionButtonBuilder(context, const Icon(EvaIcons.plus)),
+        closeButtonBuilder: buildRotateFloatingActionButtonBuilder(context, const Icon(EvaIcons.close)),
         type: ExpandableFabType.up,
         distance: 55.w,
         key: _floatingKey,
@@ -86,7 +87,7 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
           ),
 
         ],
-      ).pOnly(bottom: 10.h),
+      ).pOnly(bottom: 30.h),
       body: Column(
         children: [
           Obx(() => Flexible(
@@ -136,7 +137,7 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
                       textStyle: TextStyle(
                         fontSize: smallFontSize + 2,
                         //달력 dayStyle
-                        fontWeight: Prefs.isDayFontWeight.get() ? FontWeight.bold : FontWeight.w300,
+                        fontWeight: Prefs.isDayFontWeight.get() ?  FontWeight.w300 :FontWeight.bold,
                         color: context.appColors.text,
                       ),
                       trailingDatesTextStyle: TextStyle(

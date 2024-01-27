@@ -32,7 +32,7 @@ class SettingSwitch extends StatelessWidget with ScreenInit,ThemeDarkFind{
           Width(normalWidth),
           settingName.text.size(normalFontSize).color(_isLightModes ? Colors.white : Colors.black).fontWeight(FontWeight.w300).make(),
           const Spacer(),
-          CupertinoSwitch(value: isOn, onChanged: onChanged),
+          Switch(value: isOn, onChanged: onChanged,activeColor: Color(0xffBCA37F),),
         ],).paddingAll(smallHeight),
     );
   }

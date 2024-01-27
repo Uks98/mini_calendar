@@ -4,7 +4,6 @@ export 'dart:async';
 export 'package:easy_localization/easy_localization.dart';
 export 'package:flutter_svg/flutter_svg.dart';
 export 'package:nav/nav.dart';
-export 'package:quiver/strings.dart';
 export 'package:velocity_x/velocity_x.dart';
 
 export '../common/dart/extension/animation_controller_extension.dart';

@@ -1,3 +1,4 @@
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,7 +14,7 @@ class SettingListWithIcon extends StatelessWidget {
   String title;
   VoidCallback onTap;
   SettingListWithIcon({super.key,required this.icon,required this.title,required this.onTap});
-  bool get _isLightModes =>  Prefs.isLightModes.get();
+  bool get _isLightModes => Prefs.isLightModes.get();
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -30,7 +31,7 @@ class SettingListWithIcon extends StatelessWidget {
           Width(normalWidth),
           title.text.size(bigFontSize).color(_isLightModes ? Colors.white : Colors.black).fontWeight(FontWeight.w300).make(),
           const Spacer(),
-           Icon(Icons.arrow_forward_ios_outlined,color: _isLightModes ? Colors.white : Colors.black,size: normalFontSize + 2,),
+           Icon(EvaIcons.arrowIosForwardOutline,color: _isLightModes ? Colors.white : Colors.black,size: normalFontSize + 2,),
         ],).paddingAll(normalWidth),
       ),
     );

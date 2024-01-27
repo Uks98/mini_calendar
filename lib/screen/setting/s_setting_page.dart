@@ -1,5 +1,8 @@
+import 'package:app_settings/app_settings.dart';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:today_my_calendar/common/common.dart';
 import 'package:today_my_calendar/common/constant/constant_widget.dart';
 import 'package:today_my_calendar/screen/setting/s_calendar_setting.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -13,7 +16,7 @@ class SettingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("설정"),
+          title: "설정".text.size(normalFontSize).make(),
           centerTitle: true,
         ),
         body: ListView(
@@ -22,20 +25,28 @@ class SettingPage extends StatelessWidget {
               height: bigHeight,
             ),
             SettingListWithIcon(
-              icon: Icons.calendar_month_outlined,
+              icon: EvaIcons.calendarOutline,
               title: '캘린더 설정',
               onTap: () => Get.to(
                 CalendarSettingPage(),
               ),
             ),
-            SettingListWithIcon(
-              icon: Icons.chat_outlined,
-              title: '피드백',
-              onTap: () {
-                _sendEmail();
-              }
-            ),
 
+            SettingListWithIcon(
+                icon: EvaIcons.optionsOutline,
+                title: '알림 설정',
+                onTap: () => AppSettings.openAppSettings(type: AppSettingsType.notification),
+            ),
+            SettingListWithIcon(
+              icon: EvaIcons.mapOutline,
+              title: '위치 설정',
+              onTap: () => AppSettings.openAppSettings(type: AppSettingsType.location),
+            ),
+            SettingListWithIcon(
+                icon: EvaIcons.infoOutline,
+                title: '피드백',
+                onTap: () => _sendEmail()
+            ),
           ],
         )
         );

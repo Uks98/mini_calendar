@@ -42,7 +42,7 @@ class AppState extends State<App> with Nav, WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []); //상태창 없애기 메서드
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge, overlays: []); //상태창 없애기 메서드
     return CustomThemeApp(
       child: Builder(builder: (context) {
         return GetMaterialApp(

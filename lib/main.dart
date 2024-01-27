@@ -22,7 +22,7 @@ void main() async {
 final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 void _initNotiSetting() async {
   const initializationSettingsAndroid =
-  AndroidInitializationSettings('@mipmap/ic_launcher');
+  AndroidInitializationSettings('assets/moco.png');
   tz.initializeTimeZones();
 
 

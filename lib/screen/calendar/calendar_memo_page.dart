@@ -2,6 +2,7 @@
 import 'dart:io';
 
 import 'package:camera/camera.dart';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
@@ -52,9 +53,11 @@ class _MemoPageState extends State<MemoPage> {
         actions: [
           IconButton(
             tooltip: "사진 속 글자를 메모장에 작성해줄게요.",
-            onPressed: () => _getImage(ImageSource.gallery),
+            onPressed: ()async{
+              await _getImage(ImageSource.gallery);
+            },
             icon: Icon(
-              Icons.text_snippet_outlined,
+              EvaIcons.bookOpenOutline,
               color: Colors.grey[600],
             ),
           ),
