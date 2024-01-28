@@ -25,7 +25,7 @@ class MapDataController extends GetxController{
     }
     autoCompleteList.value = mapList.where((element) => element.placeName.contains(keyword)).toSet();
     getMapData(context, keyword);
-    print(autoCompleteList.toString());
+
   }
 
   void getMapData(BuildContext context,String search) async {

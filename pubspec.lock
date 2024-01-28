@@ -10,7 +10,7 @@ packages:
     source: hosted
     version: "61.0.0"
   after_layout:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: after_layout
       sha256: "95a1cb2ca1464f44f14769329fbf15987d20ab6c88f8fc5d359bd362be625f29"

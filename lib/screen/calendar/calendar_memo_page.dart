@@ -11,6 +11,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:today_my_calendar/common/common.dart';
 import 'package:today_my_calendar/common/constant/constant_widget.dart';
 import 'package:today_my_calendar/screen/calendar/calendar_data/d_schedule_data.dart';
+import 'package:today_my_calendar/screen/calendar/s_calendar_ml_page.dart';
 
 class MemoPage extends StatefulWidget {
   Schedule memoText;
@@ -53,8 +54,9 @@ class _MemoPageState extends State<MemoPage> {
         actions: [
           IconButton(
             tooltip: "사진 속 글자를 메모장에 작성해줄게요.",
-            onPressed: ()async{
-              await _getImage(ImageSource.gallery);
+            onPressed: (){
+              Nav.push(CalendarMlPage());
+              //_getImage(ImageSource.gallery);
             },
             icon: Icon(
               EvaIcons.bookOpenOutline,
@@ -70,7 +72,7 @@ class _MemoPageState extends State<MemoPage> {
                 isShowMap: true,
               ));
             },
-            child: "완료".text.fontWeight(FontWeight.w300).make(),
+            child: "완료".text.fontWeight(FontWeight.w300).color(Colors.grey[500]).bold.make(),
           )
         ],
         centerTitle: true,

@@ -26,6 +26,6 @@ class LocationData{
   @override
   String toString() {
     // TODO: implement toString
-    return this.placeName;
+    return placeName;
   }
 }

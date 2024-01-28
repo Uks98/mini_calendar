@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../constant/app_colors.dart';
+import '../../data/preference/prefs.dart';
 import 'mix_find_theme.dart';
 
 
@@ -8,6 +9,10 @@ typedef ColorProvider = Color Function();
 
 abstract class AbstractThemeColors{
   const AbstractThemeColors();
+
+  bool get _isLightModes =>  Prefs.isLightModes.get();
+
+  Color get calendarCellColor => _isLightModes ? Colors.red : Colors.black;
 
   Color get seedColor => const Color(0xfff6f6f6);
 

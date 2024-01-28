@@ -29,7 +29,7 @@ class AlarmSettingController extends GetxController{
       channelDescription: "toText",
       importance: Importance.max,
       priority: Priority.max,
-      //icon: "android/app/src/main/calendar-playstore"
+     // icon: "assets/moco.png"
     );
      final detail = NotificationDetails(
       android: android,
@@ -50,7 +50,6 @@ class AlarmSettingController extends GetxController{
       case "없음": null;
       break;
       case "지정 시간": await zonedSchedule(newId,notification,time, notiDay, detail,0,title,memo).then((value) => notification.cancel(newId));
-      print(newId);
       break;
       case "1분 전": await zonedSchedule(newId,notification, time, notiDay, detail,1,title,memo);
       break;

@@ -40,7 +40,7 @@ class CalendarSettingPage extends StatelessWidget with ScreenInit{
             },
           )),
           Obx(() => SettingSwitch(
-            settingName: "굵은 텍스트",
+            settingName: "가는 텍스트",
             isOn: Prefs.isDayFontWeight.get(),
             onChanged: (value) {
               Prefs.isDayFontWeight.set(value);
@@ -111,6 +111,13 @@ class CalendarSettingPage extends StatelessWidget with ScreenInit{
             isOn: Prefs.isLateDayFontGrey.get(),
             onChanged: (value) {
               Prefs.isLateDayFontGrey.set(value);
+            },
+          )),
+          Obx(() => SettingSwitch(
+            settingName: "날짜 테두리 표시",
+            isOn: Prefs.isCellBorder.get(),
+            onChanged: (value) {
+              Prefs.isCellBorder.set(value);
             },
           )),
         ],

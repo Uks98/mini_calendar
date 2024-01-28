@@ -16,5 +16,7 @@ class Prefs with SettingCalendarControllerMix{
   static final appointmentTextSize = RxPreferenceItem<double,RxDouble>("appointmentTextSize", 13.0); //controller 초기값 오류로 임의 매직 넘버 부여
   static final isLateDayFontGrey = RxPreferenceItem<bool,RxBool>("isLateDayFontGrey", false);
 
+  static final isCellBorder = RxPreferenceItem<bool,RxBool>("isCellBorder", false); //달력 셀 테두리
+
   static final isLightModes = RxPreferenceItem<bool,RxBool>("isLightModes", false); //controller 초기값 오류로 임의 매직 넘버 부여
 }

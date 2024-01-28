@@ -23,7 +23,6 @@ class LocalDB{
   }
   Future<List<Schedule>> getSelectList(DateTime dateTime) async{
     final document = await isar.schedules.where().idEqualTo(2).findAll();
-    print("document filter date ${dateTime}");
     return document.map((e) => e).toList();
   }
   //{"background":4279451602,"eventName":"안녕 테스트","from":16952312400000000,"id":2,"isAllDay":false,"to":1695400440000000}

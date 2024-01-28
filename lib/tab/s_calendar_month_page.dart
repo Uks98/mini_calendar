@@ -108,8 +108,9 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
                 todayHighlightColor: !isLightMode
                     ? context.appColors.calendarMainColor
                     : context.appColors.todaySelectedColor,
-                //당일 색상
-                cellBorderColor: Colors.transparent,
+                //셀 보더
+                cellBorderColor: Prefs.isCellBorder.get() ? Colors.grey[500] : Colors.transparent,
+
                 headerStyle: CalendarHeaderStyle(
                   textStyle: TextStyle(fontSize: bigFontSize + 5),
                 ),
@@ -136,8 +137,8 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
                     monthCellStyle: MonthCellStyle(
                       textStyle: TextStyle(
                         fontSize: smallFontSize + 2,
-                        //달력 dayStyle
-                        fontWeight: Prefs.isDayFontWeight.get() ?  FontWeight.w300 :FontWeight.bold,
+                        //달력 dayStyle 굵은 텍스트
+                        fontWeight: Prefs.isDayFontWeight.get() ?FontWeight.w300:FontWeight.bold ,
                         color: context.appColors.text,
                       ),
                       trailingDatesTextStyle: TextStyle(

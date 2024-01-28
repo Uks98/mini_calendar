@@ -14,11 +14,9 @@ mixin class ThemeDarkFind{
       case CustomTheme.dark:
         isLightMode = true;
         Prefs.isLightModes(isLightMode);
-        print(Prefs.isLightModes.get());
       case CustomTheme.light:
         isLightMode = false;
         Prefs.isLightModes(isLightMode);
-        print(Prefs.isLightModes.get());
     }
     // if (theme == CustomTheme.dark) {
     //   print(theme);

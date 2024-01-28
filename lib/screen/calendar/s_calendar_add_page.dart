@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:after_layout/after_layout.dart';
 import 'package:today_my_calendar/common/common.dart';
 import 'package:today_my_calendar/common/constant/constant_widget.dart';
 import 'package:today_my_calendar/screen/calendar/calendar_data/d_schedule_data.dart';
@@ -37,11 +36,10 @@ class CalendarAddPage extends StatefulWidget {
 }
 
 class _CalendarAddPageState extends State<CalendarAddPage>
-    with AfterLayoutMixin, ScreenInit {
+    with ScreenInit {
   final double _textFieldWidth = 350;
   final double _quickWidgetLeftPadding = 290;
   final _titleController = TextEditingController();
-  //final _memoController = TextEditingController();
   final node = FocusNode();
 
   //controller
@@ -84,7 +82,6 @@ class _CalendarAddPageState extends State<CalendarAddPage>
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     initDataForEdit();
     _updateCameraPosition();
@@ -92,17 +89,11 @@ class _CalendarAddPageState extends State<CalendarAddPage>
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     naverMapController?.dispose();
     _titleController.dispose();
   }
 
-  @override
-  FutureOr<void> afterFirstLayout(BuildContext context) {
-    // TODO: implement afterFirstLayout
-    throw UnimplementedError();
-  }
 
   NCameraPosition _updateCameraPosition() {
     return NCameraPosition(
@@ -311,7 +302,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
       return ClipRRect(
         borderRadius: BorderRadius.circular(normalWidth),
         child: SizedBox(
-          height: 200.h,
+          height: 180.h,
           width: MediaQuery
               .of(context)
               .size
