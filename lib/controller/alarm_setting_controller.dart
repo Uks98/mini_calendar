@@ -22,7 +22,6 @@ class AlarmSettingController extends GetxController{
     final now = tz.TZDateTime.now(tz.local);
     final dateNow = DateTime.parse(now.toString());
     var notiDay = dateNow.day;
-
      final android = AndroidNotificationDetails(
        id,
       "알림테스트",
@@ -49,11 +48,9 @@ class AlarmSettingController extends GetxController{
     switch(setTextTime){
       case "없음": null;
       break;
-      case "지정 시간": await zonedSchedule(newId,notification,time, notiDay, detail,0,title,memo).then((value) => notification.cancel(newId));
+      case "지정 시간": await zonedSchedule(newId,notification,time, notiDay, detail,0,title,memo).then((value) => notification.cancel(int.parse(id)));
       break;
-      case "1분 전": await zonedSchedule(newId,notification, time, notiDay, detail,1,title,memo);
-      break;
-      case "5분 전": await zonedSchedule(newId,notification, time, notiDay, detail,5,title,memo);
+      case "5분 전": await zonedSchedule(newId,notification, time, notiDay, detail,5,title,memo).then((value) => notification.cancel(int.parse(newId.toString())));
       break;
       case "30분 전": await zonedSchedule(newId,notification, time, notiDay, detail,30,title,memo);
       break;
@@ -64,6 +61,8 @@ class AlarmSettingController extends GetxController{
         .resolvePlatformSpecificImplementation<
         AndroidFlutterLocalNotificationsPlugin>()
         ?.deleteNotificationChannelGroup(id);
+    await cancelAlarm(int.parse(id)); //캔슬 알람 테스트 . . .
+
 
     }
 
@@ -81,6 +80,10 @@ class AlarmSettingController extends GetxController{
       UILocalNotificationDateInterpretation.absoluteTime,
       matchDateTimeComponents: DateTimeComponents.time,
       //payload: DateFormat('HH:mm').format(alarmTime),
+
     );
+  }
+  Future<void> cancelAlarm(int id) async {
+    await flutterLocalNotificationsPlugin.cancel(id);
   }
 }
