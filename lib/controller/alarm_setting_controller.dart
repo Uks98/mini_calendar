@@ -48,7 +48,7 @@ class AlarmSettingController extends GetxController{
     switch(setTextTime){
       case "없음": null;
       break;
-      case "지정 시간": await zonedSchedule(newId,notification,time, notiDay, detail,0,title,memo).then((value) => notification.cancel(int.parse(id)));
+      case "지정 시간": await zonedSchedule(newId,notification,time, notiDay, detail,0,title,memo);
       break;
       case "5분 전": await zonedSchedule(newId,notification, time, notiDay, detail,5,title,memo).then((value) => notification.cancel(int.parse(newId.toString())));
       break;
@@ -61,27 +61,27 @@ class AlarmSettingController extends GetxController{
         .resolvePlatformSpecificImplementation<
         AndroidFlutterLocalNotificationsPlugin>()
         ?.deleteNotificationChannelGroup(id);
-    await cancelAlarm(int.parse(id)); //캔슬 알람 테스트 . . .
-
-
+    //await cancelAlarm(int.parse(id)); //캔슬 알람 테스트 . . .
     }
 
   Future<void> zonedSchedule(int id,FlutterLocalNotificationsPlugin notification, DateTime time, int notiDay, NotificationDetails detail,int delTime,String title, String content) {
     tz.setLocalLocation(tz.getLocation('Asia/Seoul'));
+    final selfTime = tz.TZDateTime(tz.local, time.year, time.month, time.day,
+        time.hour, time.minute - delTime);
+
+    print("내가 지정한 시간${selfTime}");
     return notification.zonedSchedule(
       id, //알람 아이디 값 유니크하게 변경(유니크 해야 알람이 각각 지정)
       title,
       content,
-       tz.TZDateTime(tz.local, time.year, time.month, notiDay,
-           time.hour, time.minute - delTime),
+      selfTime,
       detail,
       androidAllowWhileIdle: true,//주기적으로 표시
       uiLocalNotificationDateInterpretation:
       UILocalNotificationDateInterpretation.absoluteTime,
-      matchDateTimeComponents: DateTimeComponents.time,
-      //payload: DateFormat('HH:mm').format(alarmTime),
-
-    );
+      matchDateTimeComponents: DateTimeComponents.dayOfMonthAndTime,
+      payload: DateFormat('MM월:dd일 HH시 mm분').format(selfTime),
+    ).then((value) => cancelAlarm(id));
   }
   Future<void> cancelAlarm(int id) async {
     await flutterLocalNotificationsPlugin.cancel(id);

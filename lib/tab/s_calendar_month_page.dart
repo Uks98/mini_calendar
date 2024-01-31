@@ -1,6 +1,7 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -14,6 +15,7 @@ import 'package:today_my_calendar/screen/setting/s_setting_page.dart';
 import '../common/data/preference/prefs.dart';
 import '../controller/alarm_setting_controller.dart';
 import '../controller/month_data_controller.dart';
+import '../main.dart';
 import '../screen/calendar/calendar_data/schecule_data_source.dart';
 
 class CalendarMonthPage extends StatefulWidget {
@@ -93,6 +95,7 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
           Obx(() => Flexible(
             key: GlobalKey(),
               child: SfCalendar(
+
                 showTodayButton: true,
                 weekNumberStyle: WeekNumberStyle(textStyle: TextStyle(fontWeight: FontWeight.w300,fontSize: smallFontSize +1,)),
                 showWeekNumber: Prefs.isWeekNum.get(), //주번호
@@ -114,11 +117,18 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
                 headerStyle: CalendarHeaderStyle(
                   textStyle: TextStyle(fontSize: bigFontSize + 5),
                 ),
-                onTap: (cp) {
+                onTap: (cp) async{
                   pickerSetController.startSelectedTime.value = cp.date!;
                   pickerSetController.lastSelectedTime.value = cp.date!;
                     monthControl.calendarSameDay.value = cp.date!.day;
                     monthControl.calendarTapped(context, cp);
+                  final List<PendingNotificationRequest> pendingNotificationRequests = await flutterLocalNotificationsPlugin.pendingNotificationRequests();
+                  for(final i in pendingNotificationRequests){
+                  print(" 보류중인 알림 ${i.payload}");
+                  }
+                  print(pendingNotificationRequests);
+
+                  //await flutterLocalNotificationsPlugin.cancelAll();
                 },
                 onLongPress: (cpo) {
                   showMessageDialog(context, cpo);
