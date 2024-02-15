@@ -136,10 +136,13 @@ class _CalendarSearchPageState extends State<CalendarSearchPage>
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  search.title!.text
-                                      .size(bigFontSize).fontWeight(FontWeight.w300)
-                                      .color(isLightMode ? Colors.white :context.appColors.text)
-                                      .make(),
+                                  SizedBox(
+                                    width:300.w,
+                                    child: search.title!.text
+                                        .size(bigFontSize).fontWeight(FontWeight.w300).overflow(TextOverflow.ellipsis)
+                                        .color(isLightMode ? Colors.white :context.appColors.text)
+                                        .make(),
+                                  ),
                                   " ${search.to!.year}년 ${search.from!.month}월 ${search.from!.day}일 ${search.to!.hour < 12 ? "오전" : "오후"} ${search.from!.hour}시 ${search.from!.minute}분  ~ "
                                   " ${returnToMonDay(search.from!.month,search.to!.month,search.from!.day,search.to!.day,search.to!.hour,search.to!.minute)}".text.size(smallFontSize).color(isLightModes ? Colors.white : Colors.black).make(),
 

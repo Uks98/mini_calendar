@@ -56,7 +56,7 @@ class _MemoPageState extends State<MemoPage> {
             tooltip: "사진 속 글자를 메모장에 작성해줄게요.",
             onPressed: (){
               //Nav.push(CalendarMlPage());
-              //_getImage(ImageSource.gallery);
+              _getImage(ImageSource.gallery);
             },
             icon: Icon(
               EvaIcons.bookOpenOutline,

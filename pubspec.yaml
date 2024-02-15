@@ -70,7 +70,7 @@ dependencies:
   http: ^1.1.0
 
   #map
-  flutter_naver_map: ^1.0.2
+  flutter_naver_map: ^1.1.2
   #screen size
   flutter_screenutil: ^5.9.0
   #calendar
