@@ -123,9 +123,9 @@ class MonthControl extends GetxController {
   ///캘린더 검색 함수
   void searchCalList({required String keyword,required BuildContext context}){
     if(keyword.isEmpty){
-      monthSearchList.clear();
+       monthDataList;
     }
-    monthSearchList.value = monthDataList.where((element) => element.title!.contains(keyword) || element.myPlace!.contains(keyword) || element.memo!.contains(keyword)).toList();
+     monthSearchList.value = monthDataList.where((element) => element.title!.contains(keyword) || element.myPlace!.contains(keyword) || element.memo!.contains(keyword)).toList();
     //getMapData(context, keyword);
     //print(autoCompleteList.toString());
   }

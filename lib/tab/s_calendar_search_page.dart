@@ -145,8 +145,6 @@ class _CalendarSearchPageState extends State<CalendarSearchPage>
                                   ),
                                   " ${search.to!.year}년 ${search.from!.month}월 ${search.from!.day}일 ${search.to!.hour < 12 ? "오전" : "오후"} ${search.from!.hour}시 ${search.from!.minute}분  ~ "
                                   " ${returnToMonDay(search.from!.month,search.to!.month,search.from!.day,search.to!.day,search.to!.hour,search.to!.minute)}".text.size(smallFontSize).color(isLightModes ? Colors.white : Colors.black).make(),
-
-
                                   search.myPlace != null? search.myPlace!.text
                                       .size(smallFontSize)
                                       .color(isLightModes ? Colors.white : Colors.black)
@@ -157,12 +155,11 @@ class _CalendarSearchPageState extends State<CalendarSearchPage>
                               ).paddingAll(smallHeight.h),
                             ],
                           ).marginAll(2.w),
-                        ).paddingAll(normalWidth),
-                      );
+                        ).paddingAll(normalWidth));
                     },
                     itemCount: monthControl.monthSearchList.length,
                   ).pOnly(left: smallWidth))
-                : Container()),
+                :  Center(child: "검색된 항목이 없습니다. 일정을 추가해주세요.".text.size(normalFontSize).make().pOnly(top: 220.h),),)
           ],
         ),
       ),

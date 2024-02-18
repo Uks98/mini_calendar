@@ -52,16 +52,16 @@ class _MemoPageState extends State<MemoPage> {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          IconButton(
-            tooltip: "사진 속 글자를 메모장에 작성해줄게요.",
-            onPressed: (){
-              //Nav.push(CalendarMlPage());
-              _getImage(ImageSource.gallery);
-            },
-            icon: Icon(
-              EvaIcons.bookOpenOutline,
-              color: Colors.grey[600],
-            ),
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextButton(
+                child:"AI 텍스트 스캔".text.size(smallFontSize).color(Colors.grey[500]).make(),
+                onPressed: (){
+                  _getImage(ImageSource.gallery);
+                },
+              ),
+            ],
           ),
           TextButton(
             onPressed: () {
