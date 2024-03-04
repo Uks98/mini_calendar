@@ -13,5 +13,6 @@ class ColorSelectController extends GetxController{
     const Color(0xffCD5C08) : "Christine",
     const Color(0xff1640D6) : "Blue Ribbon",
     const Color(0xff000000) : "classic black",
-    const Color(0xff65451F) : "Kumera"}.obs;
+    const Color(0xff65451F) : "Kumera",
+  }.obs;
 }

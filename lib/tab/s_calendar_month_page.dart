@@ -64,7 +64,7 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
         openButtonBuilder: buildRotateFloatingActionButtonBuilder(context, const Icon(EvaIcons.plus)),
         closeButtonBuilder: buildRotateFloatingActionButtonBuilder(context, const Icon(EvaIcons.close)),
         type: ExpandableFabType.up,
-        distance: 55.w,
+        distance: 50.w,
         key: _floatingKey,
         children: [
           FloatingActionButton.small(
@@ -89,13 +89,12 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
           ),
 
         ],
-      ).pOnly(bottom: 30.h),
+      ).pOnly(bottom: 40.h,right: 10.w),
       body: Column(
         children: [
           Obx(() => Flexible(
             key: GlobalKey(),
               child: SfCalendar(
-
                 showTodayButton: true,
                 weekNumberStyle: WeekNumberStyle(textStyle: TextStyle(fontWeight: FontWeight.w300,fontSize: smallFontSize +1,)),
                 showWeekNumber: Prefs.isWeekNum.get(), //주번호
@@ -146,7 +145,7 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
                     numberOfWeeksInView: 4,
                     monthCellStyle: MonthCellStyle(
                       textStyle: TextStyle(
-                        fontSize: smallFontSize + 2,
+                        fontSize: smallFontSize + 3,
                         //달력 dayStyle 굵은 텍스트
                         fontWeight: Prefs.isDayFontWeight.get() ?FontWeight.w300:FontWeight.bold ,
                         color: context.appColors.text,

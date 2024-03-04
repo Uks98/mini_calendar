@@ -10,10 +10,11 @@ class MapApi{
   List<LocationData> locationData = [];
   Future<List<LocationData>?> getMapList({required BuildContext context, required String search}) async {
     var url = "https://dapi.kakao.com/v2/local/search/keyword.json?query=$search";
-    var response = await http.get(Uri.parse(url), headers: {"Authorization": "KakaoAK 5026bccd6af45144199ef3f70f4b7ec7"});
+    var response = await http.get(Uri.parse(url), headers: {"Authorization": "KakaoAK f3b7ba5c3471908bae3560e58f3a43ed"});
     if (response.statusCode == 200) {
       String body = utf8.decode(response.bodyBytes);
       var res = json.decode(body) as Map<String,dynamic>;
+
       if(res["documents"] == ""){
         showDia(context);
       }

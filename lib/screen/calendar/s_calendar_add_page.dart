@@ -181,17 +181,17 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                       onTap: () async {
                         final corIndex = await customBottomSheet
                             .showCustomBottomSheet(context,
-                            radius: 20.0.w, title: "테마");
+                            radius: 10.0.w, title: "테마");
                         _colorIndex = corIndex;
                         setState(() {});
                       },
                       child: Obx(
                             () => Container(
-                          width: 20.w,
-                          height: 20.h,
+                          width: 13.w,
+                          height: 13.h,
                           decoration: BoxDecoration(
                             color: colorController.colorList.keys.elementAt(_colorIndex),
-                            borderRadius: BorderRadius.circular(smallHeight),
+                            borderRadius: BorderRadius.circular(smallHeight-2),
                           ),
                         ).pOnly(right: bigWidth),
                       ),
@@ -199,7 +199,6 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                   ],
                 ),
                 Height(addPageHeight),
-
                 ///시작 시간
                 ShowDateStartPicker(
                   //dateTime: DateTime.now(),
@@ -266,7 +265,12 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                       //메모
                       //메모페이지로 이동
                       Height(bigHeight),
-                      "메모".text.size(normalFontSize).fontWeight(FontWeight.w300,).make().paddingOnly(right: 315.w),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          "메모".text.size(normalFontSize).fontWeight(FontWeight.w300,).make().paddingOnly(left: 5.w),
+                        ],
+                      ),
                       Height(normalHeight),
                       moveToMemo(),
                       Height(80.h),

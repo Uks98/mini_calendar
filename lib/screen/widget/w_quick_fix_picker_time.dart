@@ -32,7 +32,7 @@ class QuickFixerDateWidget extends StatelessWidget with ScreenInit{
         TimeTileWidget(dateChangeController: dateChangeController,addMinute: () => addMinutes(1440), time: '1일',),
       ],
       child: Obx(()=>SizedBox(
-        child: dateChangeController.changeTimeText.value.text.fontWeight(FontWeight.w300).size(normalFontSize).color(ColorBox.pickerText).align(TextAlign.right).size(normalFontSize.sp).make(),
+        child: dateChangeController.changeTimeText.value.text.fontWeight(FontWeight.w300).size(normalFontSize + 2).color(ColorBox.pickerText).align(TextAlign.right).make(),
       ),),
     );
   }

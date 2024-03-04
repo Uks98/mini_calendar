@@ -12,7 +12,9 @@ import '../../common/theme/color/mix_find_theme.dart';
 
 class CustomBottomSheet with ThemeDarkFind{
   Future showCustomBottomSheet(BuildContext context,
-      {required double radius, required String title}) {
+      {required double radius,
+        required String title})
+  {
     return showModalBottomSheet(
       context: context,
       shape: RoundedRectangleBorder(
@@ -32,39 +34,36 @@ class CustomBottomSheet with ThemeDarkFind{
                 Height(normalHeight),
                 title.text.size(bigFontSize).make(),
                 Height(normalHeight),
-                Stack(
-                  children: [
-                    SizedBox(
-                      width: colorSelectPageHeight,
-                      height: 300,
-                      child: Obx(() => ListView.separated(
-                            itemCount:
-                                colorController.colorList.value.entries.length,
-                            itemBuilder: (context, index) {
-                              var entry = colorController
-                                  .colorList.value.entries
-                                  .elementAt(index);
-                              return Obx(() => GestureDetector(
-                                onTap: () {
-                                  colorController.selectIndex.value = index;
-                                  Navigator.of(context).pop(index);
-                                },
-                                child: Row(children: [
-                                  circleOutlined(entry.key,
-                                      listIndex: index,
-                                      checkIndex:
-                                      colorController.selectIndex.value),
-                                  Width(normalWidth),
-                                  entry.value.text.color(isLightMode ? Colors.white : Colors.black).fontWeight(FontWeight.w300).make(),
-                                ],),
-                              ),);
-                            },
-                            separatorBuilder: (BuildContext ctx, int idx) {
-                              return const sep_col_height();
-                            },
-                          )).pOnly(left: normalHeight, top: normalHeight),
-                    ),
-                  ],
+                Expanded(
+                  child: SizedBox(
+                    width: colorSelectPageHeight,
+                    child: Obx(() => ListView.separated(
+                          itemCount:
+                              colorController.colorList.value.entries.length,
+                          itemBuilder: (context, index) {
+                            var entry = colorController
+                                .colorList.value.entries
+                                .elementAt(index);
+                            return Obx(() => GestureDetector(
+                              onTap: () {
+                                colorController.selectIndex.value = index;
+                                Navigator.of(context).pop(index);
+                              },
+                              child: Row(children: [
+                                circleOutlined(entry.key,
+                                    listIndex: index,
+                                    checkIndex:
+                                    colorController.selectIndex.value),
+                                Width(normalWidth),
+                                entry.value.text.color(isLightMode ? Colors.white : Colors.black).fontWeight(FontWeight.w300).make(),
+                              ],),
+                            ),);
+                          },
+                          separatorBuilder: (BuildContext ctx, int idx) {
+                            return const sep_col_height();
+                          },
+                        )).pOnly(left: normalHeight, top: normalHeight),
+                  ),
                 ),
               ],
             ),

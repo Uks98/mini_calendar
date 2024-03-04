@@ -16,11 +16,10 @@ class AlarmSettingTile extends StatelessWidget {
     AlarmSettingController alarmController = Get.put(AlarmSettingController());
     return Container(
       child: Row(
-
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           "알림".text.size(normalFontSize).fontWeight(FontWeight.w300,).make().paddingOnly(left: 4.w),
       ContextMenuArea(
-        width: 230.w,
         builder: (context) => [
          buildAlarmListTile(alarmController,"없음",context),
          buildAlarmListTile(alarmController,"지정 시간",context),
@@ -30,7 +29,7 @@ class AlarmSettingTile extends StatelessWidget {
          buildAlarmListTile(alarmController,"1시간 전",context),
         ],
         child: Obx(()=>alarmController.alarmTime.value.text.size(bigFontSize).fontWeight(FontWeight.w300,).make().pOnly(left: isTextLengthPadding(alarmController.alarmTime.value) ? 270.w : 255.w),
-      ))
+      ),).pOnly(right: 22.w)
         ],
       ),
     );

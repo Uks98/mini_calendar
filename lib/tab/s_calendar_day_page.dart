@@ -27,13 +27,13 @@ class _CalendarDayPageState extends State<CalendarDayPage> with MonthControllerM
       floatingActionButtonLocation: ExpandableFab.location,
       floatingActionButton: UtilFloating(
         buildContext: context,
-        distance: 55.w,
+        distance: 50.w,
         goToAddPage: () =>
           monthControl.addSchedule(context,DateTime.now(),DateTime.now()),
         goToSetPage: () {
           Get.to(const SettingPage());
         },
-      ).buildExpandableFab(context).pOnly(bottom: 10.h),
+      ).buildExpandableFab(context).pOnly(bottom: 20.h,right: 10.w),
       body: Obx(() =>Column(
         children: [
           Expanded(

@@ -28,7 +28,7 @@ class ShowDateStartPicker extends StatelessWidget with ScreenInit {
   Widget build(BuildContext context) {
     screenInit(context);
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Tap(
           onTap: () => datePickerStateController.showStartPicker(),
@@ -57,7 +57,7 @@ class ShowDateStartPicker extends StatelessWidget with ScreenInit {
                           .make()).pOnly()
                     ],
                   ),
-                ).w(390),
+                ).w(330.w),
                 if (datePickerStateController.isShowStartDatePicker.value)
                   SizedBox(
                     child: Center(
@@ -77,7 +77,7 @@ class ShowDateStartPicker extends StatelessWidget with ScreenInit {
           ),
         ),
       ],
-    );
+    ).pOnly(left: 4.w);
   }
 
   String formatTime(DateTime dateTime) {
@@ -107,7 +107,7 @@ class ShowDateLastPicker extends StatelessWidget with ScreenInit {
   Widget build(BuildContext context) {
     screenInit(context);
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Tap(
           onTap: () => datePickerStateController.showLastPicker(),
@@ -135,7 +135,7 @@ class ShowDateLastPicker extends StatelessWidget with ScreenInit {
                           .make()).pOnly(left: 10)
                     ],
                   ),
-                ).w(390),
+                ).w(330.w),
                 if (datePickerStateController.isShowLastDatePicker.value)
                   SizedBox(
                       child: Center(
@@ -161,7 +161,7 @@ class ShowDateLastPicker extends StatelessWidget with ScreenInit {
           ),
         ),
       ],
-    );
+    ).pOnly(left: 4.w);
   }
 
   String formatTime(DateTime dateTime) {

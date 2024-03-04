@@ -83,7 +83,7 @@ class _MemoPageState extends State<MemoPage> {
           Expanded(
             child: TextField(
 
-              maxLines: 20,
+              maxLines: 50,
               cursorColor: Colors.black,
               controller: _textEditingController,
               decoration: const InputDecoration(
