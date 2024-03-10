@@ -11,6 +11,7 @@ import '../common/constant/constant_widget.dart';
 import '../common/data/preference/prefs.dart';
 import '../common/theme/color/mix_find_theme.dart';
 import '../common/widget/w_util_floating_btn.dart';
+import '../controller/date_picker_controller.dart';
 import '../screen/calendar/calendar_data/schecule_data_source.dart';
 
 class CalendarDayPage extends StatefulWidget {
@@ -20,7 +21,7 @@ class CalendarDayPage extends StatefulWidget {
   State<CalendarDayPage> createState() => _CalendarDayPageState();
 }
 
-class _CalendarDayPageState extends State<CalendarDayPage> with MonthControllerMix,ThemeDarkFind{
+class _CalendarDayPageState extends State<CalendarDayPage> with MonthControllerMix,ThemeDarkFind,DatePickerSetMix{
   bool get isSameDayFontGrey => DateTime.now().day != monthControl.calendarSameDay.value;
   @override
   Widget build(BuildContext context) {
@@ -30,7 +31,7 @@ class _CalendarDayPageState extends State<CalendarDayPage> with MonthControllerM
         buildContext: context,
         distance: 55.h,
         goToAddPage: () =>
-          monthControl.addSchedule(context,DateTime.now(),DateTime.now()),
+          monthControl.addSchedule(context,pickerSetController.startSelectedTime.value,pickerSetController.lastSelectedTime.value),
         goToSetPage: () {
           Get.to(const SettingPage());
         },
@@ -55,6 +56,8 @@ class _CalendarDayPageState extends State<CalendarDayPage> with MonthControllerM
                 CalendarView.timelineDay,
               ],
               onTap: (cp) {
+                pickerSetController.startSelectedTime.value = cp.date!;
+                pickerSetController.lastSelectedTime.value = cp.date!;
                 monthControl.calendarTapped(context, cp);
               },
               onLongPress: (cpo){

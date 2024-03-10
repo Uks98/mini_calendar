@@ -53,7 +53,6 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
 
   @override
   Widget build(BuildContext context) {
-    print("week${DateTime.now().weekday}");
     findDarkMode(context);
     screenInit(context);
     return Scaffold(
