@@ -1,6 +1,3 @@
-import 'dart:ffi';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -138,7 +135,7 @@ void showMessageDialog(BuildContext context,CalendarLongPressDetails calendarLon
     context: context,
     builder: (BuildContext context) {
       return MessageDialog(
-        "이 일정을 삭제하겠습니다?",
+        "해당 일정을 삭제합니다.",
         positiveButtonText: "삭제",
         negativeButtonText: "취소",
         fontSize: 16,

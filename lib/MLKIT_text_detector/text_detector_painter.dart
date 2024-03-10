@@ -1,6 +1,3 @@
-import 'dart:io';
-import 'dart:ui';
-import 'dart:ui' as ui;
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
@@ -20,14 +17,12 @@ class TextRecognizerPainter extends CustomPainter {
   final CameraLensDirection cameraLensDirection;
 
   @override
-  void paint(Canvas canvas, Size canvasSize) {
+  void paint(Canvas canvas, Size size) {
     final Paint paint = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 4.0
       ..color = Colors.red;
 
-    final Paint background = Paint()..color = Colors.black;
-    
   }
 
   @override

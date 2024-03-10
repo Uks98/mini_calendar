@@ -9,6 +9,7 @@ import 'package:today_my_calendar/screen/setting/s_setting_page.dart';
 
 import '../common/constant/constant_widget.dart';
 import '../common/data/preference/prefs.dart';
+import '../common/theme/color/mix_find_theme.dart';
 import '../common/widget/w_util_floating_btn.dart';
 import '../screen/calendar/calendar_data/schecule_data_source.dart';
 
@@ -19,7 +20,7 @@ class CalendarDayPage extends StatefulWidget {
   State<CalendarDayPage> createState() => _CalendarDayPageState();
 }
 
-class _CalendarDayPageState extends State<CalendarDayPage> with MonthControllerMix {
+class _CalendarDayPageState extends State<CalendarDayPage> with MonthControllerMix,ThemeDarkFind{
   bool get isSameDayFontGrey => DateTime.now().day != monthControl.calendarSameDay.value;
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,7 @@ class _CalendarDayPageState extends State<CalendarDayPage> with MonthControllerM
       floatingActionButtonLocation: ExpandableFab.location,
       floatingActionButton: UtilFloating(
         buildContext: context,
-        distance: 50.w,
+        distance: 55.h,
         goToAddPage: () =>
           monthControl.addSchedule(context,DateTime.now(),DateTime.now()),
         goToSetPage: () {
@@ -38,6 +39,7 @@ class _CalendarDayPageState extends State<CalendarDayPage> with MonthControllerM
         children: [
           Expanded(
             child: SfCalendar(
+
               appointmentTextStyle: TextStyle(color: Colors.white,fontSize: Prefs.appointmentTextSize.get()),
               todayTextStyle: const TextStyle(color: Colors.white),
               scheduleViewSettings: const ScheduleViewSettings(
@@ -59,7 +61,9 @@ class _CalendarDayPageState extends State<CalendarDayPage> with MonthControllerM
                   showMessageDialog(context,cpo);
               },
               viewHeaderHeight: bigHeight + 60,
-              todayHighlightColor: context.appColors.calendarMainColor, //당일 색상
+              todayHighlightColor: !isLightMode
+                  ? context.appColors.todaySelectedColor //당일 색상
+                  : context.appColors.calendarMainColor,
               showTodayButton: true,
               headerDateFormat: "MMM",
                 headerStyle: CalendarHeaderStyle(

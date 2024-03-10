@@ -53,6 +53,7 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
 
   @override
   Widget build(BuildContext context) {
+    print("week${DateTime.now().weekday}");
     findDarkMode(context);
     screenInit(context);
     return Scaffold(
@@ -60,11 +61,11 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
       floatingActionButtonLocation: ExpandableFab.location,
       // 리팩토링 키패드 오류 문제 해결중
       floatingActionButton: ExpandableFab(
-        overlayStyle: ExpandableFabOverlayStyle(blur:  10.0),
+        //overlayStyle: ExpandableFabOverlayStyle(blur:  13.0),
         openButtonBuilder: buildRotateFloatingActionButtonBuilder(context, const Icon(EvaIcons.plus)),
         closeButtonBuilder: buildRotateFloatingActionButtonBuilder(context, const Icon(EvaIcons.close)),
         type: ExpandableFabType.up,
-        distance: 50.w,
+        distance: 55.h,
         key: _floatingKey,
         children: [
           FloatingActionButton.small(
@@ -95,8 +96,9 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
           Obx(() => Flexible(
             key: GlobalKey(),
               child: SfCalendar(
+
                 showTodayButton: true,
-                weekNumberStyle: WeekNumberStyle(textStyle: TextStyle(fontWeight: FontWeight.w300,fontSize: smallFontSize +1,)),
+                weekNumberStyle: WeekNumberStyle(textStyle: TextStyle(fontWeight: FontWeight.w300,fontSize: smallFontSize +2,)), //주번호 스타일
                 showWeekNumber: Prefs.isWeekNum.get(), //주번호
                 viewHeaderHeight: 63.h,
                 todayTextStyle: const TextStyle(color: Colors.white),
@@ -123,9 +125,9 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
                     monthControl.calendarTapped(context, cp);
                   final List<PendingNotificationRequest> pendingNotificationRequests = await flutterLocalNotificationsPlugin.pendingNotificationRequests();
                   for(final i in pendingNotificationRequests){
-                  print(" 보류중인 알림 ${i.payload}");
+                  //print(" 보류중인 알림 ${i.payload}");
                   }
-                  print(pendingNotificationRequests);
+                 // print(pendingNotificationRequests);
 
                   //await flutterLocalNotificationsPlugin.cancelAll();
                 },
@@ -139,7 +141,6 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
                 ///일정 데이터
                 dataSource: ScheduleDataSource(monthControl.monthDataList.value),
                 monthViewSettings: MonthViewSettings(
-
                     agendaItemHeight: 45.h,
                     //agenda 높이
                     numberOfWeeksInView: 4,
@@ -182,7 +183,8 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
                             color: AppColors.grey,
                             fontSize: bigFontSize,
                             fontWeight: FontWeight.bold,
-                            fontStyle: FontStyle.normal),),
+                            fontStyle: FontStyle.normal),
+                    ),
                     appointmentDisplayCount: 3,
                     showAgenda: true,
                     appointmentDisplayMode:

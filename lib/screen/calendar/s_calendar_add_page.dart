@@ -109,12 +109,12 @@ class _CalendarAddPageState extends State<CalendarAddPage>
           actions: [
             IconButton(onPressed: (){
               try {
-                final lastTime =
-                    datePickerStateController.lastSelectedTime.value;
+                final startTime =
+                    datePickerStateController.startSelectedTime.value;
                 alarmSet.getAlarmTime(
                   //id epoch 사용시 오류 발생
                   id: _titleController.text + newId.toString(),
-                  time: lastTime,
+                  time: startTime,
                   setTextTime: alarmSettingController.alarmTime.value,
                   context: context,
                   title: _titleController.text,

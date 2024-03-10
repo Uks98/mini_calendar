@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../constant/app_colors.dart';
 import '../../data/preference/prefs.dart';
-import 'mix_find_theme.dart';
 
 
 typedef ColorProvider = Color Function();

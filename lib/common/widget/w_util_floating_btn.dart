@@ -36,7 +36,7 @@ class UtilFloating with ThemeDarkFind,MonthControllerMix{
   GlobalKey<ExpandableFabState>();
   Padding buildExpandableFab(BuildContext context) {
     return ExpandableFab(
-      overlayStyle: ExpandableFabOverlayStyle(blur:  10.0),
+      //overlayStyle: ExpandableFabOverlayStyle(blur:  10.0),
       openButtonBuilder: buildRotateFloatingActionButtonBuilder(context, const Icon(Icons.add)),
       closeButtonBuilder: buildRotateFloatingActionButtonBuilder(context, const Icon(Icons.close)),
       type: ExpandableFabType.up,

@@ -1,5 +1,4 @@
 
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:today_my_calendar/common/data/preference/item/rx_preference_item.dart';
 

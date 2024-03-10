@@ -24,8 +24,8 @@ class AlarmSettingController extends GetxController{
     var notiDay = dateNow.day;
      final android = AndroidNotificationDetails(
        id,
-      "알림테스트",
-      channelDescription: "toText",
+      "알림",
+      channelDescription: "알림이",
       importance: Importance.max,
       priority: Priority.max,
      // icon: "assets/moco.png"
@@ -42,15 +42,15 @@ class AlarmSettingController extends GetxController{
 
     // await flutterLocalNotificationsPlugin.show(1, "title", "body", detail);
     // 예외처리
-    if (time.hour > dateNow.hour || time.hour == dateNow.hour && now.minute >= dateNow.minute) {
-      notiDay = notiDay + 1;
-    }
+   // if (time.hour > dateNow.hour || time.hour == dateNow.hour && now.minute >= dateNow.minute) {
+   //   notiDay = notiDay + 1;
+   // }
     switch(setTextTime){
       case "없음": null;
       break;
       case "지정 시간": await zonedSchedule(newId,notification,time, notiDay, detail,0,title,memo);
       break;
-      case "5분 전": await zonedSchedule(newId,notification, time, notiDay, detail,5,title,memo).then((value) => notification.cancel(int.parse(newId.toString())));
+      case "5분 전": await zonedSchedule(newId,notification, time, notiDay, detail,5,title,memo);
       break;
       case "30분 전": await zonedSchedule(newId,notification, time, notiDay, detail,30,title,memo);
       break;
@@ -66,10 +66,11 @@ class AlarmSettingController extends GetxController{
 
   Future<void> zonedSchedule(int id,FlutterLocalNotificationsPlugin notification, DateTime time, int notiDay, NotificationDetails detail,int delTime,String title, String content) {
     tz.setLocalLocation(tz.getLocation('Asia/Seoul'));
+
     final selfTime = tz.TZDateTime(tz.local, time.year, time.month, time.day,
         time.hour, time.minute - delTime);
 
-    print("내가 지정한 시간${selfTime}");
+    print("내가 지정한 시간$selfTime");
     return notification.zonedSchedule(
       id, //알람 아이디 값 유니크하게 변경(유니크 해야 알람이 각각 지정)
       title,
@@ -81,7 +82,7 @@ class AlarmSettingController extends GetxController{
       UILocalNotificationDateInterpretation.absoluteTime,
       matchDateTimeComponents: DateTimeComponents.dayOfMonthAndTime,
       payload: DateFormat('MM월:dd일 HH시 mm분').format(selfTime),
-    ).then((value) => cancelAlarm(id));
+    );
   }
   Future<void> cancelAlarm(int id) async {
     await flutterLocalNotificationsPlugin.cancel(id);

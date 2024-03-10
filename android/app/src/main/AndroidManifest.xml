@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.mocoCalendar.moko">
+    package="com.mococal.moco">
 
     <application
         android:label="모코 캘린더"
