@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_adfit/flutter_adfit.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:today_my_calendar/AD/w_adfit_box.dart';
 import 'package:today_my_calendar/common/common.dart';
 import 'package:today_my_calendar/controller/month_data_controller.dart';
 import 'package:today_my_calendar/screen/setting/s_setting_page.dart';
@@ -38,6 +40,7 @@ class _CalendarDayPageState extends State<CalendarDayPage> with MonthControllerM
       ).buildExpandableFab(context).pOnly(bottom: 20.h,right: 10.w),
       body: Obx(() =>Column(
         children: [
+          Adfit.adfitAdvertise(AdFitBannerSize.SMALL_BANNER),
           Expanded(
             child: SfCalendar(
 

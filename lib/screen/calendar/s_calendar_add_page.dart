@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_adfit/flutter_adfit.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -8,6 +9,7 @@ import 'package:today_my_calendar/screen/calendar/calendar_data/d_schedule_data.
 import 'package:today_my_calendar/screen/widget/w_custom_datePicker.dart';
 import 'package:today_my_calendar/screen/widget/w_memo_container_widget.dart';
 import 'package:today_my_calendar/screen/widget/w_quick_fix_picker_time.dart';
+import '../../AD/w_adfit_box.dart';
 import '../../common/widget/mixin/init_screen_size_utill.dart';
 import '../../controller/alarm_setting_controller.dart';
 import '../../controller/date_picker_controller.dart';
@@ -273,7 +275,9 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                       ),
                       Height(normalHeight),
                       moveToMemo(),
-                      Height(80.h),
+                      Height(30.h),
+                      Adfit.adfitAdvertise(AdFitBannerSize.SMALL_BANNER),
+                      Height(30.h),
                     ],
                   )
 

@@ -406,6 +406,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_adfit:
+    dependency: "direct main"
+    description:
+      name: flutter_adfit
+      sha256: ed30d50aef96758bce5f6dded1fac4c0b40f887fd1328ddad31405ac235cdce1
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.1"
   flutter_expandable_fab:
     dependency: "direct main"
     description:

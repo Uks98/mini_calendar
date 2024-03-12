@@ -1,5 +1,6 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_adfit/flutter_adfit.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,6 +13,7 @@ import 'package:today_my_calendar/common/theme/color/mix_find_theme.dart';
 import 'package:today_my_calendar/common/widget/mixin/init_screen_size_utill.dart';
 import 'package:today_my_calendar/controller/date_picker_controller.dart';
 import 'package:today_my_calendar/screen/setting/s_setting_page.dart';
+import '../AD/w_adfit_box.dart';
 import '../common/data/preference/prefs.dart';
 import '../controller/alarm_setting_controller.dart';
 import '../controller/month_data_controller.dart';
@@ -92,10 +94,10 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
       ).pOnly(bottom: 40.h,right: 10.w),
       body: Column(
         children: [
+          Adfit.adfitAdvertise(AdFitBannerSize.SMALL_BANNER),
           Obx(() => Flexible(
             key: GlobalKey(),
               child: SfCalendar(
-
                 showTodayButton: true,
                 weekNumberStyle: WeekNumberStyle(textStyle: TextStyle(fontWeight: FontWeight.w300,fontSize: smallFontSize +2,)), //주번호 스타일
                 showWeekNumber: Prefs.isWeekNum.get(), //주번호

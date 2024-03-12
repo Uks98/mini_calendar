@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_adfit/flutter_adfit.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:get/get_utils/get_utils.dart';
 import 'package:get/instance_manager.dart';
+import 'package:today_my_calendar/AD/w_adfit_box.dart';
 import 'package:today_my_calendar/common/common.dart';
 import 'package:today_my_calendar/common/constant/app_colors.dart';
 import 'package:today_my_calendar/common/constant/constant_widget.dart';
@@ -159,7 +161,11 @@ class _CalendarSearchPageState extends State<CalendarSearchPage>
                     },
                     itemCount: monthControl.monthSearchList.length,
                   ).pOnly(left: smallWidth))
-                :  Center(child: "검색된 항목이 없습니다. 일정을 추가해주세요.".text.size(normalFontSize).make().pOnly(top: 220.h),),)
+                :  Center(child: "검색된 항목이 없습니다. 일정을 추가해주세요.".text.size(normalFontSize).make().pOnly(top: 220.h),),),
+            HeightBox(20.w),
+            _searchController.text.isEmpty ? Align(
+                alignment: Alignment.bottomCenter,
+                child: Adfit.adfitAdvertise(AdFitBannerSize.SMALL_BANNER)) : const SizedBox()
           ],
         ),
       ),

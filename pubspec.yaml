@@ -92,6 +92,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   #animation
   animations: ^2.0.8
+  #광고
+  flutter_adfit: ^1.2.1
 
   flutter_launcher_icons: ^0.13.1
   flutter_localizations:
