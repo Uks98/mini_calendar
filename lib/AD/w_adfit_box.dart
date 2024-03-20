@@ -4,13 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_adfit/flutter_adfit.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class Adfit{
+class AdfitBox{
 static Widget adfitAdvertise(AdFitBannerSize adFitBannerSize){
   //배너 DAN-wrTDMH78uLsidGtJ
   //배너 x DAN-avcrzMXm5vhW61BM
   return  Container(
     //width: 300.w,
-    height: 50.h,
     child: AdFitBanner(
       adId:  "",
       adSize: adFitBannerSize,

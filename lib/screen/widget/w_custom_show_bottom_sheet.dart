@@ -7,6 +7,7 @@ import 'package:today_my_calendar/common/common.dart';
 import 'package:today_my_calendar/common/constant/app_colors.dart';
 import 'package:today_my_calendar/common/constant/constant_widget.dart';
 import 'package:today_my_calendar/screen/calendar/s_color_select_page.dart';
+import 'package:today_my_calendar/service/purechase_logic.dart';
 
 import '../../common/theme/color/mix_find_theme.dart';
 
@@ -32,6 +33,7 @@ class CustomBottomSheet with ThemeDarkFind{
             child: Column(
               children: [
                 Height(normalHeight),
+
                 title.text.size(bigFontSize).make(),
                 Height(normalHeight),
                 Expanded(

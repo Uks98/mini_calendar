@@ -165,7 +165,7 @@ class _CalendarSearchPageState extends State<CalendarSearchPage>
             HeightBox(20.w),
             _searchController.text.isEmpty ? Align(
                 alignment: Alignment.bottomCenter,
-                child: Adfit.adfitAdvertise(AdFitBannerSize.SMALL_BANNER)) : const SizedBox()
+                child: AdfitBox.adfitAdvertise(AdFitBannerSize.SMALL_BANNER)) : const SizedBox()
           ],
         ),
       ),

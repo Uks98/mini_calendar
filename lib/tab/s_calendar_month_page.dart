@@ -19,6 +19,8 @@ import '../controller/alarm_setting_controller.dart';
 import '../controller/month_data_controller.dart';
 import '../main.dart';
 import '../screen/calendar/calendar_data/schecule_data_source.dart';
+import '../screen/payment_screen/s_payment_screen.dart';
+import '../service/purechase_logic.dart';
 
 class CalendarMonthPage extends StatefulWidget {
   const CalendarMonthPage({
@@ -94,7 +96,9 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
       ).pOnly(bottom: 40.h,right: 10.w),
       body: Column(
         children: [
-          Adfit.adfitAdvertise(AdFitBannerSize.SMALL_BANNER),
+          HeightBox(smallHeight),
+          AdfitBox.adfitAdvertise(AdFitBannerSize.SMALL_BANNER),
+          Expanded(child: PremiumView()),
           Obx(() => Flexible(
             key: GlobalKey(),
               child: SfCalendar(

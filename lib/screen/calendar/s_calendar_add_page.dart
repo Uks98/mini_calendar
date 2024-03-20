@@ -306,8 +306,8 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                         Height(normalHeight),
                         moveToMemo(),
                         Height(30.h),
-                        Adfit.adfitAdvertise(AdFitBannerSize.SMALL_BANNER),
-                        Height(30.h),
+                        AdfitBox.adfitAdvertise(AdFitBannerSize.SMALL_BANNER),
+                        Height(40.h),
                       ],
                     )
 

@@ -40,7 +40,7 @@ class _CalendarDayPageState extends State<CalendarDayPage> with MonthControllerM
       ).buildExpandableFab(context).pOnly(bottom: 20.h,right: 10.w),
       body: Obx(() =>Column(
         children: [
-          Adfit.adfitAdvertise(AdFitBannerSize.SMALL_BANNER),
+          AdfitBox.adfitAdvertise(AdFitBannerSize.SMALL_BANNER),
           Expanded(
             child: SfCalendar(
 
