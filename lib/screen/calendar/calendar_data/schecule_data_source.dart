@@ -36,7 +36,10 @@ class ScheduleDataSource extends CalendarDataSource {
     return colorController.colorList.keys.elementAt(monthController.monthDataList[cor].colorIndex!);
   }
 
-
+  @override
+  bool isAllDay(int index) {
+    return _getMeetingData(index).isAllDay!;
+  }
   Schedule _getMeetingData(int index) {
     final dynamic schedule = appointments![index];
     late final Schedule meetingData;

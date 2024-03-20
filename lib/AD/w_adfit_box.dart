@@ -11,9 +11,8 @@ static Widget adfitAdvertise(AdFitBannerSize adFitBannerSize){
   return  Container(
     //width: 300.w,
     height: 50.h,
-    color: Colors.white,
     child: AdFitBanner(
-      adId:  "DAN-wrTDMH78uLsidGtJ",
+      adId:  "",
       adSize: adFitBannerSize,
       listener: (AdFitEvent event, AdFitEventData data) {
         switch (event) {

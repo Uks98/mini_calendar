@@ -37,28 +37,33 @@ const ScheduleSchema = CollectionSchema(
       name: r'gpsY',
       type: IsarType.double,
     ),
-    r'isShowMap': PropertySchema(
+    r'isAllDay': PropertySchema(
       id: 4,
+      name: r'isAllDay',
+      type: IsarType.bool,
+    ),
+    r'isShowMap': PropertySchema(
+      id: 5,
       name: r'isShowMap',
       type: IsarType.bool,
     ),
     r'memo': PropertySchema(
-      id: 5,
+      id: 6,
       name: r'memo',
       type: IsarType.string,
     ),
     r'myPlace': PropertySchema(
-      id: 6,
+      id: 7,
       name: r'myPlace',
       type: IsarType.string,
     ),
     r'title': PropertySchema(
-      id: 7,
+      id: 8,
       name: r'title',
       type: IsarType.string,
     ),
     r'to': PropertySchema(
-      id: 8,
+      id: 9,
       name: r'to',
       type: IsarType.dateTime,
     )
@@ -185,6 +190,19 @@ const ScheduleSchema = CollectionSchema(
           caseSensitive: false,
         )
       ],
+    ),
+    r'isAllDay': IndexSchema(
+      id: 3884590125827716470,
+      name: r'isAllDay',
+      unique: false,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'isAllDay',
+          type: IndexType.value,
+          caseSensitive: false,
+        )
+      ],
     )
   },
   links: {},
@@ -232,11 +250,12 @@ void _scheduleSerialize(
   writer.writeDateTime(offsets[1], object.from);
   writer.writeDouble(offsets[2], object.gpsX);
   writer.writeDouble(offsets[3], object.gpsY);
-  writer.writeBool(offsets[4], object.isShowMap);
-  writer.writeString(offsets[5], object.memo);
-  writer.writeString(offsets[6], object.myPlace);
-  writer.writeString(offsets[7], object.title);
-  writer.writeDateTime(offsets[8], object.to);
+  writer.writeBool(offsets[4], object.isAllDay);
+  writer.writeBool(offsets[5], object.isShowMap);
+  writer.writeString(offsets[6], object.memo);
+  writer.writeString(offsets[7], object.myPlace);
+  writer.writeString(offsets[8], object.title);
+  writer.writeDateTime(offsets[9], object.to);
 }
 
 Schedule _scheduleDeserialize(
@@ -251,11 +270,12 @@ Schedule _scheduleDeserialize(
     gpsX: reader.readDoubleOrNull(offsets[2]),
     gpsY: reader.readDoubleOrNull(offsets[3]),
     id: id,
-    isShowMap: reader.readBoolOrNull(offsets[4]),
-    memo: reader.readStringOrNull(offsets[5]),
-    myPlace: reader.readStringOrNull(offsets[6]),
-    title: reader.readStringOrNull(offsets[7]),
-    to: reader.readDateTimeOrNull(offsets[8]),
+    isAllDay: reader.readBoolOrNull(offsets[4]),
+    isShowMap: reader.readBoolOrNull(offsets[5]),
+    memo: reader.readStringOrNull(offsets[6]),
+    myPlace: reader.readStringOrNull(offsets[7]),
+    title: reader.readStringOrNull(offsets[8]),
+    to: reader.readDateTimeOrNull(offsets[9]),
   );
   return object;
 }
@@ -278,12 +298,14 @@ P _scheduleDeserializeProp<P>(
     case 4:
       return (reader.readBoolOrNull(offset)) as P;
     case 5:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readBoolOrNull(offset)) as P;
     case 6:
       return (reader.readStringOrNull(offset)) as P;
     case 7:
       return (reader.readStringOrNull(offset)) as P;
     case 8:
+      return (reader.readStringOrNull(offset)) as P;
+    case 9:
       return (reader.readDateTimeOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -377,6 +399,14 @@ extension ScheduleQueryWhereSort on QueryBuilder<Schedule, Schedule, QWhere> {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         const IndexWhereClause.any(indexName: r'isShowMap'),
+      );
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterWhere> anyIsAllDay() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        const IndexWhereClause.any(indexName: r'isAllDay'),
       );
     });
   }
@@ -1529,6 +1559,71 @@ extension ScheduleQueryWhere on QueryBuilder<Schedule, Schedule, QWhereClause> {
       }
     });
   }
+
+  QueryBuilder<Schedule, Schedule, QAfterWhereClause> isAllDayIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'isAllDay',
+        value: [null],
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterWhereClause> isAllDayIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'isAllDay',
+        lower: [null],
+        includeLower: false,
+        upper: [],
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterWhereClause> isAllDayEqualTo(
+      bool? isAllDay) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'isAllDay',
+        value: [isAllDay],
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterWhereClause> isAllDayNotEqualTo(
+      bool? isAllDay) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'isAllDay',
+              lower: [],
+              upper: [isAllDay],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'isAllDay',
+              lower: [isAllDay],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'isAllDay',
+              lower: [isAllDay],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'isAllDay',
+              lower: [],
+              upper: [isAllDay],
+              includeUpper: false,
+            ));
+      }
+    });
+  }
 }
 
 extension ScheduleQueryFilter
@@ -1876,6 +1971,32 @@ extension ScheduleQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterFilterCondition> isAllDayIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'isAllDay',
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterFilterCondition> isAllDayIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'isAllDay',
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterFilterCondition> isAllDayEqualTo(
+      bool? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'isAllDay',
+        value: value,
       ));
     });
   }
@@ -2469,6 +2590,18 @@ extension ScheduleQuerySortBy on QueryBuilder<Schedule, Schedule, QSortBy> {
     });
   }
 
+  QueryBuilder<Schedule, Schedule, QAfterSortBy> sortByIsAllDay() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isAllDay', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterSortBy> sortByIsAllDayDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isAllDay', Sort.desc);
+    });
+  }
+
   QueryBuilder<Schedule, Schedule, QAfterSortBy> sortByIsShowMap() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isShowMap', Sort.asc);
@@ -2592,6 +2725,18 @@ extension ScheduleQuerySortThenBy
     });
   }
 
+  QueryBuilder<Schedule, Schedule, QAfterSortBy> thenByIsAllDay() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isAllDay', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterSortBy> thenByIsAllDayDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isAllDay', Sort.desc);
+    });
+  }
+
   QueryBuilder<Schedule, Schedule, QAfterSortBy> thenByIsShowMap() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isShowMap', Sort.asc);
@@ -2679,6 +2824,12 @@ extension ScheduleQueryWhereDistinct
     });
   }
 
+  QueryBuilder<Schedule, Schedule, QDistinct> distinctByIsAllDay() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'isAllDay');
+    });
+  }
+
   QueryBuilder<Schedule, Schedule, QDistinct> distinctByIsShowMap() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'isShowMap');
@@ -2742,6 +2893,12 @@ extension ScheduleQueryProperty
   QueryBuilder<Schedule, double?, QQueryOperations> gpsYProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'gpsY');
+    });
+  }
+
+  QueryBuilder<Schedule, bool?, QQueryOperations> isAllDayProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'isAllDay');
     });
   }
 

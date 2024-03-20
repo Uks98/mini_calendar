@@ -27,10 +27,7 @@ class MonthControl extends GetxController {
 
   void getToInitList()async{
     final getMeetingList = await localDB.getTodoList();
-
     monthDataList.addAll(getMeetingList);
-
-
   }
 
 
@@ -105,6 +102,7 @@ class MonthControl extends GetxController {
       schedule.gpsX = result.gpsX;
       schedule.gpsY = result.gpsY;
       schedule.colorIndex = result.colorIndex;
+      schedule.isAllDay = result.isAllDay;
       ///리스트 추가 및 갱신 함수
       localDB.updateDBSchedule(schedule);
     }

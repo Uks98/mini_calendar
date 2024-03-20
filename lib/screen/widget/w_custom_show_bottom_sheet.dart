@@ -65,6 +65,7 @@ class CustomBottomSheet with ThemeDarkFind{
                         )).pOnly(left: normalHeight, top: normalHeight),
                   ),
                 ),
+              HeightBox(normalHeight),
               ],
             ),
           ),
