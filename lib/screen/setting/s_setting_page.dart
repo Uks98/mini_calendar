@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:today_my_calendar/common/common.dart';
 import 'package:today_my_calendar/common/constant/constant_widget.dart';
 import 'package:today_my_calendar/screen/setting/s_calendar_setting.dart';
+import 'package:today_my_calendar/screen/setting/s_font_change_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../common/widget/setting_list_icon_text.dart';
 
@@ -31,7 +32,13 @@ class SettingPage extends StatelessWidget {
                 CalendarSettingPage(),
               ),
             ),
-
+            SettingListWithIcon(
+              icon: EvaIcons.brushOutline,
+              title: '서체',
+              onTap: () => Get.to(
+                FontChangeScreen(),
+              ),
+            ),
             SettingListWithIcon(
                 icon: EvaIcons.optionsOutline,
                 title: '알림 설정',
@@ -47,6 +54,7 @@ class SettingPage extends StatelessWidget {
                 title: '피드백',
                 onTap: () => _sendEmail()
             ),
+            
           ],
         )
         );

@@ -55,6 +55,7 @@ class _MemoPageState extends State<MemoPage> {
               TextButton(
                 child:"AI 텍스트 스캔".text.size(smallFontSize).color(Colors.grey[500]).make(),
                 onPressed: (){
+
                   _getImage(ImageSource.gallery);
                 },
               ),

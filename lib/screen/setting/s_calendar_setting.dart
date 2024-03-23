@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:today_my_calendar/common/dart/extension/context_extension.dart';
 import 'package:today_my_calendar/screen/setting/w_switch.dart';
 
+import '../../common/constant/app_colors.dart';
 import '../../common/constant/constant_widget.dart';
 import '../../common/data/preference/prefs.dart';
 import '../../common/theme/theme_util.dart';
@@ -16,8 +17,7 @@ class CalendarSettingPage extends StatelessWidget with ScreenInit{
   bool get isLightModes =>  Prefs.isLightModes.get();
   @override
   Widget build(BuildContext context) {
-    final SettingCalendarController settingCalendarController =
-    Get.put(SettingCalendarController());
+    final SettingCalendarController settingCalendarController = Get.put(SettingCalendarController());
     return Scaffold(
       appBar: AppBar(
         title:  Text("캘린더 설정",style: TextStyle(fontSize: normalFontSize),),

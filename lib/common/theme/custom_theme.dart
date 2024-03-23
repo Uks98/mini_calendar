@@ -4,6 +4,7 @@ import 'package:today_my_calendar/common/theme/shadows/dart_app_shadows.dart';
 import 'package:today_my_calendar/common/theme/shadows/light_app_shadows.dart';
 
 import '../constant/app_colors.dart';
+import '../data/preference/prefs.dart';
 import 'color/abs_theme_colors.dart';
 import 'color/dark_app_colors.dart';
 import 'color/light_app_colors.dart';
@@ -35,7 +36,7 @@ enum CustomTheme {
 
 ThemeData lightTheme = ThemeData(
     useMaterial3: true,
-    fontFamily: "dream",
+    fontFamily: Prefs.currentFont.get(),
     visualDensity: VisualDensity.adaptivePlatformDensity,
     brightness: Brightness.light,
     colorScheme: ColorScheme.fromSeed(seedColor: CustomTheme.light.appColors.seedColor));
@@ -43,7 +44,7 @@ ThemeData lightTheme = ThemeData(
 const darkColorSeed = Color(0xbcd5ff7e);
 ThemeData darkTheme = ThemeData(
     useMaterial3: true,
-    fontFamily: "dream",
+    fontFamily: Prefs.currentFont.get(),
     visualDensity: VisualDensity.adaptivePlatformDensity,
     brightness: Brightness.dark,
     scaffoldBackgroundColor: AppColors.veryDarkGrey,

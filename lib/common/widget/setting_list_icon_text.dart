@@ -11,8 +11,10 @@ import '../data/preference/prefs.dart';
 class SettingListWithIcon extends StatelessWidget {
   IconData icon;
   String title;
+  String? fontFamily;
   VoidCallback onTap;
-  SettingListWithIcon({super.key,required this.icon,required this.title,required this.onTap});
+
+  SettingListWithIcon({super.key,required this.icon,required this.title,required this.onTap,this.fontFamily});
   bool get _isLightModes => Prefs.isLightModes.get();
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,7 @@ class SettingListWithIcon extends StatelessWidget {
           children: [
           Icon(icon,size: bigFontSize,color: _isLightModes ? Colors.white : Colors.black),
           Width(normalWidth),
-          title.text.size(bigFontSize).color(_isLightModes ? Colors.white : Colors.black).fontWeight(FontWeight.w300).make(),
+          title.text.size(bigFontSize).color(_isLightModes ? Colors.white : Colors.black).fontWeight(FontWeight.w300).fontFamily(fontFamily ?? "dream").make(),
           const Spacer(),
            Icon(EvaIcons.arrowIosForwardOutline,color: _isLightModes ? Colors.white : Colors.black,size: normalFontSize + 2,),
         ],).paddingAll(normalWidth),

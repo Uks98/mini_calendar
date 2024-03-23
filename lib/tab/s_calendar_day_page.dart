@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:today_my_calendar/AD/w_adfit_box.dart';
 import 'package:today_my_calendar/common/common.dart';
+import 'package:today_my_calendar/common/widget/mixin/payment_mixin.dart';
 import 'package:today_my_calendar/controller/month_data_controller.dart';
 import 'package:today_my_calendar/screen/setting/s_setting_page.dart';
 
@@ -23,7 +24,7 @@ class CalendarDayPage extends StatefulWidget {
   State<CalendarDayPage> createState() => _CalendarDayPageState();
 }
 
-class _CalendarDayPageState extends State<CalendarDayPage> with MonthControllerMix,ThemeDarkFind,DatePickerSetMix{
+class _CalendarDayPageState extends State<CalendarDayPage> with MonthControllerMix,ThemeDarkFind,DatePickerSetMix,PaymentShowSheet{
   bool get isSameDayFontGrey => DateTime.now().day != monthControl.calendarSameDay.value;
   @override
   Widget build(BuildContext context) {
@@ -40,7 +41,7 @@ class _CalendarDayPageState extends State<CalendarDayPage> with MonthControllerM
       ).buildExpandableFab(context).pOnly(bottom: 20.h,right: 10.w),
       body: Obx(() =>Column(
         children: [
-          AdfitBox.adfitAdvertise(AdFitBannerSize.SMALL_BANNER),
+          AdfitBox.adfitAdvertise(AdFitBannerSize.SMALL_BANNER,()=>showPaymentSheet(context)),
           Expanded(
             child: SfCalendar(
 

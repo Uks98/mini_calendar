@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:today_my_calendar/common/common.dart';
 import 'package:today_my_calendar/common/constant/constant_widget.dart';
+import 'package:today_my_calendar/common/widget/mixin/payment_mixin.dart';
 import 'package:today_my_calendar/screen/calendar/calendar_data/d_schedule_data.dart';
 import 'package:today_my_calendar/screen/widget/w_custom_datePicker.dart';
 import 'package:today_my_calendar/screen/widget/w_memo_container_widget.dart';
@@ -38,7 +39,7 @@ class CalendarAddPage extends StatefulWidget {
 }
 
 class _CalendarAddPageState extends State<CalendarAddPage>
-    with ScreenInit {
+    with ScreenInit ,PaymentShowSheet{
   final double _textFieldWidth = 350;
   final double _quickWidgetLeftPadding = 290;
   final _titleController = TextEditingController();
@@ -306,7 +307,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                         Height(normalHeight),
                         moveToMemo(),
                         Height(30.h),
-                        AdfitBox.adfitAdvertise(AdFitBannerSize.SMALL_BANNER),
+                        AdfitBox.adfitAdvertise(AdFitBannerSize.SMALL_BANNER,()=>showPaymentSheet(context)),
                         Height(40.h),
                       ],
                     )

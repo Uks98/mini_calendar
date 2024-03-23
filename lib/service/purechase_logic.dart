@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 
+import '../common/data/preference/prefs.dart';
+
 /// 인앱 결제 서비스
 class InAppPurchaseService extends GetxController {
   static InAppPurchaseService get to => Get.find();
@@ -21,7 +23,7 @@ class InAppPurchaseService extends GetxController {
   // Data ▼ ================================================
 
   /// 구매를 위한 인스턴스를 가져옵니다.
-  RxString productID = 'moco_payment_item'.obs;
+  RxString productID = 'moco_test_100'.obs;
   // Playstore 또는 앱 스토어에서 쿼리한 제품 목록 유지
   RxList<ProductDetails> products = <ProductDetails>[].obs;
   // 과거 구매 사용자 목록
@@ -81,6 +83,8 @@ class InAppPurchaseService extends GetxController {
   void purchaseProduct(ProductDetails prod) {
     final PurchaseParam purchaseParam = PurchaseParam(productDetails: prod);
     iap.value.buyConsumable(purchaseParam: purchaseParam, autoConsume: false);
+    Prefs.isPurchaseApp.set(true);
+
   }
 
   /// 구매 세부 정보에 대한 업데이트 스트림을 수신하는 구독

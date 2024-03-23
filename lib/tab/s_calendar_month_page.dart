@@ -11,6 +11,7 @@ import 'package:today_my_calendar/common/constant/app_colors.dart';
 import 'package:today_my_calendar/common/constant/constant_widget.dart';
 import 'package:today_my_calendar/common/theme/color/mix_find_theme.dart';
 import 'package:today_my_calendar/common/widget/mixin/init_screen_size_utill.dart';
+import 'package:today_my_calendar/common/widget/mixin/payment_mixin.dart';
 import 'package:today_my_calendar/controller/date_picker_controller.dart';
 import 'package:today_my_calendar/screen/setting/s_setting_page.dart';
 import '../AD/w_adfit_box.dart';
@@ -19,8 +20,6 @@ import '../controller/alarm_setting_controller.dart';
 import '../controller/month_data_controller.dart';
 import '../main.dart';
 import '../screen/calendar/calendar_data/schecule_data_source.dart';
-import '../screen/payment_screen/s_payment_screen.dart';
-import '../service/purechase_logic.dart';
 
 class CalendarMonthPage extends StatefulWidget {
   const CalendarMonthPage({
@@ -32,7 +31,7 @@ class CalendarMonthPage extends StatefulWidget {
 }
 
 class _CalendarMonthPageState extends State<CalendarMonthPage>
-    with ScreenInit, MonthControllerMix,ThemeDarkFind,DatePickerSetMix {
+    with ScreenInit, MonthControllerMix,ThemeDarkFind,DatePickerSetMix,PaymentShowSheet {
   final CalendarController _calendarController = CalendarController();
   final AlarmSettingController alarmController = Get.put(AlarmSettingController());
 
@@ -60,6 +59,7 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
     findDarkMode(context);
     screenInit(context);
     return Scaffold(
+      //backgroundColor: Color(0xffFDF8ED),
       key: GlobalKey<_CalendarMonthPageState>(),
       floatingActionButtonLocation: ExpandableFab.location,
       // 리팩토링 키패드 오류 문제 해결중
@@ -96,9 +96,7 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
       ).pOnly(bottom: 40.h,right: 10.w),
       body: Column(
         children: [
-          HeightBox(smallHeight),
-          AdfitBox.adfitAdvertise(AdFitBannerSize.SMALL_BANNER),
-          Expanded(child: PremiumView()),
+          AdfitBox.adfitAdvertise(AdFitBannerSize.SMALL_BANNER,()=>showPaymentSheet(context)),
           Obx(() => Flexible(
             key: GlobalKey(),
               child: SfCalendar(

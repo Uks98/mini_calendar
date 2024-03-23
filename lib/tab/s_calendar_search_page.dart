@@ -9,6 +9,7 @@ import 'package:today_my_calendar/common/common.dart';
 import 'package:today_my_calendar/common/constant/app_colors.dart';
 import 'package:today_my_calendar/common/constant/constant_widget.dart';
 import 'package:today_my_calendar/common/theme/color/mix_find_theme.dart';
+import 'package:today_my_calendar/common/widget/mixin/payment_mixin.dart';
 import 'package:today_my_calendar/controller/color_select_controller.dart';
 import 'package:today_my_calendar/screen/calendar/calendar_data/d_schedule_data.dart';
 
@@ -26,7 +27,7 @@ class CalendarSearchPage extends StatefulWidget {
 }
 
 class _CalendarSearchPageState extends State<CalendarSearchPage>
-    with MonthControllerMix,ThemeDarkFind{
+    with MonthControllerMix,ThemeDarkFind,PaymentShowSheet{
 
   ///검색 기능 중 월,일이 시작 일정과 동일할 경우 가독성을 위해 불필요한 텍스트를 줄이는 함수
   String returnToMonDay(int fromMonth,int toMonth,int fromDay,int toDay ,int hour,int minute){
@@ -165,7 +166,7 @@ class _CalendarSearchPageState extends State<CalendarSearchPage>
             HeightBox(20.w),
             _searchController.text.isEmpty ? Align(
                 alignment: Alignment.bottomCenter,
-                child: AdfitBox.adfitAdvertise(AdFitBannerSize.SMALL_BANNER)) : const SizedBox()
+                child: AdfitBox.adfitAdvertise(AdFitBannerSize.SMALL_BANNER,()=>showPaymentSheet(context),),) : const SizedBox()
           ],
         ),
       ),
