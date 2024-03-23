@@ -8,6 +8,7 @@ import 'package:today_my_calendar/common/common.dart';
 
 
 import '../../../service/purechase_logic.dart';
+import '../../constant/app_colors.dart';
 import '../../constant/constant_widget.dart';
 
 mixin class PaymentShowSheet{
@@ -18,7 +19,7 @@ mixin class PaymentShowSheet{
       builder: (BuildContext context) {
         return Container(
           decoration: BoxDecoration(
-              color: Colors.white, borderRadius: BorderRadius.circular(20)),
+              borderRadius: BorderRadius.circular(20)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -57,13 +58,19 @@ mixin class PaymentShowSheet{
                   .fontWeight(FontWeight.w300)
                   .make(),
               HeightBox(normalHeight),
+              "🌟 모든 폰트 사용 가능"
+                  .text
+                  .size(bigFontSize)
+                  .fontWeight(FontWeight.w300)
+                  .make(),
+              HeightBox(normalHeight),
               Center(
                   child: "월액 과금 없음, 한번만 구입하여 평생 사용"
                       .text
                       .color(Colors.grey[500])
                       .size(smallFontSize)
                       .make()),
-              HeightBox(smallHeight),
+              HeightBox(normalHeight),
               Center(
                 child: Row(
                   children: [
@@ -74,13 +81,14 @@ mixin class PaymentShowSheet{
                               InAppPurchaseService.to.products[0]
                           );
                         },
-                        child: "업그레이드 2500원".text.make(),
                         style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.blue,
                           shape: RoundedRectangleBorder(
                             borderRadius:
                             BorderRadius.circular(5), // 모서리 둥근 정도를 5로 설정
                           ),
                         ),
+                        child: "업그레이드 2500원".text.color(Colors.white).fontWeight(FontWeight.w700).make(),
                       ),
                     ),
                   ],
