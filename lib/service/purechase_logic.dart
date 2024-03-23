@@ -83,8 +83,8 @@ class InAppPurchaseService extends GetxController {
   void purchaseProduct(ProductDetails prod) {
     final PurchaseParam purchaseParam = PurchaseParam(productDetails: prod);
     iap.value.buyConsumable(purchaseParam: purchaseParam, autoConsume: false);
-    Prefs.isPurchaseApp.set(true);
-
+    Prefs.isPurchaseApp.set(true); /// 입앱 구매했는지
+    Prefs.isWeekNum.set(true); /// 주번호
   }
 
   /// 구매 세부 정보에 대한 업데이트 스트림을 수신하는 구독

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:today_my_calendar/common/dart/extension/context_extension.dart';
+import 'package:today_my_calendar/common/widget/mixin/payment_mixin.dart';
 import 'package:today_my_calendar/screen/setting/w_switch.dart';
 
 import '../../common/constant/app_colors.dart';
@@ -12,7 +13,7 @@ import '../../common/theme/theme_util.dart';
 import '../../common/widget/mixin/init_screen_size_utill.dart';
 import '../../controller/setting_calendardata_controller.dart';
 
-class CalendarSettingPage extends StatelessWidget with ScreenInit{
+class CalendarSettingPage extends StatelessWidget with ScreenInit,PaymentShowSheet{
   CalendarSettingPage({super.key});
   bool get isLightModes =>  Prefs.isLightModes.get();
   @override
@@ -36,8 +37,11 @@ class CalendarSettingPage extends StatelessWidget with ScreenInit{
             settingName: "주 번호",
             isOn: Prefs.isWeekNum.get(),
             onChanged: (value) {
+              if(Prefs.isPurchaseApp.get() == false){
+              showPaymentSheet(context);
+              }
               Prefs.isWeekNum.set(value);
-            },
+            }
           )),
           Obx(() => SettingSwitch(
             settingName: "가는 텍스트",
