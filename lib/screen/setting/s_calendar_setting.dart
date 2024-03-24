@@ -39,8 +39,9 @@ class CalendarSettingPage extends StatelessWidget with ScreenInit,PaymentShowShe
             onChanged: (value) {
               if(Prefs.isPurchaseApp.get() == false){
               showPaymentSheet(context);
-              }
+              }else{
               Prefs.isWeekNum.set(value);
+              }
             }
           )),
           Obx(() => SettingSwitch(

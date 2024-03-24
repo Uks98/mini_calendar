@@ -79,7 +79,7 @@ class _CalendarDayPageState extends State<CalendarDayPage> with MonthControllerM
                 allowAppointmentResize: true,
              dataSource: ScheduleDataSource(monthControl.monthDataList.value),
               view: CalendarView.day,
-                ),
+                ).pOnly(left: smallWidth,top: smallHeight),
           ),
           Height(bigHeight + 30)
         ],

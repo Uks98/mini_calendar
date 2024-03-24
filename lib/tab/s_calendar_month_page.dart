@@ -192,7 +192,7 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
                     showAgenda: true,
                     appointmentDisplayMode:
                     MonthAppointmentDisplayMode.appointment),
-              ),
+              ).pOnly(left: smallWidth/2,),
             ),
           ),
           Height(30.h),

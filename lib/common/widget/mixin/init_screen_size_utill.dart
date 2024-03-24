@@ -8,4 +8,11 @@ mixin class ScreenInit{
   void screenInit(BuildContext context){
     ScreenUtil.init(context);
   }
+  String returnToMonDay(int fromMonth, int toMonth, int fromDay, int toDay,
+      int hour, int minute) {
+    if (fromMonth == toMonth && fromDay == toDay) {
+      return "${hour < 12 ? "오전" : "오후"} $hour시 $minute분";
+    }
+    return "$toMonth월 $toDay일 ${hour < 12 ? "오전" : "오후"} $hour시 $minute분";
+  }
 }

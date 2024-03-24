@@ -120,10 +120,23 @@ class MonthControl extends GetxController {
     if(keyword.isEmpty){
        monthDataList;
     }
+    ///기존 리스트에 제목,위치,메모에 포함된 텍스트 검색시 리스트를 반환합니다.
      monthSearchList.value = monthDataList.where((element) => element.title!.contains(keyword) || element.myPlace!.contains(keyword) || element.memo!.contains(keyword)).toList();
     //getMapData(context, keyword);
     //print(autoCompleteList.toString());
   }
+
+  void searchTitleList({required String keyword,required BuildContext context}){
+    if(keyword.isEmpty){
+      monthDataList;
+    }
+    ///기존 리스트에 제목,위치,메모에 포함된 텍스트 검색시 리스트를 반환합니다.
+    monthSearchList.value = monthDataList.where((element) => element.title!.contains(keyword)).toList();
+    //getMapData(context, keyword);
+    //print(autoCompleteList.toString());
+  }
+
+
 
 }
 ///일정 검색

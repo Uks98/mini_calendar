@@ -31,6 +31,7 @@ class _FontChangeScreenState extends State<FontChangeScreen> with PaymentShowShe
           SizedBox(
             height: bigHeight,
           ),
+          "폰트는 앱을 재시작하면 적용됩니다.".text.size(normalFontSize).color(Colors.grey[300]).make(),
           SettingFontTile(
             title: '드림 폰트 입니다. 012345678 Hello',
             icon: EvaIcons.brushOutline,
