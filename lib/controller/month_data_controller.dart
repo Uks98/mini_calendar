@@ -6,12 +6,14 @@ import 'package:today_my_calendar/data/local/local_db.dart';
 import '../screen/calendar/calendar_data/d_schedule_data.dart';
 import '../screen/calendar/s_calendar_add_page.dart';
 import '../screen/widget/d_message.dart';
+import 'alarm_setting_controller.dart';
 
 class MonthControl extends GetxController {
   LocalDB localDB = LocalDB.instance;
   RxList<Schedule> monthDataList = <Schedule>[].obs;
   RxList<Schedule> monthSearchList = <Schedule>[].obs;
   RxInt calendarSameDay = DateTime.now().day.obs;
+  AlarmSettingController alarmSettingController = Get.put(AlarmSettingController());
   //RxBool isDarkMode = false.obs;
   @override
   void onInit() {
@@ -46,6 +48,8 @@ class MonthControl extends GetxController {
           myPlace: '',
           colorIndex: 0,
           isShowMap: false,
+          isAllDay: false,
+          alarmSetText : "없음"
         ),
         isShowMap: false,
         initShowDetail: false,
@@ -103,6 +107,8 @@ class MonthControl extends GetxController {
       schedule.gpsY = result.gpsY;
       schedule.colorIndex = result.colorIndex;
       schedule.isAllDay = result.isAllDay;
+      //if(result.alarmSetText)
+      schedule.alarmSetText = result.alarmSetText;
       ///리스트 추가 및 갱신 함수
       localDB.updateDBSchedule(schedule);
     }

@@ -23,7 +23,7 @@ mixin class PaymentShowSheet{
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              HeightBox(normalHeight),
+              HeightBox(bigHeight),
              "프리미엄".text.fontWeight(FontWeight.w700).size(bigFontSize + 5).make(),
               HeightBox(smallHeight),
               " 프리미엄으로 업그레이드하여 모든 기능을 제한 없이\n 사용하세요. 한번만 결제하시면 평생 사용하실 수\n 있습니다."
@@ -32,7 +32,7 @@ mixin class PaymentShowSheet{
                   .size(smallFontSize)
                   .make(),
               HeightBox(normalHeight),
-              "⦁ 모든 광고 제거".text.fontWeight(FontWeight.w500).size(bigFontSize).make(),
+              "⦁ 모든 광고 제거".text.size(bigFontSize).fontWeight(FontWeight.w300).make(),
               HeightBox(normalHeight),
               "⦁ 주 번호"
                   .text
@@ -64,20 +64,24 @@ mixin class PaymentShowSheet{
                 child: Row(
                   children: [
                     Expanded(
-                      child: ElevatedButton(
-                        onPressed: () {
-                          pureController.purchaseProduct(
-                              InAppPurchaseService.to.products[0]
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.blue,
-                          shape: RoundedRectangleBorder(
-                            borderRadius:
-                            BorderRadius.circular(5), // 모서리 둥근 정도를 5로 설정
+                      child: SizedBox(
+                        width: 400.w,
+                        height: 40.h,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            pureController.purchaseProduct(
+                                InAppPurchaseService.to.products[0]
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.blue,
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                              BorderRadius.circular(5), // 모서리 둥근 정도를 5로 설정
+                            ),
                           ),
+                          child: "평생 업그레이드 2500원".text.color(Colors.white).size(bigFontSize).fontWeight(FontWeight.w700).make(),
                         ),
-                        child: "업그레이드 2500원".text.color(Colors.white).fontWeight(FontWeight.w700).make(),
                       ),
                     ),
                   ],

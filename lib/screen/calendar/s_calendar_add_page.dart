@@ -61,6 +61,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
   double? outPageGpsY = 0.0;
   String outPagePlace = "";
   String? memoText;
+  String? _alarmSettingText; /// 알람을 정한 시간 (지정시간,5분전,,,)
   int _colorIndex = 0; //색상 선택 인덱스
   bool isAllDay = false; //일정 하루종일?
   int get newId => DateTime.now().microsecondsSinceEpoch; //id
@@ -93,6 +94,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
     isOnMap = widget.isShowMap;
     isShowDetail = widget.initShowDetail;
     isAllDay = widget.schedule.isAllDay ?? false;
+    _alarmSettingText = widget.schedule.alarmSetText;
   }
 
   @override
@@ -100,6 +102,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
     super.initState();
     initDataForEdit();
     _updateCameraPosition();
+    print("알람 텟 ${_alarmSettingText}");
   }
 
   @override
@@ -107,6 +110,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
     super.dispose();
     naverMapController?.dispose();
     _titleController.dispose();
+    //alarmSettingController.alarmTime.value = widget.schedule.alarmSetText!;
   }
 
   NCameraPosition _updateCameraPosition() {
@@ -126,14 +130,14 @@ class _CalendarAddPageState extends State<CalendarAddPage>
               IconButton(
                   onPressed: () {
                     try {
+                      _alarmSettingText = alarmSettingController.alarmTime.value;
                       if (_titleController.text.isNotEmpty) {
-                        final lastTime =
-                            datePickerStateController.lastSelectedTime.value;
+                        final lastTime = datePickerStateController.lastSelectedTime.value;
                         alarmSet.getAlarmTime(
                           //id epoch 사용시 오류 발생
                           id: _titleController.text + newId.toString(),
                           time: lastTime,
-                          setTextTime: alarmSettingController.alarmTime.value,
+                          setTextTime: _alarmSettingText!, //알람오류원인 x
                           context: context,
                           title: _titleController.text,
                           memo: memoText.toString(),
@@ -151,15 +155,15 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                           colorIndex: _colorIndex,
                           isShowMap: isOnMap,
                           isAllDay: isAllDay,
+                          alarmSetText : _alarmSettingText
                         ));
                         FocusScope.of(context).unfocus();
+
                         datePickerStateController.isShowStartDatePicker.value =
                             false;
-
                         datePickerStateController.isShowLastDatePicker.value =
                             false;
-
-                        alarmController.alarmTime.value = "없음";
+                       // alarmSettingController.alarmTime.value = "없음";
                         naverMapController?.dispose();
                       } else if (_titleController.text.isEmpty) {
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -169,11 +173,12 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                       }
                     } catch (e) {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: "일정을 작성하는데 잠시 문제가 발생했습니다."
+                          content: "일정을 작성하는데 문제가 발생했습니다."
                               .text
                               .size(bigFontSize)
-                              .make()));
+                              .make(),),);
                     }
+                    print("dispose item${_alarmSettingText}");
                   },
                   icon: const Icon(Icons.check))
             ],
@@ -231,6 +236,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                                         monthControl.monthSearchList[index];
                                     return GestureDetector(
                                         onTap: () {
+
                                           _titleController.text =
                                               search.title.toString();
                                           memoText = search.memo.toString();
@@ -396,7 +402,6 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                     ),
                   Height(smallHeight),
                   if (isAllDay == false)
-
                     ///시간 분 단위로 올리기
                     QuickFixerDateWidget().pOnly(
                         top: normalHeight.h, left: _quickWidgetLeftPadding.w),
@@ -414,7 +419,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                     Column(
                       children: [
                         ///알람 설정
-                        if (isAllDay == false) AlarmSettingTile(),
+                        if (isAllDay == false) AlarmSettingTile(alarmInitText : _alarmSettingText),
                         if (isAllDay == false) Height(addPageHeight),
 
                         ///위치 받아오기
@@ -504,20 +509,20 @@ class _CalendarAddPageState extends State<CalendarAddPage>
   GestureDetector moveToMemo() {
     return GestureDetector(
         onTap: () async {
-          Schedule memos = await Get.to(
+          Schedule? memos  = await Get.to(
             MemoPage(
               memoText: Schedule(
                 id: DateTime.now().microsecondsSinceEpoch,
-                memo: memoText.toString(),
+                memo: memoText ?? "",
               ),
             ),
           );
-          memoText = memos.memo;
-          //naverMapController?.dispose();
+
+          memoText = memos?.memo ?? "";
           setState(() {});
         },
         child: MemoContainer(
-          memoText: memoText!,
+          memoText: memoText ?? "",
         ));
   }
 

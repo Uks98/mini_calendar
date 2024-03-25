@@ -15,10 +15,8 @@ static Widget adfitAdvertise(AdFitBannerSize adFitBannerSize,VoidCallback callBa
   return  Prefs.isPurchaseApp.get() == false ? Column(
     children: [
       Container(
-        color: Colors.blue,
-        width: 300.w,
         child: AdFitBanner(
-          adId:  "",
+          adId:  "DAN-wrTDMH78uLsidGtJ",
           adSize: adFitBannerSize,
           listener: (AdFitEvent event, AdFitEventData data) {
             switch (event) {

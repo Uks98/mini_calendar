@@ -17,53 +17,58 @@ const ScheduleSchema = CollectionSchema(
   name: r'Schedule',
   id: 6369058706800408146,
   properties: {
-    r'colorIndex': PropertySchema(
+    r'alarmSetText': PropertySchema(
       id: 0,
+      name: r'alarmSetText',
+      type: IsarType.string,
+    ),
+    r'colorIndex': PropertySchema(
+      id: 1,
       name: r'colorIndex',
       type: IsarType.long,
     ),
     r'from': PropertySchema(
-      id: 1,
+      id: 2,
       name: r'from',
       type: IsarType.dateTime,
     ),
     r'gpsX': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'gpsX',
       type: IsarType.double,
     ),
     r'gpsY': PropertySchema(
-      id: 3,
+      id: 4,
       name: r'gpsY',
       type: IsarType.double,
     ),
     r'isAllDay': PropertySchema(
-      id: 4,
+      id: 5,
       name: r'isAllDay',
       type: IsarType.bool,
     ),
     r'isShowMap': PropertySchema(
-      id: 5,
+      id: 6,
       name: r'isShowMap',
       type: IsarType.bool,
     ),
     r'memo': PropertySchema(
-      id: 6,
+      id: 7,
       name: r'memo',
       type: IsarType.string,
     ),
     r'myPlace': PropertySchema(
-      id: 7,
+      id: 8,
       name: r'myPlace',
       type: IsarType.string,
     ),
     r'title': PropertySchema(
-      id: 8,
+      id: 9,
       name: r'title',
       type: IsarType.string,
     ),
     r'to': PropertySchema(
-      id: 9,
+      id: 10,
       name: r'to',
       type: IsarType.dateTime,
     )
@@ -203,6 +208,19 @@ const ScheduleSchema = CollectionSchema(
           caseSensitive: false,
         )
       ],
+    ),
+    r'alarmSetText': IndexSchema(
+      id: 3585330543375633716,
+      name: r'alarmSetText',
+      unique: false,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'alarmSetText',
+          type: IndexType.value,
+          caseSensitive: true,
+        )
+      ],
     )
   },
   links: {},
@@ -219,6 +237,12 @@ int _scheduleEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
+  {
+    final value = object.alarmSetText;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
   {
     final value = object.memo;
     if (value != null) {
@@ -246,16 +270,17 @@ void _scheduleSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeLong(offsets[0], object.colorIndex);
-  writer.writeDateTime(offsets[1], object.from);
-  writer.writeDouble(offsets[2], object.gpsX);
-  writer.writeDouble(offsets[3], object.gpsY);
-  writer.writeBool(offsets[4], object.isAllDay);
-  writer.writeBool(offsets[5], object.isShowMap);
-  writer.writeString(offsets[6], object.memo);
-  writer.writeString(offsets[7], object.myPlace);
-  writer.writeString(offsets[8], object.title);
-  writer.writeDateTime(offsets[9], object.to);
+  writer.writeString(offsets[0], object.alarmSetText);
+  writer.writeLong(offsets[1], object.colorIndex);
+  writer.writeDateTime(offsets[2], object.from);
+  writer.writeDouble(offsets[3], object.gpsX);
+  writer.writeDouble(offsets[4], object.gpsY);
+  writer.writeBool(offsets[5], object.isAllDay);
+  writer.writeBool(offsets[6], object.isShowMap);
+  writer.writeString(offsets[7], object.memo);
+  writer.writeString(offsets[8], object.myPlace);
+  writer.writeString(offsets[9], object.title);
+  writer.writeDateTime(offsets[10], object.to);
 }
 
 Schedule _scheduleDeserialize(
@@ -265,17 +290,18 @@ Schedule _scheduleDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = Schedule(
-    colorIndex: reader.readLongOrNull(offsets[0]),
-    from: reader.readDateTimeOrNull(offsets[1]),
-    gpsX: reader.readDoubleOrNull(offsets[2]),
-    gpsY: reader.readDoubleOrNull(offsets[3]),
+    alarmSetText: reader.readStringOrNull(offsets[0]),
+    colorIndex: reader.readLongOrNull(offsets[1]),
+    from: reader.readDateTimeOrNull(offsets[2]),
+    gpsX: reader.readDoubleOrNull(offsets[3]),
+    gpsY: reader.readDoubleOrNull(offsets[4]),
     id: id,
-    isAllDay: reader.readBoolOrNull(offsets[4]),
-    isShowMap: reader.readBoolOrNull(offsets[5]),
-    memo: reader.readStringOrNull(offsets[6]),
-    myPlace: reader.readStringOrNull(offsets[7]),
-    title: reader.readStringOrNull(offsets[8]),
-    to: reader.readDateTimeOrNull(offsets[9]),
+    isAllDay: reader.readBoolOrNull(offsets[5]),
+    isShowMap: reader.readBoolOrNull(offsets[6]),
+    memo: reader.readStringOrNull(offsets[7]),
+    myPlace: reader.readStringOrNull(offsets[8]),
+    title: reader.readStringOrNull(offsets[9]),
+    to: reader.readDateTimeOrNull(offsets[10]),
   );
   return object;
 }
@@ -288,24 +314,26 @@ P _scheduleDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 1:
-      return (reader.readDateTimeOrNull(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 2:
-      return (reader.readDoubleOrNull(offset)) as P;
+      return (reader.readDateTimeOrNull(offset)) as P;
     case 3:
       return (reader.readDoubleOrNull(offset)) as P;
     case 4:
-      return (reader.readBoolOrNull(offset)) as P;
+      return (reader.readDoubleOrNull(offset)) as P;
     case 5:
       return (reader.readBoolOrNull(offset)) as P;
     case 6:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readBoolOrNull(offset)) as P;
     case 7:
       return (reader.readStringOrNull(offset)) as P;
     case 8:
       return (reader.readStringOrNull(offset)) as P;
     case 9:
+      return (reader.readStringOrNull(offset)) as P;
+    case 10:
       return (reader.readDateTimeOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -407,6 +435,14 @@ extension ScheduleQueryWhereSort on QueryBuilder<Schedule, Schedule, QWhere> {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         const IndexWhereClause.any(indexName: r'isAllDay'),
+      );
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterWhere> anyAlarmSetText() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        const IndexWhereClause.any(indexName: r'alarmSetText'),
       );
     });
   }
@@ -1624,10 +1660,317 @@ extension ScheduleQueryWhere on QueryBuilder<Schedule, Schedule, QWhereClause> {
       }
     });
   }
+
+  QueryBuilder<Schedule, Schedule, QAfterWhereClause> alarmSetTextIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'alarmSetText',
+        value: [null],
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterWhereClause> alarmSetTextIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'alarmSetText',
+        lower: [null],
+        includeLower: false,
+        upper: [],
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterWhereClause> alarmSetTextEqualTo(
+      String? alarmSetText) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'alarmSetText',
+        value: [alarmSetText],
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterWhereClause> alarmSetTextNotEqualTo(
+      String? alarmSetText) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'alarmSetText',
+              lower: [],
+              upper: [alarmSetText],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'alarmSetText',
+              lower: [alarmSetText],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'alarmSetText',
+              lower: [alarmSetText],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'alarmSetText',
+              lower: [],
+              upper: [alarmSetText],
+              includeUpper: false,
+            ));
+      }
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterWhereClause> alarmSetTextGreaterThan(
+    String? alarmSetText, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'alarmSetText',
+        lower: [alarmSetText],
+        includeLower: include,
+        upper: [],
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterWhereClause> alarmSetTextLessThan(
+    String? alarmSetText, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'alarmSetText',
+        lower: [],
+        upper: [alarmSetText],
+        includeUpper: include,
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterWhereClause> alarmSetTextBetween(
+    String? lowerAlarmSetText,
+    String? upperAlarmSetText, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'alarmSetText',
+        lower: [lowerAlarmSetText],
+        includeLower: includeLower,
+        upper: [upperAlarmSetText],
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterWhereClause> alarmSetTextStartsWith(
+      String AlarmSetTextPrefix) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'alarmSetText',
+        lower: [AlarmSetTextPrefix],
+        upper: ['$AlarmSetTextPrefix\u{FFFFF}'],
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterWhereClause> alarmSetTextIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'alarmSetText',
+        value: [''],
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterWhereClause> alarmSetTextIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.lessThan(
+              indexName: r'alarmSetText',
+              upper: [''],
+            ))
+            .addWhereClause(IndexWhereClause.greaterThan(
+              indexName: r'alarmSetText',
+              lower: [''],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.greaterThan(
+              indexName: r'alarmSetText',
+              lower: [''],
+            ))
+            .addWhereClause(IndexWhereClause.lessThan(
+              indexName: r'alarmSetText',
+              upper: [''],
+            ));
+      }
+    });
+  }
 }
 
 extension ScheduleQueryFilter
     on QueryBuilder<Schedule, Schedule, QFilterCondition> {
+  QueryBuilder<Schedule, Schedule, QAfterFilterCondition> alarmSetTextIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'alarmSetText',
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterFilterCondition>
+      alarmSetTextIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'alarmSetText',
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterFilterCondition> alarmSetTextEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'alarmSetText',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterFilterCondition>
+      alarmSetTextGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'alarmSetText',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterFilterCondition> alarmSetTextLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'alarmSetText',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterFilterCondition> alarmSetTextBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'alarmSetText',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterFilterCondition>
+      alarmSetTextStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'alarmSetText',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterFilterCondition> alarmSetTextEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'alarmSetText',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterFilterCondition> alarmSetTextContains(
+      String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'alarmSetText',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterFilterCondition> alarmSetTextMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'alarmSetText',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterFilterCondition>
+      alarmSetTextIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'alarmSetText',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterFilterCondition>
+      alarmSetTextIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'alarmSetText',
+        value: '',
+      ));
+    });
+  }
+
   QueryBuilder<Schedule, Schedule, QAfterFilterCondition> colorIndexIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -2542,6 +2885,18 @@ extension ScheduleQueryLinks
     on QueryBuilder<Schedule, Schedule, QFilterCondition> {}
 
 extension ScheduleQuerySortBy on QueryBuilder<Schedule, Schedule, QSortBy> {
+  QueryBuilder<Schedule, Schedule, QAfterSortBy> sortByAlarmSetText() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'alarmSetText', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterSortBy> sortByAlarmSetTextDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'alarmSetText', Sort.desc);
+    });
+  }
+
   QueryBuilder<Schedule, Schedule, QAfterSortBy> sortByColorIndex() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'colorIndex', Sort.asc);
@@ -2665,6 +3020,18 @@ extension ScheduleQuerySortBy on QueryBuilder<Schedule, Schedule, QSortBy> {
 
 extension ScheduleQuerySortThenBy
     on QueryBuilder<Schedule, Schedule, QSortThenBy> {
+  QueryBuilder<Schedule, Schedule, QAfterSortBy> thenByAlarmSetText() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'alarmSetText', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterSortBy> thenByAlarmSetTextDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'alarmSetText', Sort.desc);
+    });
+  }
+
   QueryBuilder<Schedule, Schedule, QAfterSortBy> thenByColorIndex() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'colorIndex', Sort.asc);
@@ -2800,6 +3167,13 @@ extension ScheduleQuerySortThenBy
 
 extension ScheduleQueryWhereDistinct
     on QueryBuilder<Schedule, Schedule, QDistinct> {
+  QueryBuilder<Schedule, Schedule, QDistinct> distinctByAlarmSetText(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'alarmSetText', caseSensitive: caseSensitive);
+    });
+  }
+
   QueryBuilder<Schedule, Schedule, QDistinct> distinctByColorIndex() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'colorIndex');
@@ -2869,6 +3243,12 @@ extension ScheduleQueryProperty
   QueryBuilder<Schedule, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
+    });
+  }
+
+  QueryBuilder<Schedule, String?, QQueryOperations> alarmSetTextProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'alarmSetText');
     });
   }
 

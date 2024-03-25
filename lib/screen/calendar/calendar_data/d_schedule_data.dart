@@ -16,7 +16,8 @@ class Schedule {
         this.gpsY,
         this.colorIndex,
         this.isShowMap,
-        this.isAllDay
+        this.isAllDay,
+        this.alarmSetText
        // required this.eventColor,
         });
  @Index(type: IndexType.value)
@@ -48,4 +49,6 @@ class Schedule {
   bool? isShowMap = false;
  @Index(type: IndexType.value)
   bool? isAllDay = false;
+  @Index(type: IndexType.value)
+  String? alarmSetText;
 }
