@@ -35,16 +35,13 @@ class _CalendarDayPageState extends State<CalendarDayPage> with MonthControllerM
         distance: 55.h,
         goToAddPage: () =>
           monthControl.addSchedule(context,pickerSetController.startSelectedTime.value,pickerSetController.lastSelectedTime.value),
-        goToSetPage: () {
-          Get.to(const SettingPage());
-        },
+        goToSetPage: () => Get.to( SettingPage(),),
       ).buildExpandableFab(context).pOnly(bottom: 20.h,right: 10.w),
       body: Obx(() =>Column(
         children: [
           AdfitBox.adfitAdvertise(AdFitBannerSize.SMALL_BANNER,()=>showPaymentSheet(context)),
           Expanded(
             child: SfCalendar(
-
               appointmentTextStyle: TextStyle(color: Colors.white,fontSize: Prefs.appointmentTextSize.get()),
               todayTextStyle: const TextStyle(color: Colors.white),
               scheduleViewSettings: const ScheduleViewSettings(

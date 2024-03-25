@@ -130,13 +130,19 @@ class MonthControl extends GetxController {
     if(keyword.isEmpty){
       monthDataList;
     }
-    ///기존 리스트에 제목,위치,메모에 포함된 텍스트 검색시 리스트를 반환합니다.
+    ///기존 리스트에 일치하는 제목 검색시 해당 리스트를 반환합니다.
     monthSearchList.value = monthDataList.where((element) => element.title!.contains(keyword)).toList();
-    //getMapData(context, keyword);
-    //print(autoCompleteList.toString());
   }
 
-
+  /// 검색창에 일치하는 일정이 있는지 없는지 판단하여 boolean을 리턴합니다.
+ bool isContainSearchList(String keyword){
+    final m = monthDataList.where((p0) => p0.title!.contains(keyword)).toList();
+    if(m.isEmpty){
+      return true;
+    }else{
+      return false;
+    }
+ }
 
 }
 ///일정 검색

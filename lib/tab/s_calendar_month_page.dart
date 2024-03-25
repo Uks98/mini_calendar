@@ -88,16 +88,16 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
               color: changeSmallFloatingIconColor,
             ),
             onPressed: () {
-              Get.to(const SettingPage());
+              Get.to( SettingPage());
             },
           ),
 
         ],
       ).pOnly(bottom: 40.h,right: 10.w),
-      body: Column(
+      body: Obx(() =>Column(
         children: [
           AdfitBox.adfitAdvertise(AdFitBannerSize.SMALL_BANNER,()=>showPaymentSheet(context)),
-          Obx(() => Flexible(
+           Flexible(
             key: GlobalKey(),
               child: SfCalendar(
                 showTodayButton: true,
@@ -192,12 +192,12 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
                     showAgenda: true,
                     appointmentDisplayMode:
                     MonthAppointmentDisplayMode.appointment),
-              ).pOnly(left: smallWidth/2,),
+              ).pOnly(left: smallWidth / 2,),
             ),
-          ),
+
           Height(30.h),
         ],
-      ),
+      ),),
     );
   }
 

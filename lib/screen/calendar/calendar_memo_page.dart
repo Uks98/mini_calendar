@@ -8,7 +8,10 @@ import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart
 import 'package:image_picker/image_picker.dart';
 import 'package:today_my_calendar/common/common.dart';
 import 'package:today_my_calendar/common/constant/constant_widget.dart';
+import 'package:today_my_calendar/common/widget/mixin/payment_mixin.dart';
 import 'package:today_my_calendar/screen/calendar/calendar_data/d_schedule_data.dart';
+
+import '../../common/data/preference/prefs.dart';
 
 class MemoPage extends StatefulWidget {
   Schedule memoText;
@@ -19,7 +22,7 @@ class MemoPage extends StatefulWidget {
   State<MemoPage> createState() => _MemoPageState();
 }
 
-class _MemoPageState extends State<MemoPage> {
+class _MemoPageState extends State<MemoPage> with PaymentShowSheet{
   File? _image;
   final bool _canProcess = true;
   bool _isBusy = false;
@@ -55,9 +58,11 @@ class _MemoPageState extends State<MemoPage> {
               TextButton(
                 child:"AI 텍스트 스캔".text.size(smallFontSize).color(Colors.grey[500]).make(),
                 onPressed: (){
-
+                  if(Prefs.isPurchaseApp.get() == true){
                   _getImage(ImageSource.gallery);
-                },
+                  }
+                  showPaymentSheet(context);
+                }
               ),
             ],
           ),

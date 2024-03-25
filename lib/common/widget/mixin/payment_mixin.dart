@@ -24,52 +24,41 @@ mixin class PaymentShowSheet{
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               HeightBox(normalHeight),
-              Center(
-                  child: Image.asset("assets/moco_icon.jpg",
-                      fit: BoxFit.cover, width: 50.w, height: 50.h)),
+             "프리미엄".text.fontWeight(FontWeight.w700).size(bigFontSize + 5).make(),
               HeightBox(smallHeight),
-              Center(
-                child: Text('모코 캘린더'),
-              ),
-              HeightBox(normalHeight),
-              "광고 제거".text.fontWeight(FontWeight.w500).size(bigFontSize).make(),
-              HeightBox(normalHeight),
-              "🌟 이 앱의 모든 광고가 숨겨집니다"
+              " 프리미엄으로 업그레이드하여 모든 기능을 제한 없이\n 사용하세요. 한번만 결제하시면 평생 사용하실 수\n 있습니다."
                   .text
-                  .fontWeight(FontWeight.w300)
-                  .size(bigFontSize)
+                  .color(Colors.grey[600])
+                  .size(smallFontSize)
                   .make(),
               HeightBox(normalHeight),
-              "모든 기능 잠금 해제"
-                  .text
-                  .fontWeight(FontWeight.w500)
-                  .size(bigFontSize)
-                  .make(),
+              "⦁ 모든 광고 제거".text.fontWeight(FontWeight.w500).size(bigFontSize).make(),
               HeightBox(normalHeight),
-              "🌟 주 번호"
+              "⦁ 주 번호"
                   .text
                   .size(bigFontSize)
                   .fontWeight(FontWeight.w300)
                   .make(),
               HeightBox(normalHeight),
-              "🌟 모든 색상 테마"
+              "⦁ 모든 색상 테마"
                   .text
                   .size(bigFontSize)
                   .fontWeight(FontWeight.w300)
                   .make(),
               HeightBox(normalHeight),
-              "🌟 모든 폰트 사용 가능"
+              "⦁ 맞춤형 폰트"
                   .text
                   .size(bigFontSize)
                   .fontWeight(FontWeight.w300)
                   .make(),
               HeightBox(normalHeight),
-              Center(
-                  child: "월액 과금 없음, 한번만 구입하여 평생 사용"
-                      .text
-                      .color(Colors.grey[500])
-                      .size(smallFontSize)
-                      .make()),
+              "⦁ AI 텍스트 인식"
+                  .text
+                  .size(bigFontSize)
+                  .fontWeight(FontWeight.w300)
+                  .make(),
+              HeightBox(normalHeight),
+
               HeightBox(normalHeight),
               Center(
                 child: Row(

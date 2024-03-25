@@ -4,13 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:today_my_calendar/common/common.dart';
 import 'package:today_my_calendar/common/constant/constant_widget.dart';
+import 'package:today_my_calendar/common/widget/mixin/payment_mixin.dart';
 import 'package:today_my_calendar/screen/setting/s_calendar_setting.dart';
 import 'package:today_my_calendar/screen/setting/s_font_change_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../common/widget/setting_list_icon_text.dart';
 
-class SettingPage extends StatelessWidget {
-  const SettingPage({super.key});
+class SettingPage extends StatelessWidget with PaymentShowSheet{
+   SettingPage({super.key});
 
 
   @override
@@ -38,6 +39,11 @@ class SettingPage extends StatelessWidget {
               onTap: () => Get.to(
                 FontChangeScreen(),
               ),
+            ),
+            SettingListWithIcon(
+              icon: EvaIcons.giftOutline,
+              title: '프리미엄 결제',
+              onTap: () => showPaymentSheet(context)
             ),
             SettingListWithIcon(
                 icon: EvaIcons.optionsOutline,

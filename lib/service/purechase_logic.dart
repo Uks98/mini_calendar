@@ -5,11 +5,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:today_my_calendar/service/w_toast_notification.dart';
 
 import '../common/data/preference/prefs.dart';
 
 /// 인앱 결제 서비스
-class InAppPurchaseService extends GetxController {
+class InAppPurchaseService extends GetxController{
   static InAppPurchaseService get to => Get.find();
 
   // Instance ▼ ============================================
@@ -23,7 +24,7 @@ class InAppPurchaseService extends GetxController {
   // Data ▼ ================================================
 
   /// 구매를 위한 인스턴스를 가져옵니다.
-  RxString productID = 'moco_test_100'.obs;
+  RxString productID = 'moco_payment_item'.obs;
   // Playstore 또는 앱 스토어에서 쿼리한 제품 목록 유지
   RxList<ProductDetails> products = <ProductDetails>[].obs;
   // 과거 구매 사용자 목록
@@ -67,7 +68,12 @@ class InAppPurchaseService extends GetxController {
             (purchase) => purchase.productID == productID.value,
       );
       if (purchase.status == PurchaseStatus.purchased) {
+        ToastNotification.warningToast("구매에 성공했습니다.");
+        Prefs.isPurchaseApp.set(true); /// 입앱 구매했는지
+        Prefs.isWeekNum.set(true); /// 주번호
         // 구매 완료
+      }else if(purchase.status == PurchaseStatus.canceled){
+        ToastNotification.warningToast("결제가 취소되었습니다.");
       }
     } catch (e) {
       // 구매 미완료
@@ -80,13 +86,10 @@ class InAppPurchaseService extends GetxController {
   ///
   /// @return 구매 성공 여부
   @required
-  void purchaseProduct(ProductDetails prod) {
+  void purchaseProduct(ProductDetails prod) async{
     final PurchaseParam purchaseParam = PurchaseParam(productDetails: prod);
-    iap.value.buyConsumable(purchaseParam: purchaseParam, autoConsume: false);
-    Prefs.isPurchaseApp.set(true); /// 입앱 구매했는지
-    Prefs.isWeekNum.set(true); /// 주번호
+     iap.value.buyConsumable(purchaseParam: purchaseParam, autoConsume: false);
   }
-
   /// 구매 세부 정보에 대한 업데이트 스트림을 수신하는 구독
   ///
   /// @return Future<void>
@@ -126,7 +129,6 @@ class InAppPurchaseService extends GetxController {
   void onClose() {
     // 구독 해제
     subscription.value?.cancel();
-
     super.onClose();
   }
 }

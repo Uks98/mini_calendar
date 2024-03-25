@@ -23,15 +23,14 @@ class _FontChangeScreenState extends State<FontChangeScreen> with PaymentShowShe
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: "설정".text.size(normalFontSize).make(),
+        title: "서채".text.size(normalFontSize).make(),
         centerTitle: true,
       ),
       body: ListView(
         children: [
-          SizedBox(
-            height: bigHeight,
-          ),
-          "폰트는 앱을 재시작하면 적용됩니다.".text.size(normalFontSize).color(Colors.grey[300]).make(),
+          HeightBox(bigHeight),
+          "폰트는 앱을 재시작하면 적용됩니다.".text.size(normalFontSize).color(Colors.grey[500]).make().pOnly(left: bigWidth),
+          HeightBox(bigHeight),
           SettingFontTile(
             title: '드림 폰트 입니다. 012345678 Hello',
             icon: EvaIcons.brushOutline,

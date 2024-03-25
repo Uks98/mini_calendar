@@ -59,13 +59,14 @@ class _CalendarAddPageState extends State<CalendarAddPage>
 
   double? outPageGpsX = 0.0;
   double? outPageGpsY = 0.0;
-  String? outPagePlace = "";
+  String outPagePlace = "";
   String? memoText;
   int _colorIndex = 0; //색상 선택 인덱스
   bool isAllDay = false; //일정 하루종일?
   int get newId => DateTime.now().microsecondsSinceEpoch; //id
   bool isShowDetail = false; //add page 더보기 버튼
   bool get isOnMap => outPageGpsX != 0.0 ? true : false;
+  bool isSizedBox = false;
 
   set isOnMap(bool value) {
     value = widget.isShowMap;
@@ -87,7 +88,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
     datePickerStateController.lastSelectedTime.value = widget.schedule.to!;
     outPageGpsX = widget.schedule.gpsY!;
     outPageGpsY = widget.schedule.gpsX!;
-    outPagePlace = widget.schedule.myPlace;
+    outPagePlace = widget.schedule.myPlace ?? "없음";
     _colorIndex = widget.schedule.colorIndex!;
     isOnMap = widget.isShowMap;
     isShowDetail = widget.initShowDetail;
@@ -196,7 +197,9 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                               monthControl.searchTitleList(
                                   keyword: value, context: context);
                               if (value.isEmpty) {
+                                isSizedBox = false;
                                 monthControl.monthSearchList.clear();
+                                _titleController.clear();
                               }
                               setState(() {});
                             },
@@ -210,113 +213,101 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                           spacer,
                         ],
                       ),
-                      _titleController.text.isNotEmpty
-                          ? Obx(() => SizedBox(
-                                height: 50.h,
-                                width: 600.w,
-                                child: monthControl.monthSearchList.isNotEmpty
-                                    ? ListView.separated(
-                                        scrollDirection: Axis.horizontal,
-                                        shrinkWrap: true,
-                                        separatorBuilder: (context, index) {
-                                          return const Height(1);
+                      Obx(
+                        () => monthControl.monthSearchList.isEmpty ? Container(color: Colors.red,) :SizedBox(
+                          height: 50.h,
+                          width: 600.w,
+                          child:  ListView.separated(
+                                  scrollDirection: Axis.horizontal,
+                                  shrinkWrap: true,
+                                  separatorBuilder: (context, index) {
+                                    return const Height(1);
+                                  },
+                                  itemBuilder: (
+                                    BuildContext context,
+                                    int index,
+                                  ) {
+                                    final search =
+                                        monthControl.monthSearchList[index];
+                                    return GestureDetector(
+                                        onTap: () {
+                                          _titleController.text =
+                                              search.title.toString();
+                                          memoText = search.memo.toString();
+                                          outPageGpsX = search.gpsY;
+                                          outPageGpsY = search.gpsX;
+                                          outPagePlace = search.myPlace ?? "없음";
+                                          _colorIndex = search.colorIndex ?? 0;
+                                          isOnMap = search.isShowMap ?? false;
+                                          isShowDetail =
+                                              search.isShowMap ?? false;
+                                          isAllDay = search.isAllDay ?? false;
+                                          datePickerStateController
+                                              .startSelectedTime
+                                              .value = search.from!;
+                                          datePickerStateController
+                                              .lastSelectedTime
+                                              .value = search.to!;
+                                          setState(() {});
                                         },
-                                        itemBuilder: (
-                                          BuildContext context,
-                                          int index,
-                                        ) {
-                                          final search = monthControl
-                                              .monthSearchList[index];
-                                          return GestureDetector(
-                                              onTap: () {
-                                                _titleController.text = search.title.toString();
-                                                memoText = search.memo.toString();
-                                                outPageGpsX = search.gpsY;
-                                                outPageGpsY = search.gpsX;
-                                                outPagePlace = search.myPlace;
-                                                _colorIndex = search.colorIndex ?? 0;
-                                                isOnMap = search.isShowMap ?? false;
-                                                isShowDetail = search.isShowMap ?? false;
-                                                isAllDay = search.isAllDay ?? false;
-                                                datePickerStateController.startSelectedTime.value = search.from!;
-                                                datePickerStateController.lastSelectedTime.value = search.to!;
-                                                setState(() {});
-                                              },
-                                              child: Container(
-                                                  decoration: BoxDecoration(
-                                                      color: isLightModes
-                                                          ? AppColors.darkGrey
-                                                          : context.appColors
-                                                              .settingListColor,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              smallWidth)),
-                                                  child: Row(
-                                                    children: [
-                                                      Width(smallWidth),
-                                                      VxBox()
-                                                          .width(6)
-                                                          .height(40.h)
-                                                          .withRounded(
-                                                              value: 2.w)
-                                                          .color(_colorBox
-                                                              .colorList.keys
-                                                              .elementAt(search
-                                                                  .colorIndex!))
+                                        child: Container(
+                                            decoration: BoxDecoration(
+                                                color: isLightModes
+                                                    ? AppColors.darkGrey
+                                                    : context.appColors
+                                                        .settingListColor,
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        smallWidth)),
+                                            child: Row(
+                                              children: [
+                                                Width(smallWidth),
+                                                VxBox()
+                                                    .width(3.w)
+                                                    .height(40.h)
+                                                    .withRounded(value: 2.w)
+                                                    .color(_colorBox
+                                                        .colorList.keys
+                                                        .elementAt(
+                                                            search.colorIndex ?? 0))
+                                                    .make(),
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    SizedBox(
+                                                      width: 80.w,
+                                                      child: search.title!.text
+                                                          .size(bigFontSize)
+                                                          .fontWeight(
+                                                              FontWeight.w300)
+                                                          .overflow(TextOverflow
+                                                              .ellipsis)
+                                                          .color(isLightModes
+                                                              ? Colors.white
+                                                              : context
+                                                                  .appColors
+                                                                  .text)
                                                           .make(),
-                                                      Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          SizedBox(
-                                                            width: 80.w,
-                                                            child: search
-                                                                .title!.text
-                                                                .size(
-                                                                    bigFontSize)
-                                                                .fontWeight(
-                                                                    FontWeight
-                                                                        .w300)
-                                                                .overflow(
-                                                                    TextOverflow
-                                                                        .ellipsis)
-                                                                .color(isLightModes
-                                                                    ? Colors
-                                                                        .white
-                                                                    : context
-                                                                        .appColors
-                                                                        .text)
-                                                                .make(),
-                                                          ),
-                                                          " ${search.to!.year}년 ${search.from!.month}월 ${search.from!.day}일 ${search.to!.hour < 12 ? "오전" : "오후"} ${search.from!.hour}시 ${search.from!.minute}분  ~ "
-                                                                  " ${returnToMonDay(search.from!.month, search.to!.month, search.from!.day, search.to!.day, search.to!.hour, search.to!.minute)}"
-                                                              .text
-                                                              .size(
-                                                                  smallFontSize)
-                                                              .color(isLightModes
-                                                                  ? Colors.white
-                                                                  : Colors
-                                                                      .black)
-                                                              .make(),
-                                                        ],
-                                                      ).paddingAll(
-                                                          smallHeight.h),
-                                                    ],
-                                                  )).paddingOnly(left: smallWidth));
-                                        },
-                                        itemCount:
-                                            monthControl.monthSearchList.length,
-                                      )
-                                    : Center(
-                                        child: "검색된 항목이 없습니다. 일정을 추가해주세요."
-                                            .text
-                                            .size(normalFontSize)
-                                            .make()
-                                            .pOnly(top: 200.h),
-                                      ),
-                              ))
-                          : SizedBox()
+                                                    ),
+                                                    " ${search.to!.year}년 ${search.from!.month}월 ${search.from!.day}일 ${search.to!.hour < 12 ? "오전" : "오후"} ${search.from!.hour}시 ${search.from!.minute}분  ~ "
+                                                            " ${returnToMonDay(search.from!.month, search.to!.month, search.from!.day, search.to!.day, search.to!.hour, search.to!.minute)}"
+                                                        .text
+                                                        .size(smallFontSize)
+                                                        .color(isLightModes
+                                                            ? Colors.white
+                                                            : Colors.black)
+                                                        .make(),
+                                                  ],
+                                                ).paddingAll(smallHeight.h),
+                                              ],
+                                            )).paddingOnly(left: smallWidth));
+                                  },
+                                  itemCount:
+                                      monthControl.monthSearchList.length,
+                                )
+                        ),
+                      )
                     ],
                   ),
                   Height(addPageHeight),
@@ -433,8 +424,8 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                                 LocationSearchWidget(
                                   schedule: Schedule(
                                       id: 0,
-                                      gpsY: outPageGpsX,
-                                      gpsX: outPageGpsY),
+                                      gpsY: outPageGpsX ?? 0.0,
+                                      gpsX: outPageGpsY ?? 0.0),
                                 ),
                               );
                               if (gps == null) {
@@ -445,10 +436,10 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                                   isShowMap: isOnMap,
                                 );
                               } else {
-                                outPageGpsX = gps.gpsX!;
-                                outPageGpsY = gps.gpsY!;
+                                outPageGpsX = gps.gpsX ?? 0.0;
+                                outPageGpsY = gps.gpsY ?? 0.0;
                               }
-                              outPagePlace = gps.myPlace; //?.
+                              outPagePlace = gps.myPlace ?? ""; //?.
                               setState(() {});
                             },
                             child: Row(
@@ -462,7 +453,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                                     )
                                     .make()
                                     .paddingOnly(left: 4.w),
-                                outPagePlace!.text
+                                outPagePlace.text
                                     .size(bigFontSize)
                                     .fontWeight(
                                       FontWeight.w300,
@@ -470,7 +461,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                                     .make()
                                     .pOnly(right: smallWidth + 2),
                               ],
-                            )),
+                            ),),
                         Height(addPageHeight),
 
                         ///네이버 맵

@@ -77,11 +77,11 @@ class _CalendarSearchPageState extends State<CalendarSearchPage>
                     autofocus: false,
                     onChanged: (value) {
                       monthControl.searchCalList(
-                        keyword: value, context: context);
+                          keyword: value, context: context);
                       if(value.isEmpty){
                         monthControl.monthSearchList.clear();
                       }
-                    },
+                    } ,
                     style: TextStyle(
                         fontSize: normalFontSize + 2,
                         fontWeight: FontWeight.w300),
