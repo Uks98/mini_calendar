@@ -122,9 +122,9 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
                   textStyle: TextStyle(fontSize: bigFontSize + 5),
                 ),
                 onTap: (cp) async{
-                  pickerSetController.startSelectedTime.value = cp.date!;
-                  pickerSetController.lastSelectedTime.value = cp.date!;
-                    monthControl.calendarSameDay.value = cp.date!.day;
+                  pickerSetController.startSelectedTime.value = cp.date ?? DateTime.now();
+                  pickerSetController.lastSelectedTime.value = cp.date ?? DateTime.now();
+                    monthControl.calendarSameDay.value = cp.date?.day ?? DateTime.now().day;
                     monthControl.calendarTapped(context, cp);
                   final List<PendingNotificationRequest> pendingNotificationRequests = await flutterLocalNotificationsPlugin.pendingNotificationRequests();
                   for(final i in pendingNotificationRequests){
@@ -146,10 +146,10 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
                 monthViewSettings: MonthViewSettings(
                     agendaItemHeight: 45.h,
                     //agenda 높이
-                    numberOfWeeksInView: 4,
+                    numberOfWeeksInView: 4, //달력에 몇주씩 보여줄건지
                     monthCellStyle: MonthCellStyle(
                       textStyle: TextStyle(
-                        fontSize: smallFontSize + 3,
+                        fontSize: smallFontSize + 4,
                         //달력 dayStyle 굵은 텍스트
                         fontWeight: Prefs.isDayFontWeight.get() ?FontWeight.w300:FontWeight.bold ,
                         color: context.appColors.text,
@@ -176,19 +176,13 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
                           //일정 폰트!!
                           fontSize:  Prefs.appointmentTextSize.get(),
                         ),
-                        dayTextStyle: TextStyle(
-                          color: AppColors.grey,
-                          fontSize: normalFontSize,
-                          fontWeight: FontWeight.bold,
-                          fontStyle: FontStyle.normal,
-                        ),
                         dateTextStyle: TextStyle(
                             color: AppColors.grey,
                             fontSize: bigFontSize,
                             fontWeight: FontWeight.bold,
                             fontStyle: FontStyle.normal),
                     ),
-                    appointmentDisplayCount: 3,
+                    appointmentDisplayCount: 4, //일정 보여지는 스택 수
                     showAgenda: true,
                     appointmentDisplayMode:
                     MonthAppointmentDisplayMode.appointment),

@@ -127,12 +127,12 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                   onPressed: () {
                     try {
                       if (_titleController.text.isNotEmpty) {
-                        final startTime =
-                            datePickerStateController.startSelectedTime.value;
+                        final lastTime =
+                            datePickerStateController.lastSelectedTime.value;
                         alarmSet.getAlarmTime(
                           //id epoch 사용시 오류 발생
                           id: _titleController.text + newId.toString(),
-                          time: startTime,
+                          time: lastTime,
                           setTextTime: alarmSettingController.alarmTime.value,
                           context: context,
                           title: _titleController.text,
@@ -414,7 +414,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                     Column(
                       children: [
                         ///알람 설정
-                        if (isAllDay == false) const AlarmSettingTile(),
+                        if (isAllDay == false) AlarmSettingTile(),
                         if (isAllDay == false) Height(addPageHeight),
 
                         ///위치 받아오기
@@ -445,14 +445,16 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                "위치"
-                                    .text
-                                    .size(normalFontSize)
-                                    .fontWeight(
-                                      FontWeight.w300,
-                                    )
-                                    .make()
-                                    .paddingOnly(left: 4.w),
+                                Expanded(
+                                  child: "위치"
+                                      .text
+                                      .size(normalFontSize)
+                                      .fontWeight(
+                                        FontWeight.w300,
+                                      )
+                                      .make()
+                                      .paddingOnly(left: 4.w),
+                                ),
                                 outPagePlace.text
                                     .size(bigFontSize)
                                     .fontWeight(
