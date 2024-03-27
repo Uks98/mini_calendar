@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:today_my_calendar/common/dart/extension/context_extension.dart';
 import 'package:today_my_calendar/common/widget/mixin/payment_mixin.dart';
+import 'package:today_my_calendar/controller/month_data_controller.dart';
 import 'package:today_my_calendar/screen/setting/w_switch.dart';
 
 import '../../common/constant/app_colors.dart';
@@ -13,7 +14,7 @@ import '../../common/theme/theme_util.dart';
 import '../../common/widget/mixin/init_screen_size_utill.dart';
 import '../../controller/setting_calendardata_controller.dart';
 
-class CalendarSettingPage extends StatelessWidget with ScreenInit,PaymentShowSheet{
+class CalendarSettingPage extends StatelessWidget with ScreenInit,PaymentShowSheet,MonthControllerMix{
   CalendarSettingPage({super.key});
   bool get isLightModes =>  Prefs.isLightModes.get();
   @override
@@ -34,15 +35,15 @@ class CalendarSettingPage extends StatelessWidget with ScreenInit,PaymentShowShe
             },
           ),
           Obx(() => SettingSwitch(
-            settingName: "주 번호",
-            isOn: Prefs.isWeekNum.get(),
-            onChanged: (value) {
-              if(Prefs.isPurchaseApp.get() == false){
-              showPaymentSheet(context);
-              }else{
-              Prefs.isWeekNum.set(value);
+              settingName: "주 번호",
+              isOn: Prefs.isWeekNum.get(),
+              onChanged: (value) {
+                if(Prefs.isPurchaseApp.get() == false){
+                  showPaymentSheet(context);
+                }else{
+                  Prefs.isWeekNum.set(value);
+                }
               }
-            }
           )),
           Obx(() => SettingSwitch(
             settingName: "가는 텍스트",
@@ -111,6 +112,54 @@ class CalendarSettingPage extends StatelessWidget with ScreenInit,PaymentShowShe
               ).paddingAll(smallHeight),
             ),
           ),
+          Obx(
+                () => Card(
+              margin: EdgeInsets.only(left: normalWidth,right: normalWidth,bottom: 14.h),
+              color: context.appColors.settingListColor , //preference obx 충돌
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(smallWidth),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    "캘린더 일정 텍스트 크기".toString(),
+                    style: const TextStyle(fontWeight: FontWeight.w300,color: Colors.black),
+                  ),
+                  const Spacer(),
+                  Text(Prefs.calendarAppointmentTextSize.get().toInt().toString(),style: TextStyle(color: Colors.black),),
+                  IconButton(
+                    icon: const Icon(Icons.remove,color: Colors.black),
+                    onPressed:
+                    settingCalendarController.calendarAppointmentText.value >
+                        8
+                        ? () {
+                      settingCalendarController
+                          .calendarAppointmentText.value--;
+                      Prefs.calendarAppointmentTextSize.set(
+                          settingCalendarController
+                              .calendarAppointmentText.value);
+                    }
+                        : null,
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.add,color: Colors.black),
+                    onPressed:
+                    settingCalendarController.calendarAppointmentText.value <
+                        11
+                        ? () {
+                      settingCalendarController
+                          .calendarAppointmentText.value++;
+                      Prefs.calendarAppointmentTextSize.set(
+                          settingCalendarController
+                              .calendarAppointmentText.value);
+                    }
+                        : null,
+                  ),
+                ],
+              ).paddingAll(smallHeight),
+            ),
+          ),
           Obx(() => SettingSwitch(
             settingName: "지난 이벤트 흐리게 표시",
             isOn: Prefs.isLateDayFontGrey.get(),
@@ -123,6 +172,14 @@ class CalendarSettingPage extends StatelessWidget with ScreenInit,PaymentShowShe
             isOn: Prefs.isCellBorder.get(),
             onChanged: (value) {
               Prefs.isCellBorder.set(value);
+            },
+          )),
+          Obx(() => SettingSwitch(
+            settingName: "기념일 정보 켜기",
+            isOn: Prefs.isEventDay.get(),
+            onChanged: (value) {
+              Prefs.isEventDay.set(value);
+              monthControl.isOnFunction();
             },
           )),
         ],

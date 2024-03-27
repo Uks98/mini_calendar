@@ -42,8 +42,6 @@ class _MemoPageState extends State<MemoPage> with PaymentShowSheet{
     // TODO: implement initState
     super.initState();
     _textEditingController = TextEditingController(text: widget.memoText.memo.toString());
-   // _textEditingController.text = widget.memoText.memo.toString();
-  //  _textEditingController.text = widget.memoText.memo;
   }
 
   TextEditingController _textEditingController = TextEditingController();
@@ -61,8 +59,9 @@ class _MemoPageState extends State<MemoPage> with PaymentShowSheet{
                 onPressed: (){
                   if(Prefs.isPurchaseApp.get() == true){
                   _getImage(ImageSource.gallery);
-                  }
+                  }if(Prefs.isPurchaseApp.get() == false){
                   showPaymentSheet(context);
+                  }
                 }
               ),
             ],

@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:today_my_calendar/common/common.dart';
 import 'package:today_my_calendar/common/constant/constant_widget.dart';
 import 'package:today_my_calendar/common/widget/mixin/payment_mixin.dart';
+import 'package:today_my_calendar/controller/repeat_controller.dart';
 import 'package:today_my_calendar/screen/calendar/calendar_data/d_schedule_data.dart';
 import 'package:today_my_calendar/screen/widget/w_custom_datePicker.dart';
 import 'package:today_my_calendar/screen/widget/w_memo_container_widget.dart';
@@ -14,6 +15,8 @@ import '../../AD/w_adfit_box.dart';
 import '../../common/constant/app_colors.dart';
 import '../../common/data/preference/prefs.dart';
 import '../../common/widget/mixin/init_screen_size_utill.dart';
+import '../../common/widget/repeat_tile/w_repeat_end_tile.dart';
+import '../../common/widget/repeat_tile/w_repeat_tile.dart';
 import '../../controller/alarm_setting_controller.dart';
 import '../../controller/color_select_controller.dart';
 import '../../controller/date_picker_controller.dart';
@@ -27,8 +30,8 @@ import '../widget/alarm_setting_tile.dart';
 class CalendarAddPage extends StatefulWidget {
   final Schedule? scheduleForEdit;
   Schedule schedule;
-  bool isShowMap;
-  bool initShowDetail; //페이지 상세보기
+  bool? isShowMap;
+  bool? initShowDetail; //페이지 상세보기
 
   CalendarAddPage(
       {super.key,
@@ -42,7 +45,7 @@ class CalendarAddPage extends StatefulWidget {
 }
 
 class _CalendarAddPageState extends State<CalendarAddPage>
-    with ScreenInit, PaymentShowSheet, MonthControllerMix {
+    with ScreenInit, PaymentShowSheet, MonthControllerMix,RepeatControllerMixin {
   final double _textFieldWidth = 350;
   final double _quickWidgetLeftPadding = 290;
   final _titleController = TextEditingController();
@@ -64,12 +67,13 @@ class _CalendarAddPageState extends State<CalendarAddPage>
   String? _alarmSettingText; /// 알람을 정한 시간 (지정시간,5분전,,,)
   int _colorIndex = 0; //색상 선택 인덱스
   bool isAllDay = false; //일정 하루종일?
+  bool isEndRepeat = false; //반복일정의 datepicker 보여줄 것인지
   int get newId => DateTime.now().microsecondsSinceEpoch; //id
   bool isShowDetail = false; //add page 더보기 버튼
   bool get isOnMap => outPageGpsX != 0.0 ? true : false;
   bool isSizedBox = false;
 
-  set isOnMap(bool value) {
+  set isOnMap(bool? value) {
     value = widget.isShowMap;
   }
 
@@ -80,19 +84,40 @@ class _CalendarAddPageState extends State<CalendarAddPage>
   RxBool get isShowLastPicker => datePickerStateController.isShowLastDatePicker;
   final alarmSet = Get.put(AlarmSettingController());
   NaverMapController? naverMapController;
+  ///반복일정 만드는 함수
+  String repeatDay(
+      {required String repeatFR,
+        required String until,
+      }) {
+    switch(repeatFR){
+      case "없음":
+        return "";
+      case "매일":
+        return "DAILY";
+      case "매주":
+        return "WEEKLY";
+      case "매월":
+        return "MONTHLY";
+    }
+    //INTERVAL 간격
+    //FREQ 매일 , 몇주, 몇달 간격
+    //UNTIL ~,까지
+    //BYDAY= MO,WE
 
+    return "FREQ=$repeatFR;UNTIL=$until;";
+  }
   ///업데이트에 필요한 데이터 불러와서 대입
   void initDataForEdit() {
     _titleController.text = widget.schedule.title.toString();
     memoText = widget.schedule.memo.toString();
     datePickerStateController.startSelectedTime.value = widget.schedule.from!;
     datePickerStateController.lastSelectedTime.value = widget.schedule.to!;
-    outPageGpsX = widget.schedule.gpsY!;
-    outPageGpsY = widget.schedule.gpsX!;
+    outPageGpsX = widget.schedule.gpsY ?? 0.0;
+    outPageGpsY = widget.schedule.gpsX ?? 0.0;
     outPagePlace = widget.schedule.myPlace ?? "없음";
     _colorIndex = widget.schedule.colorIndex!;
-    isOnMap = widget.isShowMap;
-    isShowDetail = widget.initShowDetail;
+    isOnMap = widget.isShowMap ?? false;
+    isShowDetail = widget.initShowDetail ?? false;
     isAllDay = widget.schedule.isAllDay ?? false;
     _alarmSettingText = widget.schedule.alarmSetText;
   }
@@ -102,7 +127,6 @@ class _CalendarAddPageState extends State<CalendarAddPage>
     super.initState();
     initDataForEdit();
     _updateCameraPosition();
-    print("알람 텟 ${_alarmSettingText}");
   }
 
   @override
@@ -129,6 +153,11 @@ class _CalendarAddPageState extends State<CalendarAddPage>
             actions: [
               IconButton(
                   onPressed: () {
+                    if(outPagePlace != ""){
+                      isOnMap = true;
+                    }else{
+                      isOnMap = false;
+                    }
                     try {
                       _alarmSettingText = alarmSettingController.alarmTime.value;
                       if (_titleController.text.isNotEmpty) {
@@ -146,8 +175,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                           id: DateTime.now().microsecondsSinceEpoch,
                           title: _titleController.text,
                           memo: memoText.toString(),
-                          from:
-                              datePickerStateController.startSelectedTime.value,
+                          from: datePickerStateController.startSelectedTime.value,
                           to: datePickerStateController.lastSelectedTime.value,
                           myPlace: outPagePlace.toString(),
                           gpsX: outPageGpsY,
@@ -155,7 +183,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                           colorIndex: _colorIndex,
                           isShowMap: isOnMap,
                           isAllDay: isAllDay,
-                          alarmSetText : _alarmSettingText
+                          alarmSetText : _alarmSettingText,
                         ));
                         FocusScope.of(context).unfocus();
 
@@ -236,7 +264,6 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                                         monthControl.monthSearchList[index];
                                     return GestureDetector(
                                         onTap: () {
-
                                           _titleController.text =
                                               search.title.toString();
                                           memoText = search.memo.toString();
@@ -393,7 +420,6 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                     ),
                   Height(addPageHeight),
                   if (isAllDay == false)
-
                     ///종료 시간
                     ShowDateLastPicker(
                       //dateTime: DateTime.now(),
@@ -421,7 +447,6 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                         ///알람 설정
                         if (isAllDay == false) AlarmSettingTile(alarmInitText : _alarmSettingText),
                         if (isAllDay == false) Height(addPageHeight),
-
                         ///위치 받아오기
                         GestureDetector(
                             onTap: () async {
@@ -429,8 +454,8 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                                 LocationSearchWidget(
                                   schedule: Schedule(
                                       id: 0,
-                                      gpsY: outPageGpsX ?? 0.0,
-                                      gpsX: outPageGpsY ?? 0.0),
+                                      gpsY: outPageGpsX,
+                                      gpsX: outPageGpsY),
                                 ),
                               );
                               if (gps == null) {
@@ -473,7 +498,8 @@ class _CalendarAddPageState extends State<CalendarAddPage>
 
                         ///네이버 맵
                         Height(addPageHeight),
-                        showUserMap(),
+                        widget.schedule.isShowMap == true?
+                        showUserMap() : const SizedBox(),
                         //메모
                         //메모페이지로 이동
                         Height(bigHeight),

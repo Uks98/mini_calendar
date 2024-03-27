@@ -59,7 +59,7 @@ mixin class PaymentShowSheet{
                   .make(),
               HeightBox(normalHeight),
 
-              HeightBox(normalHeight),
+              HeightBox(5),
               Center(
                 child: Row(
                   children: [
@@ -69,15 +69,12 @@ mixin class PaymentShowSheet{
                         height: 40.h,
                         child: ElevatedButton(
                           onPressed: () {
-                            pureController.purchaseProduct(
-                                InAppPurchaseService.to.products[0]
-                            );
+                            pureController.purchaseProduct(InAppPurchaseService.to.products[0]);
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.blue,
                             shape: RoundedRectangleBorder(
-                              borderRadius:
-                              BorderRadius.circular(5), // 모서리 둥근 정도를 5로 설정
+                              borderRadius: BorderRadius.circular(5), // 모서리 둥근 정도를 5로 설정
                             ),
                           ),
                           child: "평생 업그레이드 2500원".text.color(Colors.white).size(bigFontSize).fontWeight(FontWeight.w700).make(),

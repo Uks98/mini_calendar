@@ -17,7 +17,8 @@ class Schedule {
         this.colorIndex,
         this.isShowMap,
         this.isAllDay,
-        this.alarmSetText
+        this.alarmSetText,
+        this.holiday, //공휴일?
        // required this.eventColor,
         });
  @Index(type: IndexType.value)
@@ -51,4 +52,19 @@ class Schedule {
   bool? isAllDay = false;
   @Index(type: IndexType.value)
   String? alarmSetText;
+  @Index(type: IndexType.value)
+  String? holiday;
+
+  factory Schedule.fromJson(Map<String,dynamic> json){
+    return Schedule(
+      id: json[""] ?? 0,
+      isAllDay : json[""] ?? true,
+      to : DateTime.parse(json["locdate"].toString()),
+      from : DateTime.parse(json["locdate"].toString()),
+      title : json["dateName"] ?? "공휴일",
+      colorIndex : json[""] ?? 0,
+      holiday: json["isHoliday"] ?? "N",
+      isShowMap : json[""] ?? false,
+    );
+  }
 }

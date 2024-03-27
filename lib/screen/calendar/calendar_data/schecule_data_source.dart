@@ -40,6 +40,7 @@ class ScheduleDataSource extends CalendarDataSource {
   bool isAllDay(int index) {
     return _getMeetingData(index).isAllDay!;
   }
+
   Schedule _getMeetingData(int index) {
     final dynamic schedule = appointments![index];
     late final Schedule meetingData;

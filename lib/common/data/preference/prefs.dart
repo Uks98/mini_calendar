@@ -11,6 +11,7 @@ class Prefs with SettingCalendarControllerMix{
   static final isWeekNum = RxPreferenceItem<bool,RxBool>("isWeekNum", false);
   static final isDayFontWeight = RxPreferenceItem<bool,RxBool>("isDayFontWeight", false);
   static final appointmentTextSize = RxPreferenceItem<double,RxDouble>("appointmentTextSize", 13.0); //controller 초기값 오류로 임의 매직 넘버 부여
+  static final calendarAppointmentTextSize = RxPreferenceItem<double,RxDouble>("calendarAppointmentTextSize", 10.0); // 캘린더에 표시되는 일정의 폰트를 조정
   static final isLateDayFontGrey = RxPreferenceItem<bool,RxBool>("isLateDayFontGrey", false);
 
   static final isCellBorder = RxPreferenceItem<bool,RxBool>("isCellBorder", false); //달력 셀 테두리
@@ -22,5 +23,7 @@ class Prefs with SettingCalendarControllerMix{
  static final isPurchaseApp = RxPreferenceItem<bool,RxBool>("isPurchaseApp", false); // 배너 광고 제거 결제 했는지 유무 판단 boolean
 
  static final currentFont = RxPreferenceItem<String,RxString>("currentFont", "dream"); // 현재 폰트를 변경하고 저장합니다.
+
+  static final isEventDay = RxPreferenceItem<bool,RxBool>("isEventDay", true); // 배너 광고 제거 결제 했는지 유무 판단 boolean
 
 }

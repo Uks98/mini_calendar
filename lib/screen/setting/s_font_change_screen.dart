@@ -54,8 +54,9 @@ class _FontChangeScreenState extends State<FontChangeScreen> with PaymentShowShe
             callBack: () {
               if(Prefs.isPurchaseApp.get() == false){
                 showPaymentSheet(context);
-              }
+              }if(Prefs.isPurchaseApp.get() == true){
               Prefs.currentFont.set("bukk");
+              }
               setState(() {});
             },
           ),

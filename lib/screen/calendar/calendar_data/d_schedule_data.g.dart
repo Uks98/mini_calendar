@@ -42,33 +42,38 @@ const ScheduleSchema = CollectionSchema(
       name: r'gpsY',
       type: IsarType.double,
     ),
-    r'isAllDay': PropertySchema(
+    r'holiday': PropertySchema(
       id: 5,
+      name: r'holiday',
+      type: IsarType.string,
+    ),
+    r'isAllDay': PropertySchema(
+      id: 6,
       name: r'isAllDay',
       type: IsarType.bool,
     ),
     r'isShowMap': PropertySchema(
-      id: 6,
+      id: 7,
       name: r'isShowMap',
       type: IsarType.bool,
     ),
     r'memo': PropertySchema(
-      id: 7,
+      id: 8,
       name: r'memo',
       type: IsarType.string,
     ),
     r'myPlace': PropertySchema(
-      id: 8,
+      id: 9,
       name: r'myPlace',
       type: IsarType.string,
     ),
     r'title': PropertySchema(
-      id: 9,
+      id: 10,
       name: r'title',
       type: IsarType.string,
     ),
     r'to': PropertySchema(
-      id: 10,
+      id: 11,
       name: r'to',
       type: IsarType.dateTime,
     )
@@ -221,6 +226,19 @@ const ScheduleSchema = CollectionSchema(
           caseSensitive: true,
         )
       ],
+    ),
+    r'holiday': IndexSchema(
+      id: -8630199202880113862,
+      name: r'holiday',
+      unique: false,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'holiday',
+          type: IndexType.value,
+          caseSensitive: true,
+        )
+      ],
     )
   },
   links: {},
@@ -239,6 +257,12 @@ int _scheduleEstimateSize(
   var bytesCount = offsets.last;
   {
     final value = object.alarmSetText;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
+  {
+    final value = object.holiday;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
     }
@@ -275,12 +299,13 @@ void _scheduleSerialize(
   writer.writeDateTime(offsets[2], object.from);
   writer.writeDouble(offsets[3], object.gpsX);
   writer.writeDouble(offsets[4], object.gpsY);
-  writer.writeBool(offsets[5], object.isAllDay);
-  writer.writeBool(offsets[6], object.isShowMap);
-  writer.writeString(offsets[7], object.memo);
-  writer.writeString(offsets[8], object.myPlace);
-  writer.writeString(offsets[9], object.title);
-  writer.writeDateTime(offsets[10], object.to);
+  writer.writeString(offsets[5], object.holiday);
+  writer.writeBool(offsets[6], object.isAllDay);
+  writer.writeBool(offsets[7], object.isShowMap);
+  writer.writeString(offsets[8], object.memo);
+  writer.writeString(offsets[9], object.myPlace);
+  writer.writeString(offsets[10], object.title);
+  writer.writeDateTime(offsets[11], object.to);
 }
 
 Schedule _scheduleDeserialize(
@@ -295,13 +320,14 @@ Schedule _scheduleDeserialize(
     from: reader.readDateTimeOrNull(offsets[2]),
     gpsX: reader.readDoubleOrNull(offsets[3]),
     gpsY: reader.readDoubleOrNull(offsets[4]),
+    holiday: reader.readStringOrNull(offsets[5]),
     id: id,
-    isAllDay: reader.readBoolOrNull(offsets[5]),
-    isShowMap: reader.readBoolOrNull(offsets[6]),
-    memo: reader.readStringOrNull(offsets[7]),
-    myPlace: reader.readStringOrNull(offsets[8]),
-    title: reader.readStringOrNull(offsets[9]),
-    to: reader.readDateTimeOrNull(offsets[10]),
+    isAllDay: reader.readBoolOrNull(offsets[6]),
+    isShowMap: reader.readBoolOrNull(offsets[7]),
+    memo: reader.readStringOrNull(offsets[8]),
+    myPlace: reader.readStringOrNull(offsets[9]),
+    title: reader.readStringOrNull(offsets[10]),
+    to: reader.readDateTimeOrNull(offsets[11]),
   );
   return object;
 }
@@ -324,16 +350,18 @@ P _scheduleDeserializeProp<P>(
     case 4:
       return (reader.readDoubleOrNull(offset)) as P;
     case 5:
-      return (reader.readBoolOrNull(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 6:
       return (reader.readBoolOrNull(offset)) as P;
     case 7:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readBoolOrNull(offset)) as P;
     case 8:
       return (reader.readStringOrNull(offset)) as P;
     case 9:
       return (reader.readStringOrNull(offset)) as P;
     case 10:
+      return (reader.readStringOrNull(offset)) as P;
+    case 11:
       return (reader.readDateTimeOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -443,6 +471,14 @@ extension ScheduleQueryWhereSort on QueryBuilder<Schedule, Schedule, QWhere> {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         const IndexWhereClause.any(indexName: r'alarmSetText'),
+      );
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterWhere> anyHoliday() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        const IndexWhereClause.any(indexName: r'holiday'),
       );
     });
   }
@@ -1816,6 +1852,162 @@ extension ScheduleQueryWhere on QueryBuilder<Schedule, Schedule, QWhereClause> {
       }
     });
   }
+
+  QueryBuilder<Schedule, Schedule, QAfterWhereClause> holidayIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'holiday',
+        value: [null],
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterWhereClause> holidayIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'holiday',
+        lower: [null],
+        includeLower: false,
+        upper: [],
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterWhereClause> holidayEqualTo(
+      String? holiday) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'holiday',
+        value: [holiday],
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterWhereClause> holidayNotEqualTo(
+      String? holiday) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'holiday',
+              lower: [],
+              upper: [holiday],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'holiday',
+              lower: [holiday],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'holiday',
+              lower: [holiday],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'holiday',
+              lower: [],
+              upper: [holiday],
+              includeUpper: false,
+            ));
+      }
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterWhereClause> holidayGreaterThan(
+    String? holiday, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'holiday',
+        lower: [holiday],
+        includeLower: include,
+        upper: [],
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterWhereClause> holidayLessThan(
+    String? holiday, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'holiday',
+        lower: [],
+        upper: [holiday],
+        includeUpper: include,
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterWhereClause> holidayBetween(
+    String? lowerHoliday,
+    String? upperHoliday, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'holiday',
+        lower: [lowerHoliday],
+        includeLower: includeLower,
+        upper: [upperHoliday],
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterWhereClause> holidayStartsWith(
+      String HolidayPrefix) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'holiday',
+        lower: [HolidayPrefix],
+        upper: ['$HolidayPrefix\u{FFFFF}'],
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterWhereClause> holidayIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'holiday',
+        value: [''],
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterWhereClause> holidayIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.lessThan(
+              indexName: r'holiday',
+              upper: [''],
+            ))
+            .addWhereClause(IndexWhereClause.greaterThan(
+              indexName: r'holiday',
+              lower: [''],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.greaterThan(
+              indexName: r'holiday',
+              lower: [''],
+            ))
+            .addWhereClause(IndexWhereClause.lessThan(
+              indexName: r'holiday',
+              upper: [''],
+            ));
+      }
+    });
+  }
 }
 
 extension ScheduleQueryFilter
@@ -2262,6 +2454,152 @@ extension ScheduleQueryFilter
         upper: upper,
         includeUpper: includeUpper,
         epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterFilterCondition> holidayIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'holiday',
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterFilterCondition> holidayIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'holiday',
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterFilterCondition> holidayEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'holiday',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterFilterCondition> holidayGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'holiday',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterFilterCondition> holidayLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'holiday',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterFilterCondition> holidayBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'holiday',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterFilterCondition> holidayStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'holiday',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterFilterCondition> holidayEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'holiday',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterFilterCondition> holidayContains(
+      String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'holiday',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterFilterCondition> holidayMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'holiday',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterFilterCondition> holidayIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'holiday',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterFilterCondition> holidayIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'holiday',
+        value: '',
       ));
     });
   }
@@ -2945,6 +3283,18 @@ extension ScheduleQuerySortBy on QueryBuilder<Schedule, Schedule, QSortBy> {
     });
   }
 
+  QueryBuilder<Schedule, Schedule, QAfterSortBy> sortByHoliday() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'holiday', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterSortBy> sortByHolidayDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'holiday', Sort.desc);
+    });
+  }
+
   QueryBuilder<Schedule, Schedule, QAfterSortBy> sortByIsAllDay() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isAllDay', Sort.asc);
@@ -3080,6 +3430,18 @@ extension ScheduleQuerySortThenBy
     });
   }
 
+  QueryBuilder<Schedule, Schedule, QAfterSortBy> thenByHoliday() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'holiday', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Schedule, Schedule, QAfterSortBy> thenByHolidayDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'holiday', Sort.desc);
+    });
+  }
+
   QueryBuilder<Schedule, Schedule, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
@@ -3198,6 +3560,13 @@ extension ScheduleQueryWhereDistinct
     });
   }
 
+  QueryBuilder<Schedule, Schedule, QDistinct> distinctByHoliday(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'holiday', caseSensitive: caseSensitive);
+    });
+  }
+
   QueryBuilder<Schedule, Schedule, QDistinct> distinctByIsAllDay() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'isAllDay');
@@ -3273,6 +3642,12 @@ extension ScheduleQueryProperty
   QueryBuilder<Schedule, double?, QQueryOperations> gpsYProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'gpsY');
+    });
+  }
+
+  QueryBuilder<Schedule, String?, QQueryOperations> holidayProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'holiday');
     });
   }
 

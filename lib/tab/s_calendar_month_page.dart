@@ -18,8 +18,10 @@ import '../AD/w_adfit_box.dart';
 import '../common/data/preference/prefs.dart';
 import '../controller/alarm_setting_controller.dart';
 import '../controller/month_data_controller.dart';
+import '../controller/repeat_controller.dart';
 import '../main.dart';
 import '../screen/calendar/calendar_data/schecule_data_source.dart';
+import '../service/get_event_day_service.dart';
 
 class CalendarMonthPage extends StatefulWidget {
   const CalendarMonthPage({
@@ -31,12 +33,19 @@ class CalendarMonthPage extends StatefulWidget {
 }
 
 class _CalendarMonthPageState extends State<CalendarMonthPage>
-    with ScreenInit, MonthControllerMix,ThemeDarkFind,DatePickerSetMix,PaymentShowSheet {
+    with
+        ScreenInit,
+        MonthControllerMix,
+        ThemeDarkFind,
+        DatePickerSetMix,
+        PaymentShowSheet,
+        RepeatControllerMixin {
   final CalendarController _calendarController = CalendarController();
-  final AlarmSettingController alarmController = Get.put(AlarmSettingController());
-
+  final AlarmSettingController alarmController =
+      Get.put(AlarmSettingController());
+  final dayEvent = DayEvent();
   final _floatingKey =
-  GlobalKey<ExpandableFabState>(); // floating action button global key
+      GlobalKey<ExpandableFabState>(); // floating action button global key
 
   Color get changeSmallFloatingColor => !isLightMode
       ? context.appColors.calendarMainColor
@@ -47,7 +56,8 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
       : context.appColors.floatingIconColor;
   String month = "";
 
- bool get isSameDayFontGrey => DateTime.now().day != monthControl.calendarSameDay.value;
+  bool get isSameDayFontGrey =>
+      DateTime.now().day != monthControl.calendarSameDay.value;
 
   @override
   void initState() {
@@ -65,8 +75,10 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
       // 리팩토링 키패드 오류 문제 해결중
       floatingActionButton: ExpandableFab(
         //overlayStyle: ExpandableFabOverlayStyle(blur:  13.0),
-        openButtonBuilder: buildRotateFloatingActionButtonBuilder(context, const Icon(EvaIcons.plus)),
-        closeButtonBuilder: buildRotateFloatingActionButtonBuilder(context, const Icon(EvaIcons.close)),
+        openButtonBuilder: buildRotateFloatingActionButtonBuilder(
+            context, const Icon(EvaIcons.plus)),
+        closeButtonBuilder: buildRotateFloatingActionButtonBuilder(
+            context, const Icon(EvaIcons.close)),
         type: ExpandableFabType.up,
         distance: 55.h,
         key: _floatingKey,
@@ -78,7 +90,10 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
               Icons.edit,
               color: changeSmallFloatingIconColor,
             ),
-            onPressed: () => monthControl.addSchedule(context,pickerSetController.startSelectedTime.value,pickerSetController.lastSelectedTime.value),
+            onPressed: () => monthControl.addSchedule(
+                context,
+                pickerSetController.startSelectedTime.value,
+                pickerSetController.lastSelectedTime.value),
           ),
           FloatingActionButton.small(
             heroTag: "c",
@@ -87,22 +102,29 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
               Icons.settings,
               color: changeSmallFloatingIconColor,
             ),
-            onPressed: () {
-              Get.to( SettingPage());
-            },
+            onPressed: () => Get.to(SettingPage()),
           ),
-
         ],
-      ).pOnly(bottom: 40.h,right: 10.w),
-      body: Obx(() =>Column(
-        children: [
-          AdfitBox.adfitAdvertise(AdFitBannerSize.SMALL_BANNER,()=>showPaymentSheet(context)),
-           Flexible(
-            key: GlobalKey(),
+      ).pOnly(bottom: 40.h, right: 10.w),
+      body: Obx(
+        () => Column(
+          children: [
+            AdfitBox.adfitAdvertise(
+                AdFitBannerSize.SMALL_BANNER, () => showPaymentSheet(context)),
+            Flexible(
+              key: GlobalKey(),
               child: SfCalendar(
+                //달력에 보여지는 텍스트 크기
+                appointmentTextStyle: TextStyle(fontSize: Prefs.calendarAppointmentTextSize.get(),color: Colors.white),
                 showTodayButton: true,
-                weekNumberStyle: WeekNumberStyle(textStyle: TextStyle(fontWeight: FontWeight.w300,fontSize: smallFontSize +2,)), //주번호 스타일
-                showWeekNumber: Prefs.isWeekNum.get(), //주번호
+                weekNumberStyle: WeekNumberStyle(
+                    textStyle: TextStyle(
+                  fontWeight: FontWeight.w300,
+                  fontSize: smallFontSize + 2,
+                )),
+                //주번호 스타일
+                showWeekNumber: Prefs.isWeekNum.get(),
+                //주번호
                 viewHeaderHeight: 63.h,
                 todayTextStyle: const TextStyle(color: Colors.white),
                 view: CalendarView.month,
@@ -116,21 +138,30 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
                     ? context.appColors.calendarMainColor
                     : context.appColors.todaySelectedColor,
                 //셀 보더
-                cellBorderColor: Prefs.isCellBorder.get() ? Colors.grey[500] : Colors.transparent,
+                cellBorderColor: Prefs.isCellBorder.get()
+                    ? Colors.grey[500]
+                    : Colors.transparent,
 
                 headerStyle: CalendarHeaderStyle(
                   textStyle: TextStyle(fontSize: bigFontSize + 5),
                 ),
-                onTap: (cp) async{
-                  pickerSetController.startSelectedTime.value = cp.date ?? DateTime.now();
-                  pickerSetController.lastSelectedTime.value = cp.date ?? DateTime.now();
-                    monthControl.calendarSameDay.value = cp.date?.day ?? DateTime.now().day;
-                    monthControl.calendarTapped(context, cp);
-                  final List<PendingNotificationRequest> pendingNotificationRequests = await flutterLocalNotificationsPlugin.pendingNotificationRequests();
-                  for(final i in pendingNotificationRequests){
-                  //print(" 보류중인 알림 ${i.payload}");
+
+                onTap: (cp) async {
+                  pickerSetController.startSelectedTime.value =
+                      cp.date ?? DateTime.now();
+                  pickerSetController.lastSelectedTime.value =
+                      cp.date ?? DateTime.now();
+                  monthControl.calendarSameDay.value =
+                      cp.date?.day ?? DateTime.now().day;
+                  monthControl.calendarTapped(context, cp);
+                  final List<PendingNotificationRequest>
+                      pendingNotificationRequests =
+                      await flutterLocalNotificationsPlugin
+                          .pendingNotificationRequests();
+                  for (final i in pendingNotificationRequests) {
+                    //print(" 보류중인 알림 ${i.payload}");
                   }
-                 // print(pendingNotificationRequests);
+                  // print(pendingNotificationRequests);
 
                   //await flutterLocalNotificationsPlugin.cancelAll();
                 },
@@ -141,17 +172,22 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
                 //header
                 headerDateFormat: "MMMM",
                 headerHeight: 50.h,
+
                 ///일정 데이터
-                dataSource: ScheduleDataSource(monthControl.monthDataList.value),
+                dataSource:
+                    ScheduleDataSource(monthControl.monthDataList.value),
                 monthViewSettings: MonthViewSettings(
                     agendaItemHeight: 45.h,
                     //agenda 높이
-                    numberOfWeeksInView: 4, //달력에 몇주씩 보여줄건지
+                    numberOfWeeksInView: 4,
+                    //달력에 몇주씩 보여줄건지
                     monthCellStyle: MonthCellStyle(
                       textStyle: TextStyle(
                         fontSize: smallFontSize + 4,
                         //달력 dayStyle 굵은 텍스트
-                        fontWeight: Prefs.isDayFontWeight.get() ?FontWeight.w300:FontWeight.bold ,
+                        fontWeight: Prefs.isDayFontWeight.get()
+                            ? FontWeight.w300
+                            : FontWeight.bold,
                         color: context.appColors.text,
                       ),
                       trailingDatesTextStyle: TextStyle(
@@ -168,30 +204,36 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
                     dayFormat: "E",
                     //월요일 .. 화요일 ..
                     agendaStyle: AgendaStyle(
-                        placeholderTextStyle: TextStyle(
-                          color: context.appColors.text,
-                        ),
-                        appointmentTextStyle: TextStyle(
-                          color: Prefs.isLateDayFontGrey.get() && isSameDayFontGrey ? const Color(0xffA9A9A9) : Colors.white,
-                          //일정 폰트!!
-                          fontSize:  Prefs.appointmentTextSize.get(),
-                        ),
-                        dateTextStyle: TextStyle(
-                            color: AppColors.grey,
-                            fontSize: bigFontSize,
-                            fontWeight: FontWeight.bold,
-                            fontStyle: FontStyle.normal),
+                      placeholderTextStyle: TextStyle(
+                        color: context.appColors.text,
+                      ),
+                      appointmentTextStyle: TextStyle(
+                        color:
+                            Prefs.isLateDayFontGrey.get() && isSameDayFontGrey
+                                ? const Color(0xffA9A9A9)
+                                : Colors.white,
+                        //일정 폰트!!
+                        fontSize: Prefs.appointmentTextSize.get(),
+                      ),
+                      dateTextStyle: TextStyle(
+                          color: AppColors.grey,
+                          fontSize: bigFontSize,
+                          fontWeight: FontWeight.bold,
+                          fontStyle: FontStyle.normal),
                     ),
-                    appointmentDisplayCount: 4, //일정 보여지는 스택 수
+                    appointmentDisplayCount: 4,
+                    //일정 보여지는 스택 수
                     showAgenda: true,
                     appointmentDisplayMode:
-                    MonthAppointmentDisplayMode.appointment),
-              ).pOnly(left: smallWidth / 2,),
+                        MonthAppointmentDisplayMode.appointment),
+              ).pOnly(
+                left: smallWidth / 2,
+              ),
             ),
-
-          Height(30.h),
-        ],
-      ),),
+            Height(30.h),
+          ],
+        ),
+      ),
     );
   }
 

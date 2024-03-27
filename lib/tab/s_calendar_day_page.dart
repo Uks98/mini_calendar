@@ -41,7 +41,7 @@ class _CalendarDayPageState extends State<CalendarDayPage> with MonthControllerM
           AdfitBox.adfitAdvertise(AdFitBannerSize.SMALL_BANNER,()=>showPaymentSheet(context)),
           Expanded(
             child: SfCalendar(
-              appointmentTextStyle: TextStyle(color: Colors.white,fontSize: Prefs.appointmentTextSize.get()),
+              appointmentTextStyle: TextStyle(color: Colors.white,fontSize: Prefs.calendarAppointmentTextSize.get()),
               todayTextStyle: const TextStyle(color: Colors.white),
               scheduleViewSettings: const ScheduleViewSettings(
                 dayHeaderSettings: DayHeaderSettings(
@@ -54,8 +54,12 @@ class _CalendarDayPageState extends State<CalendarDayPage> with MonthControllerM
                 CalendarView.week,
                 CalendarView.timelineWeek,
                 CalendarView.timelineDay,
+                CalendarView.schedule,
+                CalendarView.workWeek
               ],
+
               onTap: (cp) {
+
                 pickerSetController.startSelectedTime.value = cp.date!;
                 pickerSetController.lastSelectedTime.value = cp.date!;
                 monthControl.calendarTapped(context, cp);
