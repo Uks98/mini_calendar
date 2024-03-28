@@ -182,7 +182,7 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
                 controller: _calendarController,
                 //header
                 headerDateFormat: "MMMM",
-                headerHeight: 50.h,
+                headerHeight: 30.h,
 
                 ///일정 데이터
                 dataSource:

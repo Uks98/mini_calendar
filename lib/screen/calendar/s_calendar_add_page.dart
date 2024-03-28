@@ -1,3 +1,4 @@
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_adfit/flutter_adfit.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
@@ -136,6 +137,34 @@ class _CalendarAddPageState extends State<CalendarAddPage>
       child: Scaffold(
           appBar: AppBar(
             actions: [
+              widget.schedule.title != "" ? IconButton(onPressed: (){
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text('일정 삭제'),
+                      content: Text('이 일정을 삭제하시겠습니까?'),
+                      actions: <Widget>[
+                        TextButton(
+                          child: const Text('아니오'),
+                          onPressed: () {
+                            Navigator.of(context).pop(); // 팝업창 닫기
+                          },
+                        ),
+                        TextButton(
+                          child: const Text('일정 삭제',style: TextStyle(color: Colors.redAccent),),
+                          onPressed: () {
+                            monthControl.deleteSchedule(widget.schedule); // 일정 삭제 실행
+                            Get.back();
+                            Get.back();
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
+              }, icon: const Icon(EvaIcons.trashOutline,color: Colors.redAccent,)):SizedBox(),
+              WidthBox(bigWidth),
               IconButton(
                   onPressed: () {
                     if (outPagePlace != "") {
@@ -556,10 +585,10 @@ class _CalendarAddPageState extends State<CalendarAddPage>
             onMapReady: (controller) {
               naverMapController = controller;
               final marker = NMarker(
+             icon: const NOverlayImage.fromAssetImage("assets/circle.png"),
                   id: mapDataController.myPlace.value,
                   position: NLatLng(outPageGpsY!, outPageGpsX!));
-              final onMarkerInfoWindow =
-                  NInfoWindow.onMarker(id: "1", text: outPagePlace.toString());
+              final onMarkerInfoWindow = NInfoWindow.onMarker(id: marker.info.id, text: outPagePlace.toString());
               naverMapController!.addOverlay(marker);
               marker.openInfoWindow(onMarkerInfoWindow);
               // print(mapDataController.isShowMap.value);

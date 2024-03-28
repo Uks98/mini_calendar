@@ -64,9 +64,9 @@ class SettingPage extends StatelessWidget with PaymentShowSheet{
                 title: '피드백',
                 onTap: () => _sendEmail()
             ),
-            ElevatedButton(onPressed: (){
-              Get.to(PageViewPage());
-            }, child: "a".text.make())
+            // ElevatedButton(onPressed: (){
+            //   Get.to(PageViewPage());
+            // }, child: "a".text.make())
           ],
         )
         );
