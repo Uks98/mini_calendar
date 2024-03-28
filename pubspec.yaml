@@ -67,7 +67,7 @@ dependencies:
   camera: ^0.10.5+3
   url_launcher: ^6.2.2
   syncfusion_flutter_datepicker: ^23.2.7
-
+  turn_page_transition: ^0.3.0
   #network
   json_annotation: ^4.8.0
   http: ^1.1.0

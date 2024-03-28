@@ -114,21 +114,7 @@ class _CalendarSearchPageState extends State<CalendarSearchPage>
                       ) {
                         final search = monthControl.monthSearchList[index];
                         return GestureDetector(
-                            onTap: () {
-                              monthControl.editSchedule(
-                                  Schedule(
-                                      id: 0,
-                                      title: search.title,
-                                      memo: search.memo,
-                                      from: search.from,
-                                      to: search.to,
-                                      myPlace: search.myPlace,
-                                      gpsX: search.gpsX,
-                                      gpsY: search.gpsY,
-                                      colorIndex: search.colorIndex,
-                                      isShowMap: search.isShowMap),
-                                  context);
-                            },
+                            onTap: () => monthControl.editSchedule(monthControl.monthDataList[index], context),
                             child: Container(
                               decoration: BoxDecoration(
                                   color: isLightModes

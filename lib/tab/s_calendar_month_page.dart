@@ -14,6 +14,8 @@ import 'package:today_my_calendar/common/widget/mixin/init_screen_size_utill.dar
 import 'package:today_my_calendar/common/widget/mixin/payment_mixin.dart';
 import 'package:today_my_calendar/controller/date_picker_controller.dart';
 import 'package:today_my_calendar/screen/setting/s_setting_page.dart';
+import 'package:today_my_calendar/tab/map/s_map_page.dart';
+import 'package:today_my_calendar/tab/s_book_animation_page.dart';
 import '../AD/w_adfit_box.dart';
 import '../common/data/preference/prefs.dart';
 import '../controller/alarm_setting_controller.dart';
@@ -104,6 +106,15 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
             ),
             onPressed: () => Get.to(SettingPage()),
           ),
+          FloatingActionButton.small(
+            heroTag: "tsss2",
+            backgroundColor: changeSmallFloatingColor,
+            child: Icon(
+              EvaIcons.mapOutline,
+              color: changeSmallFloatingIconColor,
+            ),
+            onPressed: () => Get.to(MapPage(),)
+          ),
         ],
       ).pOnly(bottom: 40.h, right: 10.w),
       body: Obx(
@@ -177,7 +188,7 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
                 dataSource:
                     ScheduleDataSource(monthControl.monthDataList.value),
                 monthViewSettings: MonthViewSettings(
-                    agendaItemHeight: 45.h,
+                    agendaItemHeight: 33.h,
                     //agenda 높이
                     numberOfWeeksInView: 4,
                     //달력에 몇주씩 보여줄건지
@@ -221,7 +232,7 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
                           fontWeight: FontWeight.bold,
                           fontStyle: FontStyle.normal),
                     ),
-                    appointmentDisplayCount: 4,
+                    appointmentDisplayCount: 3,
                     //일정 보여지는 스택 수
                     showAgenda: true,
                     appointmentDisplayMode:

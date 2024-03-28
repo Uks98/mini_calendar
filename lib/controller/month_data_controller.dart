@@ -138,12 +138,18 @@ class MonthControl extends GetxController {
     });
   }
   ///캘린더 검색 함수
-  void searchCalList({required String keyword,required BuildContext context}){
-    if(keyword.isEmpty){
-       monthDataList;
+  void searchCalList({required String keyword, required BuildContext context}) {
+    if (keyword.isEmpty) {
+      monthDataList;
+    } else {
+      /// 기존 리스트에서 제목, 위치, 메모에 포함된 텍스트를 검색하여 리스트를 반환합니다.
+      monthSearchList.value = monthDataList.where((element) {
+        final title = element.title ?? ""; // title이 null일 경우 빈 문자열로 대체
+        final myPlace = element.myPlace ?? ""; // myPlace가 null일 경우 빈 문자열로 대체
+        final memo = element.memo ?? ""; // memo가 null일 경우 빈 문자열로 대체
+        return title.contains(keyword) || myPlace.contains(keyword) || memo.contains(keyword);
+      }).toList();
     }
-    ///기존 리스트에 제목,위치,메모에 포함된 텍스트 검색시 리스트를 반환합니다.
-     monthSearchList.value = monthDataList.where((element) => element.title!.contains(keyword) || element.myPlace!.contains(keyword) || element.memo!.contains(keyword)).toList();
     //getMapData(context, keyword);
     //print(autoCompleteList.toString());
   }
@@ -153,7 +159,13 @@ class MonthControl extends GetxController {
       monthDataList;
     }
     ///기존 리스트에 일치하는 제목 검색시 해당 리스트를 반환합니다.
-    monthSearchList.value = monthDataList.where((element) => element.title!.contains(keyword)).toList();
+    monthSearchList.value = monthDataList.where((element) {
+      if(element.id != 0){
+      return element.title!.contains(keyword);
+      }else{
+        return false;
+      }
+    }).toList();
   }
 
   /// 검색창에 일치하는 일정이 있는지 없는지 판단하여 boolean을 리턴합니다.

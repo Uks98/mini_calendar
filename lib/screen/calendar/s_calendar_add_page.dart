@@ -45,7 +45,11 @@ class CalendarAddPage extends StatefulWidget {
 }
 
 class _CalendarAddPageState extends State<CalendarAddPage>
-    with ScreenInit, PaymentShowSheet, MonthControllerMix,RepeatControllerMixin {
+    with
+        ScreenInit,
+        PaymentShowSheet,
+        MonthControllerMix,
+        RepeatControllerMixin {
   final double _textFieldWidth = 350;
   final double _quickWidgetLeftPadding = 290;
   final _titleController = TextEditingController();
@@ -64,7 +68,9 @@ class _CalendarAddPageState extends State<CalendarAddPage>
   double? outPageGpsY = 0.0;
   String outPagePlace = "";
   String? memoText;
-  String? _alarmSettingText; /// 알람을 정한 시간 (지정시간,5분전,,,)
+  String? _alarmSettingText;
+
+  /// 알람을 정한 시간 (지정시간,5분전,,,)
   int _colorIndex = 0; //색상 선택 인덱스
   bool isAllDay = false; //일정 하루종일?
   bool isEndRepeat = false; //반복일정의 datepicker 보여줄 것인지
@@ -84,28 +90,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
   RxBool get isShowLastPicker => datePickerStateController.isShowLastDatePicker;
   final alarmSet = Get.put(AlarmSettingController());
   NaverMapController? naverMapController;
-  ///반복일정 만드는 함수
-  String repeatDay(
-      {required String repeatFR,
-        required String until,
-      }) {
-    switch(repeatFR){
-      case "없음":
-        return "";
-      case "매일":
-        return "DAILY";
-      case "매주":
-        return "WEEKLY";
-      case "매월":
-        return "MONTHLY";
-    }
-    //INTERVAL 간격
-    //FREQ 매일 , 몇주, 몇달 간격
-    //UNTIL ~,까지
-    //BYDAY= MO,WE
 
-    return "FREQ=$repeatFR;UNTIL=$until;";
-  }
   ///업데이트에 필요한 데이터 불러와서 대입
   void initDataForEdit() {
     _titleController.text = widget.schedule.title.toString();
@@ -153,45 +138,52 @@ class _CalendarAddPageState extends State<CalendarAddPage>
             actions: [
               IconButton(
                   onPressed: () {
-                    if(outPagePlace != ""){
+                    if (outPagePlace != "") {
                       isOnMap = true;
-                    }else{
+                    } else {
                       isOnMap = false;
                     }
                     try {
-                      _alarmSettingText = alarmSettingController.alarmTime.value;
+                      _alarmSettingText =
+                          alarmSettingController.alarmTime.value;
                       if (_titleController.text.isNotEmpty) {
-                        final lastTime = datePickerStateController.lastSelectedTime.value;
+                        final lastTime =
+                            datePickerStateController.lastSelectedTime.value;
                         alarmSet.getAlarmTime(
                           //id epoch 사용시 오류 발생
                           id: _titleController.text + newId.toString(),
                           time: lastTime,
-                          setTextTime: _alarmSettingText!, //알람오류원인 x
+                          setTextTime: _alarmSettingText!,
+                          //알람오류원인 x
                           context: context,
                           title: _titleController.text,
                           memo: memoText.toString(),
                         );
-                        Navigator.of(context).pop(Schedule(
-                          id: DateTime.now().microsecondsSinceEpoch,
-                          title: _titleController.text,
-                          memo: memoText.toString(),
-                          from: datePickerStateController.startSelectedTime.value,
-                          to: datePickerStateController.lastSelectedTime.value,
-                          myPlace: outPagePlace.toString(),
-                          gpsX: outPageGpsY,
-                          gpsY: outPageGpsX,
-                          colorIndex: _colorIndex,
-                          isShowMap: isOnMap,
-                          isAllDay: isAllDay,
-                          alarmSetText : _alarmSettingText,
-                        ));
+                        Navigator.of(context).pop(
+                          Schedule(
+                            id: DateTime.now().microsecondsSinceEpoch,
+                            title: _titleController.text,
+                            memo: memoText.toString(),
+                            from: datePickerStateController
+                                .startSelectedTime.value,
+                            to: datePickerStateController
+                                .lastSelectedTime.value,
+                            myPlace: outPagePlace.toString(),
+                            gpsX: outPageGpsY,
+                            gpsY: outPageGpsX,
+                            colorIndex: _colorIndex,
+                            isShowMap: isOnMap,
+                            isAllDay: isAllDay,
+                            alarmSetText: _alarmSettingText,
+                          ),
+                        );
                         FocusScope.of(context).unfocus();
 
                         datePickerStateController.isShowStartDatePicker.value =
                             false;
                         datePickerStateController.isShowLastDatePicker.value =
                             false;
-                       // alarmSettingController.alarmTime.value = "없음";
+                        // alarmSettingController.alarmTime.value = "없음";
                         naverMapController?.dispose();
                       } else if (_titleController.text.isEmpty) {
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -200,13 +192,15 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                         return;
                       }
                     } catch (e) {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
                           content: "일정을 작성하는데 문제가 발생했습니다."
                               .text
                               .size(bigFontSize)
-                              .make(),),);
+                              .make(),
+                        ),
+                      );
                     }
-                    print("dispose item${_alarmSettingText}");
                   },
                   icon: const Icon(Icons.check))
             ],
@@ -227,8 +221,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                                 fontSize: bigFontSize,
                                 fontWeight: FontWeight.w300), // 폰트 크기를 20으로 설정
                             onChanged: (value) {
-                              monthControl.searchTitleList(
-                                  keyword: value, context: context);
+                              monthControl.searchTitleList(keyword: value, context: context);
                               if (value.isEmpty) {
                                 isSizedBox = false;
                                 monthControl.monthSearchList.clear();
@@ -247,40 +240,31 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                         ],
                       ),
                       Obx(
-                        () => monthControl.monthSearchList.isEmpty ? Container(color: Colors.red,) :SizedBox(
-                          height: 50.h,
-                          width: 600.w,
-                          child:  ListView.separated(
+                        () => monthControl.monthSearchList.isEmpty
+                            ? Container(
+                                color: Colors.red,
+                              )
+                            : SizedBox(
+                                height: 50.h,
+                                width: 600.w,
+                                child: ListView.builder(
                                   scrollDirection: Axis.horizontal,
                                   shrinkWrap: true,
-                                  separatorBuilder: (context, index) {
-                                    return const Height(1);
-                                  },
-                                  itemBuilder: (
-                                    BuildContext context,
-                                    int index,
-                                  ) {
-                                    final search =
-                                        monthControl.monthSearchList[index];
+                                  itemBuilder: (BuildContext context, int index) {
+                                    final search = monthControl.monthSearchList[index];
                                     return GestureDetector(
                                         onTap: () {
-                                          _titleController.text =
-                                              search.title.toString();
+                                          _titleController.text = search.title.toString();
                                           memoText = search.memo.toString();
                                           outPageGpsX = search.gpsY;
                                           outPageGpsY = search.gpsX;
                                           outPagePlace = search.myPlace ?? "없음";
                                           _colorIndex = search.colorIndex ?? 0;
                                           isOnMap = search.isShowMap ?? false;
-                                          isShowDetail =
-                                              search.isShowMap ?? false;
+                                          isShowDetail = search.isShowMap ?? false;
                                           isAllDay = search.isAllDay ?? false;
-                                          datePickerStateController
-                                              .startSelectedTime
-                                              .value = search.from!;
-                                          datePickerStateController
-                                              .lastSelectedTime
-                                              .value = search.to!;
+                                          datePickerStateController.startSelectedTime.value = search.from!;
+                                          datePickerStateController.lastSelectedTime.value = search.to!;
                                           setState(() {});
                                         },
                                         child: Container(
@@ -302,7 +286,8 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                                                     .color(_colorBox
                                                         .colorList.keys
                                                         .elementAt(
-                                                            search.colorIndex ?? 0))
+                                                            search.colorIndex ??
+                                                                0))
                                                     .make(),
                                                 Column(
                                                   crossAxisAlignment:
@@ -334,12 +319,11 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                                                   ],
                                                 ).paddingAll(smallHeight.h),
                                               ],
-                                            )).paddingOnly(left: smallWidth));
+                                            ),).paddingOnly(left: smallWidth),);
                                   },
                                   itemCount:
                                       monthControl.monthSearchList.length,
-                                )
-                        ),
+                                )),
                       )
                     ],
                   ),
@@ -420,6 +404,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                     ),
                   Height(addPageHeight),
                   if (isAllDay == false)
+
                     ///종료 시간
                     ShowDateLastPicker(
                       //dateTime: DateTime.now(),
@@ -428,6 +413,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                     ),
                   Height(smallHeight),
                   if (isAllDay == false)
+
                     ///시간 분 단위로 올리기
                     QuickFixerDateWidget().pOnly(
                         top: normalHeight.h, left: _quickWidgetLeftPadding.w),
@@ -445,61 +431,65 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                     Column(
                       children: [
                         ///알람 설정
-                        if (isAllDay == false) AlarmSettingTile(alarmInitText : _alarmSettingText),
+                        if (isAllDay == false)
+                          AlarmSettingTile(alarmInitText: _alarmSettingText),
                         if (isAllDay == false) Height(addPageHeight),
+
                         ///위치 받아오기
                         GestureDetector(
-                            onTap: () async {
-                              var gps = await Get.to<Schedule>(
-                                LocationSearchWidget(
-                                  schedule: Schedule(
-                                      id: 0,
-                                      gpsY: outPageGpsX,
-                                      gpsX: outPageGpsY),
-                                ),
+                          onTap: () async {
+                            var gps = await Get.to<Schedule>(
+                              LocationSearchWidget(
+                                schedule: Schedule(
+                                    id: 0,
+                                    gpsY: outPageGpsX,
+                                    gpsX: outPageGpsY),
+                              ),
+                            );
+                            if (gps == null) {
+                              gps = Schedule(
+                                id: DateTime.now().microsecondsSinceEpoch,
+                                gpsX: 0.0,
+                                gpsY: 0.0,
+                                isShowMap: isOnMap,
                               );
-                              if (gps == null) {
-                                gps = Schedule(
-                                  id: DateTime.now().microsecondsSinceEpoch,
-                                  gpsX: 0.0,
-                                  gpsY: 0.0,
-                                  isShowMap: isOnMap,
-                                );
-                              } else {
-                                outPageGpsX = gps.gpsX ?? 0.0;
-                                outPageGpsY = gps.gpsY ?? 0.0;
-                              }
-                              outPagePlace = gps.myPlace ?? ""; //?.
-                              setState(() {});
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Expanded(
-                                  child: "위치"
-                                      .text
-                                      .size(normalFontSize)
-                                      .fontWeight(
-                                        FontWeight.w300,
-                                      )
-                                      .make()
-                                      .paddingOnly(left: 4.w),
-                                ),
-                                outPagePlace.text
-                                    .size(bigFontSize)
+                            } else {
+                              outPageGpsX = gps.gpsX ?? 0.0;
+                              outPageGpsY = gps.gpsY ?? 0.0;
+                            }
+                            outPagePlace = gps.myPlace ?? ""; //?.
+                            setState(() {});
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: "위치"
+                                    .text
+                                    .size(normalFontSize)
                                     .fontWeight(
                                       FontWeight.w300,
                                     )
                                     .make()
-                                    .pOnly(right: smallWidth + 2),
-                              ],
-                            ),),
+                                    .paddingOnly(left: 4.w),
+                              ),
+                              outPagePlace.text
+                                  .size(bigFontSize)
+                                  .fontWeight(
+                                    FontWeight.w300,
+                                  )
+                                  .make()
+                                  .pOnly(right: smallWidth + 2),
+                            ],
+                          ),
+                        ),
                         Height(addPageHeight),
 
                         ///네이버 맵
                         Height(addPageHeight),
-                        widget.schedule.isShowMap == true?
-                        showUserMap() : const SizedBox(),
+                        widget.schedule.isShowMap == true
+                            ? showUserMap()
+                            : const SizedBox(),
                         //메모
                         //메모페이지로 이동
                         Height(bigHeight),
@@ -535,7 +525,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
   GestureDetector moveToMemo() {
     return GestureDetector(
         onTap: () async {
-          Schedule? memos  = await Get.to(
+          Schedule? memos = await Get.to(
             MemoPage(
               memoText: Schedule(
                 id: DateTime.now().microsecondsSinceEpoch,

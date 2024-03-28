@@ -21,7 +21,7 @@ class DayEvent with MonthControllerMix{
         if(Prefs.isEventDay.get() == true){
           for (final _res in res["response"]["body"]["items"]["item"]) {
             final m = Schedule.fromJson(_res as Map<String, dynamic>);
-             monthControl.monthDataList.add( Schedule(title: m.title, from: m.from, to: m.from, colorIndex: 5, isAllDay: true, id: 0,isShowMap: false,holiday: m.holiday));
+             monthControl.monthDataList.add(Schedule(title: m.title, from: m.from, to: m.from, colorIndex: 5, isAllDay: true, id: 0,isShowMap: false,holiday: m.holiday));
           }
         }
         // Meeting 객체 처리
