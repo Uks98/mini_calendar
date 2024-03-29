@@ -168,7 +168,7 @@ class CalendarSettingPage extends StatelessWidget with ScreenInit,PaymentShowShe
             },
           )),
           Obx(() => SettingSwitch(
-            settingName: "날짜 테두리 표시",
+            settingName: "달력 테두리 표시",
             isOn: Prefs.isCellBorder.get(),
             onChanged: (value) {
               Prefs.isCellBorder.set(value);

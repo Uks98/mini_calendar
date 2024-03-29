@@ -16,8 +16,6 @@ import '../../AD/w_adfit_box.dart';
 import '../../common/constant/app_colors.dart';
 import '../../common/data/preference/prefs.dart';
 import '../../common/widget/mixin/init_screen_size_utill.dart';
-import '../../common/widget/repeat_tile/w_repeat_end_tile.dart';
-import '../../common/widget/repeat_tile/w_repeat_tile.dart';
 import '../../controller/alarm_setting_controller.dart';
 import '../../controller/color_select_controller.dart';
 import '../../controller/date_picker_controller.dart';
@@ -64,7 +62,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
   AlarmSettingController alarmController = Get.put(AlarmSettingController());
   MapDataController mapDataController = Get.put(MapDataController());
   final ColorSelectController _colorBox = Get.put(ColorSelectController());
-
+  final colorController = Get.put(ColorSelectController());
   double? outPageGpsX = 0.0;
   double? outPageGpsY = 0.0;
   String outPagePlace = "";
@@ -79,7 +77,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
   bool isShowDetail = false; //add page 더보기 버튼
   bool get isOnMap => outPageGpsX != 0.0 ? true : false;
   bool isSizedBox = false;
-
+  bool isShowMapInMapAdd = true;
   set isOnMap(bool? value) {
     value = widget.isShowMap;
   }
@@ -136,6 +134,8 @@ class _CalendarAddPageState extends State<CalendarAddPage>
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
           appBar: AppBar(
+            backgroundColor: colorController.colorList.keys.elementAt(_colorIndex),
+            leading: const BackButton(color: Colors.white,),
             actions: [
               widget.schedule.title != "" ? IconButton(onPressed: (){
                 showDialog(
@@ -143,7 +143,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                   builder: (BuildContext context) {
                     return AlertDialog(
                       title: const Text('일정 삭제'),
-                      content: Text('이 일정을 삭제하시겠습니까?'),
+                      content: const Text('이 일정을 삭제하시겠습니까?'),
                       actions: <Widget>[
                         TextButton(
                           child: const Text('아니오'),
@@ -176,8 +176,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                       _alarmSettingText =
                           alarmSettingController.alarmTime.value;
                       if (_titleController.text.isNotEmpty) {
-                        final lastTime =
-                            datePickerStateController.lastSelectedTime.value;
+                        final lastTime = datePickerStateController.lastSelectedTime.value;
                         alarmSet.getAlarmTime(
                           //id epoch 사용시 오류 발생
                           id: _titleController.text + newId.toString(),
@@ -231,7 +230,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                       );
                     }
                   },
-                  icon: const Icon(Icons.check))
+                  icon: const Icon(Icons.check,color: Colors.white,))
             ],
           ),
           resizeToAvoidBottomInset: false,
@@ -516,7 +515,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
 
                         ///네이버 맵
                         Height(addPageHeight),
-                        widget.schedule.isShowMap == true
+                        widget.schedule.isShowMap == true || isShowMapInMapAdd == true
                             ? showUserMap()
                             : const SizedBox(),
                         //메모

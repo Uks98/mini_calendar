@@ -24,8 +24,11 @@ class CalendarDayPage extends StatefulWidget {
   State<CalendarDayPage> createState() => _CalendarDayPageState();
 }
 
-class _CalendarDayPageState extends State<CalendarDayPage> with MonthControllerMix,ThemeDarkFind,DatePickerSetMix,PaymentShowSheet{
-  bool get isSameDayFontGrey => DateTime.now().day != monthControl.calendarSameDay.value;
+class _CalendarDayPageState extends State<CalendarDayPage>
+    with MonthControllerMix, ThemeDarkFind, DatePickerSetMix, PaymentShowSheet {
+  bool get isSameDayFontGrey =>
+      DateTime.now().day != monthControl.calendarSameDay.value;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,57 +36,68 @@ class _CalendarDayPageState extends State<CalendarDayPage> with MonthControllerM
       floatingActionButton: UtilFloating(
         buildContext: context,
         distance: 55.h,
-        goToAddPage: () => monthControl.addSchedule(context,pickerSetController.startSelectedTime.value,pickerSetController.lastSelectedTime.value),
-        goToSetPage: () => Get.to( SettingPage(),),
-      ).buildExpandableFab(context).pOnly(bottom: 20.h,right: 10.w),
-      body: Obx(() =>Column(
-        children: [
-          AdfitBox.adfitAdvertise(AdFitBannerSize.SMALL_BANNER,()=>showPaymentSheet(context)),
-          Expanded(
-            child: SfCalendar(
-              appointmentTextStyle: TextStyle(color: Colors.white,fontSize: Prefs.calendarAppointmentTextSize.get()),
-              todayTextStyle: const TextStyle(color: Colors.white),
-              scheduleViewSettings: const ScheduleViewSettings(
-                dayHeaderSettings: DayHeaderSettings(
-                  dayFormat: "EEE"
-                )
-              ),
-              allowedViews: const <CalendarView>
-              [
-                CalendarView.day,
-                CalendarView.week,
-                CalendarView.timelineWeek,
-                CalendarView.timelineDay,
-                CalendarView.schedule,
-                CalendarView.workWeek
-              ],
-
-              onTap: (cp) {
-
-                pickerSetController.startSelectedTime.value = cp.date!;
-                pickerSetController.lastSelectedTime.value = cp.date!;
-                monthControl.calendarTapped(context, cp);
-              },
-              onLongPress: (cpo){
-                  showMessageDialog(context,cpo);
-              },
-              viewHeaderHeight: bigHeight + 60,
-              todayHighlightColor: !isLightMode
-                  ? context.appColors.todaySelectedColor //당일 색상
-                  : context.appColors.calendarMainColor,
-              showTodayButton: true,
-              headerDateFormat: "MMM",
+        goToAddPage: () => monthControl.addSchedule(
+            context,
+            pickerSetController.startSelectedTime.value,
+            pickerSetController.lastSelectedTime.value),
+        goToSetPage: () => Get.to(
+          SettingPage(),
+        ),
+      ).buildExpandableFab(context).pOnly(bottom: 20.h, right: 10.w),
+      body: Obx(
+        () => Column(
+          children: [
+            AdfitBox.adfitAdvertise(
+                AdFitBannerSize.SMALL_BANNER, () => showPaymentSheet(context)),
+            Expanded(
+              child: SfCalendar(
+                showWeekNumber: Prefs.isWeekNum.get(),
+                weekNumberStyle: WeekNumberStyle(
+                  textStyle: TextStyle(
+                    fontWeight: FontWeight.w300,
+                    fontSize: smallFontSize + 2,
+                  ),
+                ),
+                appointmentTextStyle: TextStyle(
+                    color: Colors.white,
+                    fontSize: Prefs.calendarAppointmentTextSize.get()),
+                todayTextStyle: const TextStyle(color: Colors.white),
+                scheduleViewSettings: const ScheduleViewSettings(
+                    dayHeaderSettings: DayHeaderSettings(dayFormat: "EEE")),
+                allowedViews: const <CalendarView>[
+                  CalendarView.day,
+                  CalendarView.week,
+                  CalendarView.timelineWeek,
+                  CalendarView.timelineDay,
+                  CalendarView.schedule,
+                  CalendarView.workWeek
+                ],
+                onTap: (cp) {
+                  pickerSetController.startSelectedTime.value = cp.date!;
+                  pickerSetController.lastSelectedTime.value = cp.date!;
+                  monthControl.calendarTapped(context, cp);
+                },
+                onLongPress: (cpo) {
+                  showMessageDialog(context, cpo);
+                },
+                viewHeaderHeight: bigHeight + 60,
+                todayHighlightColor: !isLightMode
+                    ? context.appColors.todaySelectedColor //당일 색상
+                    : context.appColors.calendarMainColor,
+                showTodayButton: true,
+                headerDateFormat: "MMM",
                 headerStyle: CalendarHeaderStyle(
-                  textStyle: TextStyle(fontSize:bigFontSize + 5),
+                  textStyle: TextStyle(fontSize: bigFontSize + 5),
                 ),
                 allowAppointmentResize: true,
-             dataSource: ScheduleDataSource(monthControl.monthDataList.value),
-              view: CalendarView.day,
-                ).pOnly(left: smallWidth,top: smallHeight),
-          ),
-          Height(bigHeight + 30)
-        ],
-      ),
+                dataSource:
+                    ScheduleDataSource(monthControl.monthDataList.value),
+                view: CalendarView.day,
+              ).pOnly(left: smallWidth, top: smallHeight),
+            ),
+            Height(bigHeight + 30)
+          ],
+        ),
       ),
     );
   }

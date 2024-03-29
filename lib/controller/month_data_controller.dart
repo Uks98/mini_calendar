@@ -158,7 +158,7 @@ class MonthControl extends GetxController {
     if(keyword.isEmpty){
       monthDataList;
     }
-    ///기존 리스트에 일치하는 제목 검색시 해당 리스트를 반환합니다.
+    ///기존 리스트에 일치하는 제목 검색시 해당 리스트를 반환합니다. add페이지에서 title 검색 시 반환하는 리스트
     monthSearchList.value = monthDataList.where((element) {
       if(element.id != 0){
       return element.title!.contains(keyword);
