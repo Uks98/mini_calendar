@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:today_my_calendar/common/dart/extension/context_extension.dart';
 import 'package:today_my_calendar/common/widget/mixin/payment_mixin.dart';
 import 'package:today_my_calendar/controller/month_data_controller.dart';
+import 'package:today_my_calendar/screen/setting/s_setting_page.dart';
+import 'package:today_my_calendar/screen/setting/w_setting_drop_down_button.dart';
 import 'package:today_my_calendar/screen/setting/w_switch.dart';
 
 import '../../common/constant/app_colors.dart';
@@ -12,6 +14,7 @@ import '../../common/constant/constant_widget.dart';
 import '../../common/data/preference/prefs.dart';
 import '../../common/theme/theme_util.dart';
 import '../../common/widget/mixin/init_screen_size_utill.dart';
+import '../../common/widget/repeat_tile/repeat_dropdown.dart';
 import '../../controller/setting_calendardata_controller.dart';
 
 class CalendarSettingPage extends StatelessWidget with ScreenInit,PaymentShowSheet,MonthControllerMix{
@@ -22,6 +25,7 @@ class CalendarSettingPage extends StatelessWidget with ScreenInit,PaymentShowShe
     final SettingCalendarController settingCalendarController = Get.put(SettingCalendarController());
     return Scaffold(
       appBar: AppBar(
+        leading: BackButton(onPressed: (){Get.off(SettingPage(),);},),
         title:  Text("캘린더 설정",style: TextStyle(fontSize: normalFontSize),),
         centerTitle: true,
       ),
@@ -182,8 +186,12 @@ class CalendarSettingPage extends StatelessWidget with ScreenInit,PaymentShowShe
               monthControl.isOnFunction();
             },
           )),
+          ///시작요일 위젯 리팩토링 필요
+          SettingDropDownWidget(isLightModes: isLightModes),
+          SizedBox(height: normalHeight,),
         ],
       ),
     );
   }
 }
+

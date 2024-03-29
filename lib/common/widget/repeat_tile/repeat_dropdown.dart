@@ -1,17 +1,15 @@
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:today_my_calendar/common/common.dart';
-import 'dart:developer';
+import 'package:today_my_calendar/common/data/preference/prefs.dart';
+import 'package:today_my_calendar/controller/setting_calendardata_controller.dart';
 
 import '../../../controller/repeat_controller.dart';
 import '../../constant/constant_widget.dart';
 
 const List<String> _list = [
-  "없음",
-  "매일",
-  "매주",
-  "매월"
+  "일","월"
 ];
 
 class SimpleDropdown extends StatefulWidget {
@@ -21,22 +19,27 @@ class SimpleDropdown extends StatefulWidget {
   State<SimpleDropdown> createState() => _SimpleDropdownState();
 }
 
-class _SimpleDropdownState extends State<SimpleDropdown> with RepeatControllerMixin{
+class _SimpleDropdownState extends State<SimpleDropdown> with RepeatControllerMixin,SettingCalendarControllerMix{
   final RepeatController repeatController1 = RepeatController();
+  bool get isLightModes =>  Prefs.isLightModes.get();
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 200,
+      width: 100.w,
       child: CustomDropdown<String>(
+        decoration: CustomDropdownDecoration(
+            expandedFillColor: isLightModes ? Color(0xff282828):Color(0xffF5F7F8) ,
+          closedFillColor: isLightModes ? Color(0xff282828):Color(0xffF5F7F8) ,
+          listItemStyle: TextStyle(color: !isLightModes ? Colors.black : Colors.white),
+          headerStyle: TextStyle(color: !isLightModes ? Colors.black : Colors.white),
+        ),
         items: _list,
-        initialItem: _list[0],
+        initialItem: Prefs.startDay.get() == "월" ? "월" : "일", //사용자가 선택한 시작요일에 따름
         onChanged: (value) {
-          int selectedIndex = _list.indexOf(value);
-          repeatController.repeatText.value = value;
-          repeatController.repeatIndex.value = selectedIndex;
-          print("스타트${repeatController.repeatIndex.value}");
+          settingCalendarController.startDay.value = value;
+          Prefs.startDay.set(settingCalendarController.startDay.value);
         },
-      ).pOnly(right: normalWidth),
+      ).p(4.w),
     );
   }
 }

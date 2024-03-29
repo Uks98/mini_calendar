@@ -7,10 +7,12 @@ import 'package:today_my_calendar/common/constant/constant_widget.dart';
 import 'package:today_my_calendar/common/widget/mixin/payment_mixin.dart';
 import 'package:today_my_calendar/screen/setting/s_calendar_setting.dart';
 import 'package:today_my_calendar/screen/setting/s_font_change_screen.dart';
+import 'package:today_my_calendar/screen/setting/w_switch.dart';
 import 'package:today_my_calendar/tab/s_calendar_day_page.dart';
 import 'package:today_my_calendar/tab/s_calendar_month_page.dart';
 import 'package:turn_page_transition/turn_page_transition.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../common/theme/theme_util.dart';
 import '../../common/widget/setting_list_icon_text.dart';
 import '../../tab/s_main_screen.dart';
 
@@ -22,6 +24,7 @@ class SettingPage extends StatelessWidget with PaymentShowSheet{
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          leading: BackButton(onPressed: (){Get.off(const MainScreen(),);},),
           title: "설정".text.size(normalFontSize).make(),
           centerTitle: true,
         ),

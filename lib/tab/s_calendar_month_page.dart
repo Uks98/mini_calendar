@@ -125,6 +125,7 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
             Flexible(
               key: GlobalKey(),
               child: SfCalendar(
+                firstDayOfWeek: Prefs.startDay.get() == "일" ? 7 : 1,
                 //달력에 보여지는 텍스트 크기
                 appointmentTextStyle: TextStyle(fontSize: Prefs.calendarAppointmentTextSize.get(),color: Colors.white),
                 showTodayButton: true,

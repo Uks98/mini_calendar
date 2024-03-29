@@ -51,6 +51,7 @@ class _CalendarDayPageState extends State<CalendarDayPage>
                 AdFitBannerSize.SMALL_BANNER, () => showPaymentSheet(context)),
             Expanded(
               child: SfCalendar(
+                firstDayOfWeek: Prefs.startDay.get() == "일" ? 7 : 1,
                 showWeekNumber: Prefs.isWeekNum.get(),
                 weekNumberStyle: WeekNumberStyle(
                   textStyle: TextStyle(

@@ -25,5 +25,8 @@ class Prefs with SettingCalendarControllerMix{
  static final currentFont = RxPreferenceItem<String,RxString>("currentFont", "dream"); // 현재 폰트를 변경하고 저장합니다.
 
   static final isEventDay = RxPreferenceItem<bool,RxBool>("isEventDay", true); // 배너 광고 제거 결제 했는지 유무 판단 boolean
+  
+  static final startDay = RxPreferenceItem<String,RxString>("startDay", "일"); // 배너 광고 제거 결제 했는지 유무 판단 boolean
+
 
 }
