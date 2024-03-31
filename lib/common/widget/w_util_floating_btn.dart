@@ -1,5 +1,6 @@
 
 
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -37,8 +38,8 @@ class UtilFloating with ThemeDarkFind,MonthControllerMix{
   Padding buildExpandableFab(BuildContext context) {
     return ExpandableFab(
       //overlayStyle: ExpandableFabOverlayStyle(blur:  10.0),
-      openButtonBuilder: buildRotateFloatingActionButtonBuilder(context, const Icon(Icons.add)),
-      closeButtonBuilder: buildRotateFloatingActionButtonBuilder(context, const Icon(Icons.close)),
+      openButtonBuilder: buildRotateFloatingActionButtonBuilder(context, const Icon(EvaIcons.plus)),
+      closeButtonBuilder: buildRotateFloatingActionButtonBuilder(context, const Icon(EvaIcons.close)),
       type: ExpandableFabType.up,
       distance: distance,
       key: _floatingKey,

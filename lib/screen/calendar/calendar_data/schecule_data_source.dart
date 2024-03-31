@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:today_my_calendar/screen/calendar/calendar_data/publc_holiday.dart';
 
 import '../../../controller/color_select_controller.dart';
 import '../../../controller/month_data_controller.dart';
@@ -19,12 +20,12 @@ class ScheduleDataSource extends CalendarDataSource {
 
   @override
   DateTime getStartTime(int index) {
-    return _getMeetingData(index).from!;
+    return _getMeetingData(index).from ?? DateTime.now();
   }
 
   @override
   DateTime getEndTime(int index) {
-    return _getMeetingData(index).to!;
+    return _getMeetingData(index).to ?? DateTime.now();
   }
   @override
   String getSubject(int index) {
@@ -43,11 +44,11 @@ class ScheduleDataSource extends CalendarDataSource {
 
   Schedule _getMeetingData(int index) {
     final dynamic schedule = appointments![index];
-    late final Schedule meetingData;
+    late final Schedule scheduleData;
     if (schedule is Schedule) {
-      meetingData = schedule;
+      scheduleData = schedule;
     }
 
-    return meetingData;
+    return scheduleData;
   }
 }

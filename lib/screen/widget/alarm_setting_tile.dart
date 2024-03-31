@@ -59,9 +59,9 @@ class _AlarmSettingTileState extends State<AlarmSettingTile> {
               .pOnly(
             right: 20.w,
                   left: isTextLengthPadding(alarmController.alarmTime.value)
-                      ? 270.w
-                      : 265.w),),
-        ),
+                      ? 230.w
+                      : 235.w),),
+        )
       ],
     );
   }

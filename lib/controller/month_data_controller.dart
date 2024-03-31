@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -7,6 +5,7 @@ import 'package:today_my_calendar/data/local/local_db.dart';
 
 import '../common/data/preference/prefs.dart';
 import '../screen/calendar/calendar_data/d_schedule_data.dart';
+import '../screen/calendar/calendar_data/publc_holiday.dart';
 import '../screen/calendar/s_calendar_add_page.dart';
 import '../screen/widget/d_message.dart';
 import '../service/get_event_day_service.dart';
@@ -18,24 +17,28 @@ class MonthControl extends GetxController {
   RxList<Schedule> monthSearchList = <Schedule>[].obs;
   RxInt calendarSameDay = DateTime.now().day.obs;
   AlarmSettingController alarmSettingController = Get.put(AlarmSettingController());
-  //RxBool isDarkMode = false.obs;
- Future<void> getSmallDay()async{
-    final dayEventInstance = DayEvent();
-    dayEventInstance.getEventList("2024");
+
+  final dayEventInstance = DayEvent(); //공휴일 기념일 데이터를 불러오는 인스턴스
+
+  Future<void> getHoliday()async{
+    dayEventInstance.getHoliday("2024");
   }
   void isOnFunction(){
    if(Prefs.isEventDay.get() == true){
-     getSmallDay();
+     dayEventInstance.getEventList("2024");
    }else{
      return;
    }
   }
+
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
     getToInitList();
     isOnFunction();
+    getHoliday();
+
   }
 
   //id

@@ -38,3 +38,12 @@ class DayEvent with MonthControllerMix{
         });
   }
 }
+
+class WeatherData{
+  String? id;
+  String? tempMax;
+  String? tempMin;
+  String? day;
+  String? icon;
+}
+

@@ -31,6 +31,7 @@ class CalendarSettingPage extends StatelessWidget with ScreenInit,PaymentShowShe
       ),
       body: ListView(
         children: [
+          SizedBox(height: bigHeight,),
           SettingSwitch(
             settingName: "다크 모드",
             isOn: context.isDarkMode,

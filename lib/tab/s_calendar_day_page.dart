@@ -28,20 +28,23 @@ class _CalendarDayPageState extends State<CalendarDayPage>
     with MonthControllerMix, ThemeDarkFind, DatePickerSetMix, PaymentShowSheet {
   bool get isSameDayFontGrey =>
       DateTime.now().day != monthControl.calendarSameDay.value;
-
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButtonLocation: ExpandableFab.location,
       floatingActionButton: UtilFloating(
         buildContext: context,
-        distance: 55.h,
+        distance: 60.h,
         goToAddPage: () => monthControl.addSchedule(
             context,
             pickerSetController.startSelectedTime.value,
             pickerSetController.lastSelectedTime.value),
-        goToSetPage: () => Get.to(
-          SettingPage(),
+        goToSetPage: () => Get.to(SettingPage(),
         ),
       ).buildExpandableFab(context).pOnly(bottom: 20.h, right: 10.w),
       body: Obx(
@@ -92,7 +95,7 @@ class _CalendarDayPageState extends State<CalendarDayPage>
                 ),
                 allowAppointmentResize: true,
                 dataSource:
-                    ScheduleDataSource(monthControl.monthDataList.value),
+                ScheduleDataSource(monthControl.monthDataList.value),
                 view: CalendarView.day,
               ).pOnly(left: smallWidth, top: smallHeight),
             ),

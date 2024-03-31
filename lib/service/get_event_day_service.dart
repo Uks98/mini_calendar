@@ -8,36 +8,80 @@ import 'package:today_my_calendar/screen/calendar/calendar_data/d_schedule_data.
 import '../common/data/preference/prefs.dart';
 import '../main.dart';
 
-class DayEvent with MonthControllerMix{
-   void getEventList(String? year) async {
-     const String serviceKey = "iwOI%2BU0JCUIMem0fddRQ9Y4Fj2E254wSmoXLGM3hVwqHiS8h12%2FqNozM62Kb5D4ihpeW4KWouAt%2B9djISlDJzw%3D%3D";
-    var url = "https://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getAnniversaryInfo?serviceKey=$serviceKey&pageNo=1&numOfRows=80&solYear=$year&_type=json";
-    var response = await http.get(Uri.parse(url),);
+class DayEvent with MonthControllerMix {
+  String serviceKey =
+      "iwOI%2BU0JCUIMem0fddRQ9Y4Fj2E254wSmoXLGM3hVwqHiS8h12%2FqNozM62Kb5D4ihpeW4KWouAt%2B9djISlDJzw%3D%3D";
+
+  void getEventList(String? year) async {
+    var url =
+        "https://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getAnniversaryInfo?serviceKey=$serviceKey&pageNo=1&numOfRows=80&solYear=$year&_type=json";
+    var response = await http.get(
+      Uri.parse(url),
+    );
     if (response.statusCode == 200) {
-     List<Schedule?> eventList = [];
       String body = utf8.decode(response.bodyBytes);
       var res = json.decode(body) as Map<String, dynamic>;
-      if(res["response"]!=null){
-        if(Prefs.isEventDay.get() == true){
+      if (res["response"] != null) {
+        if (Prefs.isEventDay.get() == true) {
           for (final _res in res["response"]["body"]["items"]["item"]) {
             final m = Schedule.fromJson(_res as Map<String, dynamic>);
-             monthControl.monthDataList.add(Schedule(title: m.title, from: m.from, to: m.from, colorIndex: 5, isAllDay: true, id: 0,isShowMap: false,holiday: m.holiday));
+            monthControl.monthDataList.add(Schedule(
+                title: m.title,
+                from: m.from,
+                to: m.from,
+                colorIndex: 5,
+                isAllDay: true,
+                id: 0,
+                isShowMap: false,
+                holiday: m.holiday));
           }
         }
         // Meeting 객체 처리
-        }
-      }else{
-        print("error");
       }
-    }
-    void showDia(BuildContext context) {
-      showDialog(
-          context: context,
-          builder: (context) {
-            return const AlertDialog(
-              title: Text("🚨알림🚨"),
-              content: Text("데이터를 불러오지 못했어요 😭"),
-            );
-          });
+    } else {
+      print("error");
     }
   }
+
+  void getHoliday(String? year) async {
+    var url =
+        "https://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo?serviceKey=$serviceKey&solYear=2024&_type=json";
+    var response = await http.get(
+      Uri.parse(url),
+    );
+    if (response.statusCode == 200) {
+      String body = utf8.decode(response.bodyBytes);
+      var res = json.decode(body) as Map<String, dynamic>;
+      if (res["response"] != null) {
+        for (final _res in res["response"]["body"]["items"]["item"]) {
+          final m = Schedule.fromHoliday(_res as Map<String, dynamic>);
+          monthControl.monthDataList.add(Schedule(
+              title: m.title,
+              from: m.from,
+              to: m.from,
+              colorIndex: 7,
+              isAllDay: true,
+              id: 0,
+              isShowMap: false,
+              holiday: m.holiday
+          ),);
+        }
+
+        // Meeting 객체 처리
+      }
+    } else {
+      print("error");
+    }
+  }
+
+  void showDia(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return const AlertDialog(
+            title: Text("🚨알림🚨"),
+            content: Text("데이터를 불러오지 못했어요 😭"),
+          );
+        });
+  }
+}

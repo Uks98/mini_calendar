@@ -176,11 +176,11 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                       _alarmSettingText =
                           alarmSettingController.alarmTime.value;
                       if (_titleController.text.isNotEmpty) {
-                        final lastTime = datePickerStateController.lastSelectedTime.value;
+                        final startTime = datePickerStateController.startSelectedTime.value;
                         alarmSet.getAlarmTime(
                           //id epoch 사용시 오류 발생
                           id: _titleController.text + newId.toString(),
-                          time: lastTime,
+                          time: startTime,
                           setTextTime: _alarmSettingText!,
                           //알람오류원인 x
                           context: context,

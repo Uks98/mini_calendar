@@ -2,7 +2,7 @@
     package="com.mococal.moco">
     <uses-permission android:name="com.android.vending.BILLING" />
     <application
-        android:label="모코 캘린더"
+        android:label="모코 캘린더 - 간단한 플래너, 달력, 일정, 스케줄, 다이어리"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
 
