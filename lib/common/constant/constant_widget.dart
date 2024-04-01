@@ -15,6 +15,7 @@ const spacer = Spacer();
  double smallFontSize = 10.0;
  double normalFontSize = 16.0;
  double bigFontSize = 18.0;
+ double biggerFontSize = 24.0;
 
  ///색상 선택
  double colorSelectPageHeight = 500.w;

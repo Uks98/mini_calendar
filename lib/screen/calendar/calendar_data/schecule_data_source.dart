@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
-import 'package:today_my_calendar/screen/calendar/calendar_data/publc_holiday.dart';
 
 import '../../../controller/color_select_controller.dart';
 import '../../../controller/month_data_controller.dart';

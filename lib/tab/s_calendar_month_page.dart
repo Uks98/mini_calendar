@@ -1,3 +1,4 @@
+import 'package:contextmenu/contextmenu.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_adfit/flutter_adfit.dart';
@@ -15,15 +16,14 @@ import 'package:today_my_calendar/common/widget/mixin/payment_mixin.dart';
 import 'package:today_my_calendar/controller/date_picker_controller.dart';
 import 'package:today_my_calendar/screen/setting/s_setting_page.dart';
 import 'package:today_my_calendar/tab/map/s_map_page.dart';
-import 'package:today_my_calendar/tab/s_book_animation_page.dart';
 import '../AD/w_adfit_box.dart';
 import '../common/data/preference/prefs.dart';
 import '../controller/alarm_setting_controller.dart';
 import '../controller/month_data_controller.dart';
 import '../controller/repeat_controller.dart';
 import '../main.dart';
-import '../screen/calendar/calendar_data/publc_holiday.dart';
 import '../screen/calendar/calendar_data/schecule_data_source.dart';
+import '../screen/calendar/templete/s_template_page.dart';
 import '../service/get_event_day_service.dart';
 
 class CalendarMonthPage extends StatefulWidget {
@@ -62,15 +62,15 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
   bool get isSameDayFontGrey =>
       DateTime.now().day != monthControl.calendarSameDay.value;
 
+  late CalendarTapDetails? calendarTapDetails = CalendarTapDetails(const [], DateTime.now(), CalendarElement.appointment, CalendarResource(id: "1"));
+
   @override
   void initState() {
     super.initState();
-
   }
 
   @override
   Widget build(BuildContext context) {
-   
     findDarkMode(context);
     screenInit(context);
     return Scaffold(
@@ -110,14 +110,24 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
             onPressed: () => Get.to(SettingPage()),
           ),
           FloatingActionButton.small(
-            heroTag: "tsss2",
+              heroTag: "tsss22",
+              backgroundColor: changeSmallFloatingColor,
+              child: Icon(
+                EvaIcons.mapOutline,
+                color: changeSmallFloatingIconColor,
+              ),
+              onPressed: () => Get.to(
+                    const MapPage(),
+                  )),
+          FloatingActionButton.small(
+            heroTag: "tsss3",
             backgroundColor: changeSmallFloatingColor,
             child: Icon(
-              EvaIcons.mapOutline,
+              EvaIcons.bookOutline,
               color: changeSmallFloatingIconColor,
             ),
-            onPressed: () => Get.to(MapPage(),)
-          ),
+            onPressed: () =>monthControl.addQuickTemplate(context)
+            ),
         ],
       ).pOnly(bottom: 40.h, right: 10.w),
       body: Obx(
@@ -130,7 +140,9 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
               child: SfCalendar(
                 firstDayOfWeek: Prefs.startDay.get() == "일" ? 7 : 1,
                 //달력에 보여지는 텍스트 크기
-                appointmentTextStyle: TextStyle(fontSize: Prefs.calendarAppointmentTextSize.get(),color: Colors.white),
+                appointmentTextStyle: TextStyle(
+                    fontSize: Prefs.calendarAppointmentTextSize.get(),
+                    color: Colors.white),
                 showTodayButton: true,
                 weekNumberStyle: WeekNumberStyle(
                     textStyle: TextStyle(
@@ -169,6 +181,7 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
                   monthControl.calendarSameDay.value =
                       cp.date?.day ?? DateTime.now().day;
                   monthControl.calendarTapped(context, cp);
+                  monthControl.calendarTapDetails = cp;
                   final List<PendingNotificationRequest>
                       pendingNotificationRequests =
                       await flutterLocalNotificationsPlugin
@@ -181,7 +194,7 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
                   //await flutterLocalNotificationsPlugin.cancelAll();
                 },
                 onLongPress: (cpo) {
-                  showMessageDialog(context, cpo);
+                  // showMessageDialog(context, cpo);
                 },
                 controller: _calendarController,
                 //header

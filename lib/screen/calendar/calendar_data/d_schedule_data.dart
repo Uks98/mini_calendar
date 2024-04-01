@@ -1,6 +1,5 @@
 
 import 'package:isar/isar.dart';
-import 'package:today_my_calendar/screen/calendar/calendar_data/publc_holiday.dart';
 
 part 'd_schedule_data.g.dart';
 
@@ -20,6 +19,7 @@ class Schedule {
         this.isAllDay,
         this.alarmSetText,
         this.holiday, //공휴일?
+        this.isTemplate = false,
        // required this.eventColor,
         });
  @Index(type: IndexType.value)
@@ -55,6 +55,8 @@ class Schedule {
   String? alarmSetText;
   @Index(type: IndexType.value)
   String? holiday;
+  @Index(type: IndexType.value) //템플릿 입니까?
+  bool? isTemplate;
 
 
   factory Schedule.fromJson(Map<String,dynamic> json){

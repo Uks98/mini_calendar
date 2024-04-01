@@ -17,15 +17,18 @@ class LocalDB{
       directory: dir.path,
     );
   }
-  Future<List<Schedule>> getTodoList() async{
-    final document = await isar.schedules.where().findAll();
+  Future<List<Schedule>> getScheduleList() async{
+    final document = await isar.schedules.where().isTemplateEqualTo(false).findAll();
+    return document.map((e) => e).toList();
+  }
+  Future<List<Schedule>> getTemplateList() async{
+    final document = await isar.schedules.where().isTemplateEqualTo(true).findAll();
     return document.map((e) => e).toList();
   }
   Future<List<Schedule>> getSelectList(DateTime dateTime) async{
     final document = await isar.schedules.where().idEqualTo(2).findAll();
     return document.map((e) => e).toList();
   }
-  //{"background":4279451602,"eventName":"안녕 테스트","from":16952312400000000,"id":2,"isAllDay":false,"to":1695400440000000}
 
 
   Future<void> addDBSchedule(Schedule schedule)async{

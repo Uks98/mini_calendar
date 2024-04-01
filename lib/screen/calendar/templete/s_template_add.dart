@@ -13,38 +13,38 @@ import 'package:today_my_calendar/screen/calendar/calendar_data/d_schedule_data.
 import 'package:today_my_calendar/screen/widget/w_custom_datePicker.dart';
 import 'package:today_my_calendar/screen/widget/w_memo_container_widget.dart';
 import 'package:today_my_calendar/screen/widget/w_quick_fix_picker_time.dart';
-import '../../AD/w_adfit_box.dart';
-import '../../common/constant/app_colors.dart';
-import '../../common/data/preference/prefs.dart';
-import '../../common/widget/mixin/init_screen_size_utill.dart';
-import '../../controller/alarm_setting_controller.dart';
-import '../../controller/color_select_controller.dart';
-import '../../controller/date_picker_controller.dart';
-import '../../controller/map_data_controller.dart';
-import '../../controller/month_data_controller.dart';
-import 'calendar_memo_page.dart';
-import 's_color_select_page.dart';
-import '../widget/w_location_search_widget.dart';
-import '../widget/alarm_setting_tile.dart';
+import '../../../AD/w_adfit_box.dart';
+import '../../../common/constant/app_colors.dart';
+import '../../../common/data/preference/prefs.dart';
+import '../../../common/widget/mixin/init_screen_size_utill.dart';
+import '../../../controller/alarm_setting_controller.dart';
+import '../../../controller/color_select_controller.dart';
+import '../../../controller/date_picker_controller.dart';
+import '../../../controller/map_data_controller.dart';
+import '../../../controller/month_data_controller.dart';
+import '../../widget/alarm_setting_tile.dart';
+import '../../widget/w_location_search_widget.dart';
+import '../calendar_memo_page.dart';
+import '../s_color_select_page.dart';
 
-class CalendarAddPage extends StatefulWidget {
+class TemplateAddPage extends StatefulWidget {
   final Schedule? scheduleForEdit;
   Schedule schedule;
   bool? isShowMap;
   bool? initShowDetail; //페이지 상세보기
 
-  CalendarAddPage(
+  TemplateAddPage(
       {super.key,
-      this.scheduleForEdit,
-      required this.schedule,
-      required this.isShowMap,
-      required this.initShowDetail});
+        this.scheduleForEdit,
+        required this.schedule,
+        required this.isShowMap,
+        required this.initShowDetail});
 
   @override
-  State<CalendarAddPage> createState() => _CalendarAddPageState();
+  State<TemplateAddPage> createState() => _TemplateAddPageState();
 }
 
-class _CalendarAddPageState extends State<CalendarAddPage>
+class _TemplateAddPageState extends State<TemplateAddPage>
     with
         ScreenInit,
         PaymentShowSheet,
@@ -57,9 +57,9 @@ class _CalendarAddPageState extends State<CalendarAddPage>
 
   //controller
   DatePickerStateController datePickerStateController =
-      Get.put(DatePickerStateController());
+  Get.put(DatePickerStateController());
   AlarmSettingController alarmSettingController =
-      Get.put(AlarmSettingController());
+  Get.put(AlarmSettingController());
   AlarmSettingController alarmController = Get.put(AlarmSettingController());
   MapDataController mapDataController = Get.put(MapDataController());
   final ColorSelectController _colorBox = Get.put(ColorSelectController());
@@ -155,7 +155,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                         TextButton(
                           child: const Text('일정 삭제',style: TextStyle(color: Colors.redAccent),),
                           onPressed: () {
-                            monthControl.deleteSchedule(widget.schedule); // 일정 삭제 실행
+                            monthControl.deleteTemplate(widget.schedule); // 일정 삭제 실행
                             Get.back();
                             Get.back();
                           },
@@ -179,11 +179,9 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                       if (_titleController.text.isNotEmpty) {
                         final startTime = datePickerStateController.startSelectedTime.value;
                         alarmSet.getAlarmTime(
-                          //id epoch 사용시 오류 발생
                           id: _titleController.text + newId.toString(),
                           time: startTime,
                           setTextTime: _alarmSettingText!,
-                          //알람오류원인 x
                           context: context,
                           title: _titleController.text,
                           memo: memoText.toString(),
@@ -204,19 +202,20 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                             isShowMap: isOnMap,
                             isAllDay: isAllDay,
                             alarmSetText: _alarmSettingText,
+                            isTemplate:true
                           ),
                         );
                         FocusScope.of(context).unfocus();
-
                         datePickerStateController.isShowStartDatePicker.value =
-                            false;
+                        false;
                         datePickerStateController.isShowLastDatePicker.value =
-                            false;
+                        false;
+                        // alarmSettingController.alarmTime.value = "없음";
                         naverMapController?.dispose();
                       } else if (_titleController.text.isEmpty) {
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content:
-                                "제목을 입력해주세요".text.size(bigFontSize).make()));
+                            "제목을 입력해주세요".text.size(bigFontSize).make()));
                         return;
                       }
                     } catch (e) {
@@ -230,7 +229,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                       );
                     }
                   },
-                  icon: const Icon(Icons.check,color: Colors.white,))
+                  icon: const Icon(Icons.check,color: Colors.white,)) //저장 버튼
             ],
           ),
           resizeToAvoidBottomInset: false,
@@ -268,90 +267,90 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                         ],
                       ),
                       Obx(
-                        () => monthControl.monthSearchList.isEmpty
+                            () => monthControl.monthSearchList.isEmpty
                             ? Container(
-                                color: Colors.red,
-                              )
+                          color: Colors.red,
+                        )
                             : SizedBox(
-                                height: 50.h,
-                                width: 600.w,
-                                child: ListView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  shrinkWrap: true,
-                                  itemBuilder: (BuildContext context, int index) {
-                                    final search = monthControl.monthSearchList[index];
-                                    return GestureDetector(
-                                        onTap: () {
-                                          _titleController.text = search.title.toString();
-                                          memoText = search.memo.toString();
-                                          outPageGpsX = search.gpsY;
-                                          outPageGpsY = search.gpsX;
-                                          outPagePlace = search.myPlace ?? "없음";
-                                          _colorIndex = search.colorIndex ?? 0;
-                                          isOnMap = search.isShowMap ?? false;
-                                          isShowDetail = search.isShowMap ?? false;
-                                          isAllDay = search.isAllDay ?? false;
-                                          datePickerStateController.startSelectedTime.value = search.from!;
-                                          datePickerStateController.lastSelectedTime.value = search.to!;
-                                          setState(() {});
-                                        },
-                                        child: Container(
-                                            decoration: BoxDecoration(
-                                                color: isLightModes
-                                                    ? AppColors.darkGrey
-                                                    : context.appColors
-                                                        .settingListColor,
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                        smallWidth)),
-                                            child: Row(
-                                              children: [
-                                                Width(smallWidth),
-                                                VxBox()
-                                                    .width(3.w)
-                                                    .height(40.h)
-                                                    .withRounded(value: 2.w)
-                                                    .color(_colorBox
-                                                        .colorList.keys
-                                                        .elementAt(
-                                                            search.colorIndex ??
-                                                                0))
-                                                    .make(),
-                                                Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    SizedBox(
-                                                      width: 80.w,
-                                                      child: search.title!.text
-                                                          .size(bigFontSize)
-                                                          .fontWeight(
-                                                              FontWeight.w300)
-                                                          .overflow(TextOverflow
-                                                              .ellipsis)
-                                                          .color(isLightModes
-                                                              ? Colors.white
-                                                              : context
-                                                                  .appColors
-                                                                  .text)
-                                                          .make(),
-                                                    ),
-                                                    " ${search.to!.year}년 ${search.from!.month}월 ${search.from!.day}일 ${search.to!.hour < 12 ? "오전" : "오후"} ${search.from!.hour}시 ${search.from!.minute}분  ~ "
-                                                            " ${returnToMonDay(search.from!.month, search.to!.month, search.from!.day, search.to!.day, search.to!.hour, search.to!.minute)}"
-                                                        .text
-                                                        .size(smallFontSize)
-                                                        .color(isLightModes
-                                                            ? Colors.white
-                                                            : Colors.black)
-                                                        .make(),
-                                                  ],
-                                                ).paddingAll(smallHeight.h),
-                                              ],
-                                            ),).paddingOnly(left: smallWidth),);
+                            height: 50.h,
+                            width: 600.w,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              shrinkWrap: true,
+                              itemBuilder: (BuildContext context, int index) {
+                                final search = monthControl.monthSearchList[index];
+                                return GestureDetector(
+                                  onTap: () {
+                                    _titleController.text = search.title.toString();
+                                    memoText = search.memo.toString();
+                                    outPageGpsX = search.gpsY;
+                                    outPageGpsY = search.gpsX;
+                                    outPagePlace = search.myPlace ?? "없음";
+                                    _colorIndex = search.colorIndex ?? 0;
+                                    isOnMap = search.isShowMap ?? false;
+                                    isShowDetail = search.isShowMap ?? false;
+                                    isAllDay = search.isAllDay ?? false;
+                                    datePickerStateController.startSelectedTime.value = search.from!;
+                                    datePickerStateController.lastSelectedTime.value = search.to!;
+                                    setState(() {});
                                   },
-                                  itemCount:
-                                      monthControl.monthSearchList.length,
-                                )),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        color: isLightModes
+                                            ? AppColors.darkGrey
+                                            : context.appColors
+                                            .settingListColor,
+                                        borderRadius:
+                                        BorderRadius.circular(
+                                            smallWidth)),
+                                    child: Row(
+                                      children: [
+                                        Width(smallWidth),
+                                        VxBox()
+                                            .width(3.w)
+                                            .height(40.h)
+                                            .withRounded(value: 2.w)
+                                            .color(_colorBox
+                                            .colorList.keys
+                                            .elementAt(
+                                            search.colorIndex ??
+                                                0))
+                                            .make(),
+                                        Column(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: [
+                                            SizedBox(
+                                              width: 80.w,
+                                              child: search.title!.text
+                                                  .size(bigFontSize)
+                                                  .fontWeight(
+                                                  FontWeight.w300)
+                                                  .overflow(TextOverflow
+                                                  .ellipsis)
+                                                  .color(isLightModes
+                                                  ? Colors.white
+                                                  : context
+                                                  .appColors
+                                                  .text)
+                                                  .make(),
+                                            ),
+                                            " ${search.to!.year}년 ${search.from!.month}월 ${search.from!.day}일 ${search.to!.hour < 12 ? "오전" : "오후"} ${search.from!.hour}시 ${search.from!.minute}분  ~ "
+                                                " ${returnToMonDay(search.from!.month, search.to!.month, search.from!.day, search.to!.day, search.to!.hour, search.to!.minute)}"
+                                                .text
+                                                .size(smallFontSize)
+                                                .color(isLightModes
+                                                ? Colors.white
+                                                : Colors.black)
+                                                .make(),
+                                          ],
+                                        ).paddingAll(smallHeight.h),
+                                      ],
+                                    ),).paddingOnly(left: smallWidth),);
+                              },
+                              itemCount:
+                              monthControl.monthSearchList.length,
+                            )),
                       )
                     ],
                   ),
@@ -365,8 +364,8 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                           .text
                           .size(normalFontSize)
                           .fontWeight(
-                            FontWeight.w300,
-                          )
+                        FontWeight.w300,
+                      )
                           .make()
                           .paddingOnly(left: 5.h),
                       SizedBox(
@@ -376,19 +375,19 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                         onTap: () async {
                           final corIndex = await customBottomSheet
                               .showCustomBottomSheet(context,
-                                  radius: 10.0.w, title: "테마");
+                              radius: 10.0.w, title: "테마");
                           _colorIndex = corIndex;
                           setState(() {});
                         },
                         child: Obx(
-                          () => Container(
+                              () => Container(
                             width: 13.w,
                             height: 13.h,
                             decoration: BoxDecoration(
                               color: colorController.colorList.keys
                                   .elementAt(_colorIndex),
                               borderRadius:
-                                  BorderRadius.circular(smallHeight - 2),
+                              BorderRadius.circular(smallHeight - 2),
                             ),
                           ).pOnly(right: bigWidth),
                         ),
@@ -403,8 +402,8 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                           .text
                           .size(normalFontSize)
                           .fontWeight(
-                            FontWeight.w300,
-                          )
+                        FontWeight.w300,
+                      )
                           .make()
                           .paddingOnly(left: 5.h),
                       SizedBox(
@@ -429,22 +428,22 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                       //dateTime: DateTime.now(),
                       startText: "시작",
                       datePickerStateController: datePickerStateController,
-                      datePickerDateOrder: DatePickerDateOrder.ymd,
+                      datePickerDateOrder:  DatePickerDateOrder.ymd,
                     ),
                   Height(addPageHeight),
                   if (isAllDay == false)
 
-                    ///종료 시간
+                  ///종료 시간
                     ShowDateLastPicker(
                       //dateTime: DateTime.now(),
                       startText: "종료",
                       datePickerStateController: datePickerStateController,
-                      datePickerDateOrder: DatePickerDateOrder.ymd,
+                      datePickerDateOrder:  DatePickerDateOrder.ymd,
                     ),
                   Height(smallHeight),
                   if (isAllDay == false)
 
-                    ///시간 분 단위로 올리기
+                  ///시간 분 단위로 올리기
                     QuickFixerDateWidget().pOnly(
                         top: normalHeight.h, left: _quickWidgetLeftPadding.w),
                   if (isAllDay == false) Height(addPageHeight),
@@ -498,16 +497,16 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                                     .text
                                     .size(normalFontSize)
                                     .fontWeight(
-                                      FontWeight.w300,
-                                    )
+                                  FontWeight.w300,
+                                )
                                     .make()
                                     .paddingOnly(left: 4.w),
                               ),
                               outPagePlace.text
                                   .size(bigFontSize)
                                   .fontWeight(
-                                    FontWeight.w300,
-                                  )
+                                FontWeight.w300,
+                              )
                                   .make()
                                   .pOnly(right: smallWidth + 2),
                             ],
@@ -530,8 +529,8 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                                 .text
                                 .size(normalFontSize)
                                 .fontWeight(
-                                  FontWeight.w300,
-                                )
+                              FontWeight.w300,
+                            )
                                 .make()
                                 .paddingOnly(left: 5.w),
                           ],
@@ -540,7 +539,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                         moveToMemo(),
                         Height(30.h),
                         AdfitBox.adfitAdvertise(AdFitBannerSize.SMALL_BANNER,
-                            () => showPaymentSheet(context)),
+                                () => showPaymentSheet(context)),
                         Height(40.h),
                       ],
                     )
@@ -563,7 +562,6 @@ class _CalendarAddPageState extends State<CalendarAddPage>
               ),
             ),
           );
-
           memoText = memos?.memo ?? "";
           setState(() {});
         },
@@ -586,7 +584,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
             onMapReady: (controller) {
               naverMapController = controller;
               final marker = NMarker(
-             icon: const NOverlayImage.fromAssetImage("assets/circle.png"),
+                  icon: const NOverlayImage.fromAssetImage("assets/circle.png"),
                   id: mapDataController.myPlace.value,
                   position: NLatLng(outPageGpsY!, outPageGpsX!));
               final onMarkerInfoWindow = NInfoWindow.onMarker(id: marker.info.id, text: outPagePlace.toString());

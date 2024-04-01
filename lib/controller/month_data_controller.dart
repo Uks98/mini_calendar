@@ -5,8 +5,9 @@ import 'package:today_my_calendar/data/local/local_db.dart';
 
 import '../common/data/preference/prefs.dart';
 import '../screen/calendar/calendar_data/d_schedule_data.dart';
-import '../screen/calendar/calendar_data/publc_holiday.dart';
 import '../screen/calendar/s_calendar_add_page.dart';
+import '../screen/calendar/templete/s_template_add.dart';
+import '../screen/calendar/templete/s_template_page.dart';
 import '../screen/widget/d_message.dart';
 import '../service/get_event_day_service.dart';
 import 'alarm_setting_controller.dart';
@@ -15,7 +16,9 @@ class MonthControl extends GetxController {
   LocalDB localDB = LocalDB.instance;
   RxList<Schedule> monthDataList = <Schedule>[].obs;
   RxList<Schedule> monthSearchList = <Schedule>[].obs;
+  RxList<Schedule> templateList = <Schedule>[].obs;
   RxInt calendarSameDay = DateTime.now().day.obs;
+  late CalendarTapDetails? calendarTapDetails = CalendarTapDetails(const [], DateTime.now(), CalendarElement.appointment, CalendarResource(id: "1"));
   AlarmSettingController alarmSettingController = Get.put(AlarmSettingController());
 
   final dayEventInstance = DayEvent(); //공휴일 기념일 데이터를 불러오는 인스턴스
@@ -38,7 +41,7 @@ class MonthControl extends GetxController {
     getToInitList();
     isOnFunction();
     getHoliday();
-
+    getTemplateList();
   }
 
   //id
@@ -47,8 +50,12 @@ class MonthControl extends GetxController {
   }
 
   void getToInitList()async{
-    final getMeetingList = await localDB.getTodoList();
+    final getMeetingList = await localDB.getScheduleList();
     monthDataList.addAll(getMeetingList);
+  }
+  void getTemplateList()async{
+    final template = await localDB.getTemplateList();
+    templateList.addAll(template);
   }
 
 
@@ -82,7 +89,67 @@ class MonthControl extends GetxController {
       localDB.addDBSchedule(result);
     }
       monthDataList.refresh();
-
+  }
+  ///템플릿 빠른 저장
+  void addQuickTemplate(BuildContext context) async {
+    final result = await Get.to<Schedule>(
+        TemPlatePage(
+          schedule: Schedule(
+            id : newId,
+            title: '',
+            to: DateTime.now(),
+            from:DateTime.now(),
+            gpsX: 0.0,
+            gpsY: 0.0,
+            memo: '',
+            myPlace: '',
+            colorIndex: 0,
+            isShowMap: false,
+            isAllDay: false,
+            alarmSetText : "없음",
+          ),
+          calendarTapDetails: calendarTapDetails,
+        ),
+        transition: Transition.downToUp,
+        duration: const Duration(milliseconds: 200)
+    );
+    if (result != null) {
+      ///리스트 추가 및 갱신 함수
+      monthDataList.add(result); //달력 아이템 리스트
+      localDB.addDBSchedule(result);
+    }
+    monthDataList.refresh();
+  }
+  ///템플릿 추가
+  void addTemplate(BuildContext context) async {
+    final result = await Get.to<Schedule>(
+        TemplateAddPage(
+          schedule: Schedule(
+            id : newId,
+            title: '',
+            to: DateTime.now(),
+            from: DateTime.now(),
+            gpsX: 0.0,
+            gpsY: 0.0,
+            memo: '',
+            myPlace: '',
+            colorIndex: 0,
+            isShowMap: false,
+            isAllDay: false,
+            alarmSetText : "없음",
+          ),
+          isShowMap: false,
+          initShowDetail: false,
+        ),
+        transition: Transition.downToUp,
+        duration: const Duration(milliseconds: 200)
+    );
+    if (result != null) {
+      ///리스트 추가 및 갱신 함수
+      templateList.value.add(result); //달력 아이템 리스트
+      localDB.addDBSchedule(result);
+    }
+    templateList.refresh();
   }
 
   ///캘린더를 탭했을 때 생기는 이벤트 함수
@@ -133,9 +200,48 @@ class MonthControl extends GetxController {
     }
     monthDataList.refresh();
   }
+  ///템플릿 업데이트
+  void editTemplate(Schedule schedule, BuildContext context) async {
+    final result = await Get.to(
+      transition: Transition.downToUp,
+      duration: const Duration(milliseconds: 200),
+      TemplateAddPage(
+        schedule: schedule,
+        isShowMap: true,
+        initShowDetail: true,
+      ),
+    );
+    if (result != null) {
+      schedule.title = result.title;
+      schedule.memo = result.memo;
+      schedule.to = result.to;
+      schedule.from = result.from;
+      if(schedule.myPlace == '' || schedule.myPlace!.isEmpty){
+        schedule.myPlace = "없음";
+      }
+      schedule.myPlace = result.myPlace;
+      schedule.gpsX = result.gpsX;
+      schedule.gpsY = result.gpsY;
+      schedule.colorIndex = result.colorIndex;
+      schedule.isAllDay = result.isAllDay;
+      //if(result.alarmSetText)
+      schedule.alarmSetText = result.alarmSetText;
+      ///리스트 추가 및 갱신 함수
+      localDB.updateDBSchedule(schedule);
+    }
+    monthDataList.refresh();
+    templateList.refresh();
+  }
   ///스케쥴 삭제
   Future<void> deleteSchedule(Schedule schedule)async{
     monthDataList.remove(schedule);
+    await LocalDB.isar.writeTxn(()async{
+      await LocalDB.isar.schedules.delete(schedule.id);
+    });
+  }
+  ///템플릿 삭제
+  Future<void> deleteTemplate(Schedule schedule)async{
+    templateList.remove(schedule);
     await LocalDB.isar.writeTxn(()async{
       await LocalDB.isar.schedules.delete(schedule.id);
     });

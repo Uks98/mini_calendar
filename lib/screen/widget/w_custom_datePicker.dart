@@ -11,11 +11,12 @@ import 'package:get/get.dart';
 class ShowDateStartPicker extends StatelessWidget with ScreenInit {
   String startText;
   DateTime? dateTime;
-
+  DatePickerDateOrder datePickerDateOrder;
   ShowDateStartPicker({
     super.key,
     required this.startText,
     required this.datePickerStateController,
+    required this.datePickerDateOrder,
     this.dateTime,
   });
 
@@ -61,7 +62,8 @@ class ShowDateStartPicker extends StatelessWidget with ScreenInit {
                   SizedBox(
                     child: Center(
                       child: CupertinoDatePicker(
-                        dateOrder: DatePickerDateOrder.ymd,
+
+                        dateOrder:  datePickerDateOrder,
                         minimumYear: 2010,
                         maximumYear: DateTime.now().year,
                         initialDateTime: _selectedDate,
@@ -89,11 +91,12 @@ class ShowDateStartPicker extends StatelessWidget with ScreenInit {
 class ShowDateLastPicker extends StatelessWidget with ScreenInit {
   String startText;
   DateTime? dateTime;
-
+  DatePickerDateOrder datePickerDateOrder;
   ShowDateLastPicker({
     super.key,
     required this.startText,
     required this.datePickerStateController,
+    required this.datePickerDateOrder,
     this.dateTime,
   });
 
@@ -141,7 +144,7 @@ class ShowDateLastPicker extends StatelessWidget with ScreenInit {
                     child: Obx(
                       () => CupertinoDatePicker(
                         use24hFormat: false,
-                        dateOrder: DatePickerDateOrder.ymd,
+                        dateOrder: datePickerDateOrder,
                         minimumYear: 2010,
                         maximumYear: 2099,
                         initialDateTime: _selectedDate.add(
