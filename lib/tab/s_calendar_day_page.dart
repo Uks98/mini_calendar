@@ -54,6 +54,10 @@ class _CalendarDayPageState extends State<CalendarDayPage>
                 AdFitBannerSize.SMALL_BANNER, () => showPaymentSheet(context)),
             Expanded(
               child: SfCalendar(
+                selectionDecoration: BoxDecoration(
+                  color: Colors.grey.withOpacity(0.3),
+                  border: Border.all(color: Colors.transparent, width: 2),
+                ),
                 firstDayOfWeek: Prefs.startDay.get() == "일" ? 7 : 1,
                 showWeekNumber: Prefs.isWeekNum.get(),
                 weekNumberStyle: WeekNumberStyle(
@@ -80,6 +84,7 @@ class _CalendarDayPageState extends State<CalendarDayPage>
                   pickerSetController.startSelectedTime.value = cp.date!;
                   pickerSetController.lastSelectedTime.value = cp.date!;
                   monthControl.calendarTapped(context, cp);
+                  monthControl.calendarTapDetails = cp;
                 },
                 onLongPress: (cpo) {
                   showMessageDialog(context, cpo);

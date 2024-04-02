@@ -6,18 +6,20 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:today_my_calendar/common/common.dart';
 import 'package:today_my_calendar/common/constant/constant_widget.dart';
+import 'package:today_my_calendar/common/widget/mixin/payment_mixin.dart';
 import 'package:today_my_calendar/controller/month_data_controller.dart';
 import 'package:today_my_calendar/screen/calendar/calendar_data/d_schedule_data.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../../common/constant/app_colors.dart';
+import '../../../common/data/preference/prefs.dart';
 import '../../../common/theme/color/mix_find_theme.dart';
 import '../../../common/widget/mixin/init_screen_size_utill.dart';
 import '../../../controller/color_select_controller.dart';
 import '../../../tab/s_main_screen.dart';
 
 class TemPlatePage extends StatelessWidget
-    with ThemeDarkFind, MonthControllerMix, ScreenInit {
+    with ThemeDarkFind, MonthControllerMix, ScreenInit , PaymentShowSheet{
   TemPlatePage({super.key, required this.calendarTapDetails, required this.schedule});
   Schedule schedule;
   CalendarTapDetails? calendarTapDetails;
@@ -27,14 +29,20 @@ class TemPlatePage extends StatelessWidget
     Color changeSmallFloatingColor = !isLightMode
         ? context.appColors.calendarMainColor
         : context.appColors.floatingIconColor;
-    print(calendarTapDetails!.date);
-    final ColorSelectController _colorBox = Get.put(ColorSelectController());
-    return Scaffold(
-      floatingActionButton: FloatingActionButton(
+    final ColorSelectController colorBox = Get.put(ColorSelectController());
+    return Obx(() => Scaffold(
+      floatingActionButton: monthControl.templateList.length > 1 && Prefs.isPurchaseApp.get() == false? FloatingActionButton(
+        backgroundColor: changeSmallFloatingColor,
+        onPressed: () => showPaymentSheet(context),
+        child: const Icon(
+          EvaIcons.awardOutline,
+          color: Colors.white,
+        ),
+      ): FloatingActionButton(
         backgroundColor: changeSmallFloatingColor,
         onPressed: () => monthControl.addTemplate(context),
         child: const Icon(
-          EvaIcons.fileAdd,
+          EvaIcons.plusCircleOutline,
           color: Colors.white,
         ),
       ),
@@ -60,12 +68,12 @@ class TemPlatePage extends StatelessWidget
                               id: DateTime.now().microsecondsSinceEpoch,
                               title: templateList.title,
                               from: DateTime(
-                                  calendarDate!.year,
-                                  calendarDate.month,
-                                  calendarDate.day,
+                                  calendarDate?.year ?? DateTime.now().year,
+                                  calendarDate?.month ?? DateTime.now().month,
+                                  calendarDate?.day ?? DateTime.now().day,
                                   templateList.from!.hour,
                                   templateList.from!.minute),
-                              to: DateTime(calendarDate.year, calendarDate.month, calendarDate.day, templateList.to!.hour, templateList.to!.minute),
+                              to: DateTime(calendarDate?.year ?? DateTime.now().year, calendarDate?.month ?? DateTime.now().year, calendarDate?.day ?? DateTime.now().year, templateList.to!.hour, templateList.to!.minute),
                               colorIndex: templateList.colorIndex,
                               isAllDay: templateList.isAllDay ?? false,
                               isShowMap: templateList.isShowMap,
@@ -92,7 +100,7 @@ class TemPlatePage extends StatelessWidget
                                 .width(smallWidth)
                                 .height(50.h)
                                 .withRounded(value: 2.w)
-                                .color(_colorBox.colorList.keys
+                                .color(colorBox.colorList.keys
                                     .elementAt(templateList.colorIndex!))
                                 .make(),
                             Column(
@@ -106,7 +114,7 @@ class TemPlatePage extends StatelessWidget
                                       .overflow(TextOverflow.ellipsis)
                                       .color(isLightMode
                                           ? Colors.white
-                                          : context.appColors.text)
+                                          :  Colors.black)
                                       .make(),
                                 ),
                                 HeightBox(smallHeight),
@@ -129,8 +137,8 @@ class TemPlatePage extends StatelessWidget
                                     : const SizedBox(),
                               ],
                             ).paddingAll(smallHeight.h),
-                            IconButton(onPressed: ()=> monthControl.editTemplate(templateList,context), icon: const Icon(EvaIcons.editOutline,size: 30,))
-                          ],
+                            IconButton(onPressed: ()=> monthControl.editTemplate(templateList,context), icon: const Icon(EvaIcons.editOutline,size: 30, color:Colors.black)
+                            ), ],
                         ).marginAll(2.w),
                       ).paddingAll(normalWidth),
                     );
@@ -141,6 +149,6 @@ class TemPlatePage extends StatelessWidget
           )
         ],
       ),
-    );
+    ));
   }
 }

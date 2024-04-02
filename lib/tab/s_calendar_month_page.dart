@@ -74,7 +74,6 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
     findDarkMode(context);
     screenInit(context);
     return Scaffold(
-      //backgroundColor: Color(0xffFDF8ED),
       key: GlobalKey<_CalendarMonthPageState>(),
       floatingActionButtonLocation: ExpandableFab.location,
       // 리팩토링 키패드 오류 문제 해결중
@@ -120,7 +119,7 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
                     const MapPage(),
                   )),
           FloatingActionButton.small(
-            heroTag: "tsss3",
+            heroTag: "tsss34",
             backgroundColor: changeSmallFloatingColor,
             child: Icon(
               EvaIcons.bookOutline,
@@ -138,6 +137,7 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
             Flexible(
               key: GlobalKey(),
               child: SfCalendar(
+
                 firstDayOfWeek: Prefs.startDay.get() == "일" ? 7 : 1,
                 //달력에 보여지는 텍스트 크기
                 appointmentTextStyle: TextStyle(
@@ -205,6 +205,7 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
                 dataSource:
                     ScheduleDataSource(monthControl.monthDataList.value),
                 monthViewSettings: MonthViewSettings(
+                    navigationDirection: MonthNavigationDirection.vertical, //달력 넘기기
                     agendaItemHeight: 33.h,
                     //agenda 높이
                     numberOfWeeksInView: 4,

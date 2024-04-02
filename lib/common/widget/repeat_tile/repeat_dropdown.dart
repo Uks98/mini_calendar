@@ -8,9 +8,7 @@ import 'package:today_my_calendar/controller/setting_calendardata_controller.dar
 import '../../../controller/repeat_controller.dart';
 import '../../constant/constant_widget.dart';
 
-const List<String> _list = [
-  "일","월"
-];
+
 
 class SimpleDropdown extends StatefulWidget {
   const SimpleDropdown({Key? key}) : super(key: key);
@@ -18,7 +16,9 @@ class SimpleDropdown extends StatefulWidget {
   @override
   State<SimpleDropdown> createState() => _SimpleDropdownState();
 }
-
+const List<String> _list = [
+  "일","월"
+];
 class _SimpleDropdownState extends State<SimpleDropdown> with RepeatControllerMixin,SettingCalendarControllerMix{
   final RepeatController repeatController1 = RepeatController();
   bool get isLightModes =>  Prefs.isLightModes.get();

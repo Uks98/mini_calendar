@@ -71,6 +71,15 @@ class UtilFloating with ThemeDarkFind,MonthControllerMix{
           ),
           onPressed: () => Get.to(const CalendarSearchPage()),
         ),
+        FloatingActionButton.small(
+            heroTag: "tsss3",
+            backgroundColor: changeSmallFloatingColor,
+            child: Icon(
+              EvaIcons.bookOutline,
+              color: changeSmallFloatingIconColor,
+            ),
+            onPressed: () =>monthControl.addQuickTemplate(context)
+        ),
       ],
     ).pOnly(bottom: 20.h);
   }

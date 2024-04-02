@@ -34,6 +34,12 @@ mixin class PaymentShowSheet{
               HeightBox(normalHeight),
               "⦁ 모든 광고 제거".text.size(bigFontSize).fontWeight(FontWeight.w300).make(),
               HeightBox(normalHeight),
+              "⦁ AI 텍스트 인식"
+                  .text
+                  .size(bigFontSize)
+                  .fontWeight(FontWeight.w300)
+                  .make(),
+              HeightBox(normalHeight),
               "⦁ 주 번호"
                   .text
                   .size(bigFontSize)
@@ -52,7 +58,7 @@ mixin class PaymentShowSheet{
                   .fontWeight(FontWeight.w300)
                   .make(),
               HeightBox(normalHeight),
-              "⦁ AI 텍스트 인식"
+              "⦁ 무제한 템플릿"
                   .text
                   .size(bigFontSize)
                   .fontWeight(FontWeight.w300)
