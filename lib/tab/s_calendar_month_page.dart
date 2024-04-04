@@ -205,7 +205,6 @@ class _CalendarMonthPageState extends State<CalendarMonthPage>
                 dataSource:
                     ScheduleDataSource(monthControl.monthDataList.value),
                 monthViewSettings: MonthViewSettings(
-                    navigationDirection: MonthNavigationDirection.vertical, //달력 넘기기
                     agendaItemHeight: 33.h,
                     //agenda 높이
                     numberOfWeeksInView: 4,
