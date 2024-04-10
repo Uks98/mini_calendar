@@ -49,6 +49,7 @@ class Schedule {
  int? colorIndex = 0;
  @Index(type: IndexType.value)
   bool? isShowMap = false;
+ ///일정이 하루종일 수행되어야하나요??
  @Index(type: IndexType.value)
   bool? isAllDay = false;
   @Index(type: IndexType.value)

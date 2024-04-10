@@ -1,12 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:today_my_calendar/controller/month_data_controller.dart';
 import 'package:today_my_calendar/screen/calendar/calendar_data/d_schedule_data.dart';
 import '../common/data/preference/prefs.dart';
-import '../main.dart';
 
 class DayEvent with MonthControllerMix {
   String serviceKey =
@@ -31,9 +29,12 @@ class DayEvent with MonthControllerMix {
                 to: m.from,
                 colorIndex: 5,
                 isAllDay: true,
+                myPlace: "",
                 id: 0,
+                memo: m.title,
                 isShowMap: false,
-                holiday: m.holiday));
+                holiday: m.holiday
+            ));
           }
         }
         // Meeting 객체 처리
@@ -42,7 +43,7 @@ class DayEvent with MonthControllerMix {
       print("error");
     }
   }
-
+///한국 공휴일 데이터
   void getHoliday(String? year) async {
     var url =
         "https://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo?serviceKey=$serviceKey&solYear=2024&_type=json";
@@ -63,6 +64,8 @@ class DayEvent with MonthControllerMix {
               isAllDay: true,
               id: 0,
               isShowMap: false,
+              myPlace: "",
+              memo: m.title,
               holiday: m.holiday
           ),);
         }

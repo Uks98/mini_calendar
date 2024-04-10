@@ -56,14 +56,13 @@ class _CalendarAddPageState extends State<CalendarAddPage>
   final node = FocusNode();
 
   //controller
-  DatePickerStateController datePickerStateController =
-      Get.put(DatePickerStateController());
-  AlarmSettingController alarmSettingController =
-      Get.put(AlarmSettingController());
+  DatePickerStateController datePickerStateController = Get.put(DatePickerStateController());
+  AlarmSettingController alarmSettingController = Get.put(AlarmSettingController());
   AlarmSettingController alarmController = Get.put(AlarmSettingController());
   MapDataController mapDataController = Get.put(MapDataController());
   final ColorSelectController _colorBox = Get.put(ColorSelectController());
   final colorController = Get.put(ColorSelectController());
+
   double? outPageGpsX = 0.0;
   double? outPageGpsY = 0.0;
   String outPagePlace = "";
@@ -112,6 +111,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
     super.initState();
     initDataForEdit();
     _updateCameraPosition();
+    isShowMapInMapAdd = widget.schedule.myPlace == "" ? false : true; //해당 로직을 추가함으로서 공휴일 정보에도 지도가 렌더되는 불 필요한 비용을 절약했습니다.
   }
 
   @override

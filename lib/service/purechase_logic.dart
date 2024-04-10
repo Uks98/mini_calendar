@@ -56,7 +56,7 @@ class InAppPurchaseService extends GetxController{
     /// 이러한 구매를 수신하고, 영수증을 확인하고, 콘텐츠를 전달하고, 각 구매에 대해 [finishPurchase] 메서드를 호출하여 구매 완료를 표시해야 합니다.
     /// 이것은 소비된 제품을 반환하지 않습니다.
     /// `사용하지 않는 소모품을 복원하려면 자체 서버에서 사용자에 대한 소모품 정보를 유지해야 합니다.`
-    // await iap.value.restorePurchases();
+    await iap.value.restorePurchases();
   }
 
   /// 상품을 이미 구매했는지 여부를 확인하는 방법입니다.

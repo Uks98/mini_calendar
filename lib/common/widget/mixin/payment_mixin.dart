@@ -90,6 +90,27 @@ mixin class PaymentShowSheet{
                   ],
                 ).pOnly(right: bigWidth),
               ),
+              Center(
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: SizedBox(
+                        width: 400.w,
+                        height: 30.h,
+                        child: TextButton(
+                          onPressed: () => pureController.fetchPastPurchases(),
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5), // 모서리 둥근 정도를 5로 설정
+                            ),
+                          ),
+                          child: "구매 기록 복원".text.color(Colors.grey).size(normalFontSize).fontWeight(FontWeight.w700).make(),
+                        ),
+                      ),
+                    ),
+                  ],
+                ).pOnly(right: bigWidth),
+              ),
             ],
           ).pOnly(left: bigWidth),
         );
