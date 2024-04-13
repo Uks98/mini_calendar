@@ -33,14 +33,12 @@ class DayEvent with MonthControllerMix {
                 id: 0,
                 memo: m.title,
                 isShowMap: false,
-                holiday: m.holiday
-            ));
+                holiday: m.holiday,
+            ),);
           }
         }
         // Meeting 객체 처리
       }
-    } else {
-      print("error");
     }
   }
 ///한국 공휴일 데이터
@@ -72,8 +70,6 @@ class DayEvent with MonthControllerMix {
 
         // Meeting 객체 처리
       }
-    } else {
-      print("error");
     }
   }
 

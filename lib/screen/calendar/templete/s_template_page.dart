@@ -42,7 +42,7 @@ class TemPlatePage extends StatelessWidget
         backgroundColor: changeSmallFloatingColor,
         onPressed: () => monthControl.addTemplate(context),
         child: const Icon(
-          EvaIcons.plusCircleOutline,
+          EvaIcons.plus,
           color: Colors.white,
         ),
       ),

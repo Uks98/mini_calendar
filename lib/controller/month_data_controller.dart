@@ -26,11 +26,11 @@ class MonthControl extends GetxController {
   Future<void> getHoliday()async{
     dayEventInstance.getHoliday("2024");
   }
-  void isOnFunction(){
+  void isShowHolidayEvent(){
    if(Prefs.isEventDay.get() == true){
      dayEventInstance.getEventList("2024");
    }else{
-     return;
+     monthDataList.removeWhere((element) => element.holiday == "N");
    }
   }
 
@@ -39,7 +39,7 @@ class MonthControl extends GetxController {
     // TODO: implement onInit
     super.onInit();
     getToInitList();
-    isOnFunction();
+    isShowHolidayEvent();
     getHoliday();
     getTemplateList();
   }

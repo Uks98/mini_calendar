@@ -56,141 +56,144 @@ class _CalendarSearchPageState extends State<CalendarSearchPage>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: "검색".text.size(bigFontSize).make(),
-        leading: IconButton(
-            icon: const Icon(Icons.close),
-            onPressed: () => Navigator.of(context).pop()),
-        centerTitle: true,
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                const Icon(Icons.search_outlined),
-                SizedBox(
-                  width: 200.w,
-                  child: TextField(
-                    autofocus: false,
-                    onChanged: (value) {
-                      monthControl.searchCalList(
-                          keyword: value, context: context);
-                      if(value.isEmpty){
-                        monthControl.monthSearchList.clear();
-                      }
-                    } ,
-                    style: TextStyle(
-                        fontSize: normalFontSize + 2,
-                        fontWeight: FontWeight.w300),
-                    // 폰트 크기를 20으로 설정
-                    decoration: const InputDecoration(
-                        contentPadding:
-                            EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-                        border: InputBorder.none, // 하단 밑줄 없애기
-                        hintText: '제목,위치 및 메모',
-                        hintStyle: TextStyle(fontWeight: FontWeight.w300)
-                        //hintStyle: TextStyle(color: )
-                        ),
-                    controller: _searchController,
-                  ).w(200).pOnly(left: textFieldLeftPadding),
-                ),
-              ],
-            ).pOnly(left: textFieldLeftPadding),
-            Obx(
-              () => monthControl.monthSearchList.isNotEmpty
-                  ? SingleChildScrollView(
-                      child: ListView.separated(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      separatorBuilder: (context, index) {
-                        return const Height(2);
-                      },
-                      itemBuilder: (
-                        BuildContext context,
-                        int index,
-                      ) {
-                        final search = monthControl.monthSearchList[index];
-                        return GestureDetector(
-                            onTap: () => monthControl.editSchedule(monthControl.monthDataList[index], context),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color: isLightModes
-                                      ? AppColors.darkGrey
-                                      : context.appColors.settingListColor,
-                                  borderRadius:
-                                      BorderRadius.circular(smallWidth)),
-                              child: Row(
-                                children: [
-                                  Width(smallWidth),
-                                  VxBox()
-                                      .width(smallWidth)
-                                      .height(50.h)
-                                      .withRounded(value: 2.w)
-                                      .color(_colorBox.colorList.keys
-                                          .elementAt(search.colorIndex!))
-                                      .make(),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        width: 300.w,
-                                        child: search.title!.text
-                                            .size(bigFontSize)
-                                            .fontWeight(FontWeight.w300)
-                                            .overflow(TextOverflow.ellipsis)
-                                            .color(isLightMode
-                                                ? Colors.white
-                                                : context.appColors.text)
-                                            .make(),
-                                      ),
-                                      " ${search.to!.year}년 ${search.from!.month}월 ${search.from!.day}일 ${search.to!.hour < 12 ? "오전" : "오후"} ${search.from!.hour}시 ${search.from!.minute}분  ~ "
-                                              " ${returnToMonDay(search.from!.month, search.to!.month, search.from!.day, search.to!.day, search.to!.hour, search.to!.minute)}"
-                                          .text
-                                          .size(smallFontSize)
-                                          .color(isLightModes
-                                              ? Colors.white
-                                              : Colors.black)
-                                          .make(),
-                                      search.myPlace != null
-                                          ? search.myPlace!.text
-                                              .size(smallFontSize)
-                                              .color(isLightModes
-                                                  ? Colors.white
-                                                  : Colors.black)
+    return GestureDetector(
+      onTap: ()=>FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        appBar: AppBar(
+          title: "검색".text.size(bigFontSize).make(),
+          leading: IconButton(
+              icon: const Icon(Icons.close),
+              onPressed: () => Navigator.of(context).pop()),
+          centerTitle: true,
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  const Icon(Icons.search_outlined),
+                  SizedBox(
+                    width: 200.w,
+                    child: TextField(
+                      autofocus: false,
+                      onChanged: (value) {
+                        monthControl.searchCalList(
+                            keyword: value, context: context);
+                        if(value.isEmpty){
+                          monthControl.monthSearchList.clear();
+                        }
+                      } ,
+                      style: TextStyle(
+                          fontSize: normalFontSize + 2,
+                          fontWeight: FontWeight.w300),
+                      // 폰트 크기를 20으로 설정
+                      decoration: const InputDecoration(
+                          contentPadding:
+                              EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                          border: InputBorder.none, // 하단 밑줄 없애기
+                          hintText: '제목,위치 및 메모',
+                          hintStyle: TextStyle(fontWeight: FontWeight.w300)
+                          //hintStyle: TextStyle(color: )
+                          ),
+                      controller: _searchController,
+                    ).w(200).pOnly(left: textFieldLeftPadding),
+                  ),
+                ],
+              ).pOnly(left: textFieldLeftPadding),
+              Obx(
+                () => monthControl.monthSearchList.isNotEmpty
+                    ? SingleChildScrollView(
+                        child: ListView.separated(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        separatorBuilder: (context, index) {
+                          return const Height(2);
+                        },
+                        itemBuilder: (
+                          BuildContext context,
+                          int index,
+                        ) {
+                          final search = monthControl.monthSearchList[index];
+                          return GestureDetector(
+                              onTap: () => monthControl.editSchedule(monthControl.monthSearchList[index], context),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: isLightModes
+                                        ? AppColors.darkGrey
+                                        : context.appColors.settingListColor,
+                                    borderRadius:
+                                        BorderRadius.circular(smallWidth)),
+                                child: Row(
+                                  children: [
+                                    Width(smallWidth),
+                                    VxBox()
+                                        .width(smallWidth)
+                                        .height(50.h)
+                                        .withRounded(value: 2.w)
+                                        .color(_colorBox.colorList.keys
+                                            .elementAt(search.colorIndex!))
+                                        .make(),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        SizedBox(
+                                          width: 300.w,
+                                          child: search.title!.text
+                                              .size(bigFontSize)
                                               .fontWeight(FontWeight.w300)
-                                              .make()
-                                          : Container(),
-                                    ],
-                                  ).paddingAll(smallHeight.h),
-                                ],
-                              ).marginAll(2.w),
-                            ).paddingAll(normalWidth));
-                      },
-                      itemCount: monthControl.monthSearchList.length,
-                    ).pOnly(left: smallWidth))
-                  : Center(
-                      child: "검색된 항목이 없습니다. 일정을 추가해주세요."
-                          .text
-                          .size(normalFontSize)
-                          .make()
-                          .pOnly(top: 220.h),
-                    ),
-            ),
-            HeightBox(20.w),
-            _searchController.text.isEmpty
-                ? Align(
-                    alignment: Alignment.bottomCenter,
-                    child: AdfitBox.adfitAdvertise(
-                      AdFitBannerSize.SMALL_BANNER,
-                      () => showPaymentSheet(context),
-                    ),
-                  )
-                : const SizedBox()
-          ],
+                                              .overflow(TextOverflow.ellipsis)
+                                              .color(isLightMode
+                                                  ? Colors.white
+                                                  : context.appColors.text)
+                                              .make(),
+                                        ),
+                                        " ${search.to!.year}년 ${search.from!.month}월 ${search.from!.day}일 ${search.to!.hour < 12 ? "오전" : "오후"} ${search.from!.hour}시 ${search.from!.minute}분  ~ "
+                                                " ${returnToMonDay(search.from!.month, search.to!.month, search.from!.day, search.to!.day, search.to!.hour, search.to!.minute)}"
+                                            .text
+                                            .size(smallFontSize)
+                                            .color(isLightModes
+                                                ? Colors.white
+                                                : Colors.black)
+                                            .make(),
+                                        search.myPlace != null
+                                            ? search.myPlace!.text
+                                                .size(smallFontSize)
+                                                .color(isLightModes
+                                                    ? Colors.white
+                                                    : Colors.black)
+                                                .fontWeight(FontWeight.w300)
+                                                .make()
+                                            : Container(),
+                                      ],
+                                    ).paddingAll(smallHeight.h),
+                                  ],
+                                ).marginAll(2.w),
+                              ).paddingAll(normalWidth));
+                        },
+                        itemCount: monthControl.monthSearchList.length,
+                      ).pOnly(left: smallWidth))
+                    : Center(
+                        child: "검색된 항목이 없습니다. 일정을 추가해주세요."
+                            .text
+                            .size(normalFontSize)
+                            .make()
+                            .pOnly(top: 220.h),
+                      ),
+              ),
+              HeightBox(20.w),
+              _searchController.text.isEmpty
+                  ? Align(
+                      alignment: Alignment.bottomCenter,
+                      child: AdfitBox.adfitAdvertise(
+                        AdFitBannerSize.SMALL_BANNER,
+                        () => showPaymentSheet(context),
+                      ),
+                    )
+                  : const SizedBox()
+            ],
+          ),
         ),
       ),
     );

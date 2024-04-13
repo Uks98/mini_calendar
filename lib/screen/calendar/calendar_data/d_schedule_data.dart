@@ -20,7 +20,6 @@ class Schedule {
         this.alarmSetText,
         this.holiday, //공휴일?
         this.isTemplate = false,
-       // required this.eventColor,
         });
  @Index(type: IndexType.value)
  Id id;

@@ -184,7 +184,7 @@ class CalendarSettingPage extends StatelessWidget with ScreenInit,PaymentShowShe
             isOn: Prefs.isEventDay.get(),
             onChanged: (value) {
               Prefs.isEventDay.set(value);
-              monthControl.isOnFunction();
+              monthControl.isShowHolidayEvent();
             },
           )),
           ///시작요일 위젯 리팩토링 필요
