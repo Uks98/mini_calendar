@@ -78,6 +78,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
   bool get isOnMap => outPageGpsX != 0.0 ? true : false;
   bool isSizedBox = false;
   bool isShowMapInMapAdd = true;
+  bool isShowAddMap = false;
   set isOnMap(bool? value) {
     value = widget.isShowMap;
   }
@@ -111,7 +112,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
     super.initState();
     initDataForEdit();
     _updateCameraPosition();
-    isShowMapInMapAdd = widget.schedule.myPlace == "" ? false : true; //해당 로직을 추가함으로서 공휴일 정보에도 지도가 렌더되는 불 필요한 비용을 절약했습니다.
+    isShowMapInMapAdd = widget.schedule.holiday == "N"  || widget.schedule.holiday == "Y"? false : true; //해당 로직을 추가함으로서 공휴일 정보에도 지도가 렌더되는 불 필요한 비용을 절약했습니다.
   }
 
   @override
@@ -273,7 +274,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                                 color: Colors.red,
                               )
                             : SizedBox(
-                                height: 50.h,
+                                height: 60.h,
                                 width: 600.w,
                                 child: ListView.builder(
                                   scrollDirection: Axis.horizontal,
@@ -473,7 +474,9 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                                 schedule: Schedule(
                                     id: 0,
                                     gpsY: outPageGpsX,
-                                    gpsX: outPageGpsY),
+                                    gpsX: outPageGpsY,
+                                    isShowMap : false
+                                ),
                               ),
                             );
                             if (gps == null) {
@@ -483,6 +486,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                                 gpsY: 0.0,
                                 isShowMap: isOnMap,
                               );
+                              isShowAddMap = gps.isShowMap ?? true;
                             } else {
                               outPageGpsX = gps.gpsX ?? 0.0;
                               outPageGpsY = gps.gpsY ?? 0.0;
@@ -509,15 +513,14 @@ class _CalendarAddPageState extends State<CalendarAddPage>
                                     FontWeight.w300,
                                   )
                                   .make()
-                                  .pOnly(right: smallWidth + 2),
+                                  .pOnly(right: smallWidth + 13.w),
                             ],
                           ),
                         ),
                         Height(addPageHeight),
-
                         ///네이버 맵
                         Height(addPageHeight),
-                        widget.schedule.isShowMap == true || isShowMapInMapAdd == true
+                        widget.schedule.isShowMap == true || isShowMapInMapAdd == true || isShowAddMap == true
                             ? showUserMap()
                             : const SizedBox(),
                         //메모
@@ -573,8 +576,7 @@ class _CalendarAddPageState extends State<CalendarAddPage>
   }
 
   Widget showUserMap() {
-    if ((widget.schedule.gpsY != 0.0 || widget.schedule.gpsX != 0.0) ||
-        isOnMap == true) {
+    if ((widget.schedule.gpsY != 0.0 || widget.schedule.gpsX != 0.0) || isOnMap == true) {
       return ClipRRect(
         borderRadius: BorderRadius.circular(normalWidth),
         child: SizedBox(

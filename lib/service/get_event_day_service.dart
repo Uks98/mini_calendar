@@ -33,7 +33,7 @@ class DayEvent with MonthControllerMix {
                 id: 0,
                 memo: m.title,
                 isShowMap: false,
-                holiday: m.holiday,
+                holiday: m.holiday ?? "N",
             ),);
           }
         }
@@ -64,7 +64,7 @@ class DayEvent with MonthControllerMix {
               isShowMap: false,
               myPlace: "",
               memo: m.title,
-              holiday: m.holiday
+              holiday: m.holiday ?? "N"
           ),);
         }
 
