@@ -149,7 +149,7 @@ class _CalendarSearchPageState extends State<CalendarSearchPage>
                                                   : context.appColors.text)
                                               .make(),
                                         ),
-                                        " ${search.to!.year}년 ${search.from!.month}월 ${search.from!.day}일 ${search.to!.hour < 12 ? "오전" : "오후"} ${search.from!.hour}시 ${search.from!.minute}분  ~ "
+                                        " ${search.to!.year}년 ${search.from!.month}월 ${search.from!.day}일 ${search.from!.hour < 12 ? "오전" : "오후"} ${search.from!.hour}시 ${search.from!.minute}분  ~ "
                                                 " ${returnToMonDay(search.from!.month, search.to!.month, search.from!.day, search.to!.day, search.to!.hour, search.to!.minute)}"
                                             .text
                                             .size(smallFontSize)
