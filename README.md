@@ -1,16 +1,1 @@
-# today_my_calendar
-
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![Screenshot_20240422_180641.jpg](https://prod-files-secure.s3.us-west-2.amazonaws.com/86169fb8-5603-46a3-85c1-e2da7e460ba3/87b3d558-c338-4cc9-aa80-0828f17f4813/Screenshot_20240422_180641.jpg)
